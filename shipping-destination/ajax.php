@@ -17,6 +17,7 @@ function process_get_child_shipping_destination() {
 	$child_destination = new WP_Query($args);
 	$child_array = array();
 	$i = 0;
+	$result_count = 0;
 	if ( $child_destination->have_posts() ) :
 		while ( $child_destination->have_posts() ) : $child_destination->the_post();
 			$destination_id = get_the_ID();
@@ -32,7 +33,7 @@ function process_get_child_shipping_destination() {
 	$result['type'] = 'success';
 	$result['message'] = $result_count;
 	$result['content'] = $child_array;
-	ajax_response($result,$return);
+	ajax_response($result);
 	die();
 }
 
