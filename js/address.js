@@ -2,7 +2,13 @@ jQuery(document).ready(function($){
 
 /* change province based on country
 ---------------------------------------------------------------
+kalau ada perubahan di select.select address,
+ambil anak anak cpt pake fungsi ajax get_child_shipping_destination
+
+kalau udah anak anak itu dijadiin select untuk data-target=
+
 */
+
 $('select.select-address').live('change',function(){
 	address_field = $(this).attr('name');
 	address = $(this).val();
@@ -11,20 +17,23 @@ $('select.select-address').live('change',function(){
 
 	$(this).find('[value="intro"]').attr('disabled','disabled');
 
-	if (parseInt(address)) {
+	if (parseInt(address,10)) {
 		if ($(this).attr('data-target')) {
 			$(this).after(' <span class="loading"><loading/>');
-		};
+		}
 		data = 'action=get_child_shipping_destination&id='+address;
 		$.post(global.ajaxurl, data, function(result) {
+			console.log(data);
+			console.log(result);
 			$('.loading').remove();
 			result_object = $.parseJSON(result);
+
 			if(result_object.type == 'success'){
 				if (result_object.message > 0) {
 					if(target.is('input')){
 						change_to_select(target_name);
 						target = $('[name="'+target_name+'"]');
-					};
+					}
 					target.empty();
 					target.append('<option value="intro">Please select</option>');
 					$.each(result_object.content, function(key,value){
@@ -33,12 +42,12 @@ $('select.select-address').live('change',function(){
 					target.removeAttr('disabled');
 				} else {
 					change_to_input(target_name);
-				};
-			};
-		}); 	
+				}
+			}
+		});
 	} else if ( address == 'other') {
 		change_to_input(address_field);
-	};
+	}
 
 });
 
@@ -67,13 +76,13 @@ $('input.select-address').live('focus',function(){
 						target.removeAttr('disabled');
 					} else {
 						$(this).removeClass('select-address').addClass('working').focus();
-					};
-				};
+					}
+				}
 			});
 		} else {
 			target.removeClass('select-address').addClass('working').focus();
-		};
-	};
+		}
+	}
 });
 
 
@@ -93,7 +102,7 @@ function change_to_input(address_field){
 		change_to_input('city');
 	} else if (address_field == 'city') {
 		change_to_input('district');
-	};
+	}
 }
 
 function change_to_select(address_field){
@@ -105,7 +114,7 @@ function change_to_select(address_field){
 		change_to_select('city');
 	} else if (address_field == 'city') {
 		change_to_select('district');
-	};
+	}
 }
 
 /* show or hide shipping field based on have shiping field 
@@ -116,7 +125,7 @@ if($('input[name="have-shipping"]').length > 0){
 
 	$('input[name="have-shipping"]').change(function(){
 		check_shipping();
-	});	
+	});
 }
 
 function check_shipping(){
@@ -124,7 +133,7 @@ function check_shipping(){
 		$('#shipping-field').show();
 	} else {
 		$('#shipping-field').hide();
-	};
+	}
 }
 
 });
