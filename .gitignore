@@ -16,3 +16,5 @@ xcuserdata
 # svn & cvs
 .svn
 CVS
+cell-store.sublime-project
+cell-store.sublime-workspace
