@@ -25,7 +25,7 @@ function process_get_child_shipping_destination() {
 			$child_array[$destination_id] = $destination_title;
 			$result_count += 1;
 		endwhile;
-		$child_array['other'] = __('Other', 'cell-store');
+		$child_array[0] = __('Please select', 'cell-store');
 	else:
 
 	endif;
