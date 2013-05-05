@@ -47,11 +47,7 @@ add_action('plugins_loaded', 'cell_store_init');
 
 	include_once ('common-functions.php');
 
-	include_once ('user-management/user-management.php');
-
 	include_once ('wpalchemy/setup.php');
-	 
-	// include_once 'metaboxes/full-spec.php';
 
 /* custom post types 
 ---------------------------------------------------------------
