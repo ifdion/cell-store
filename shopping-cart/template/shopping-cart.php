@@ -1,4 +1,4 @@
-<?php if ($_SESSION['shopping-cart']['items']): ?>
+<?php if (isset($_SESSION['shopping-cart']['items'])): ?>
 	<?php
 		$items = $_SESSION['shopping-cart']['items'];
 		$total_price = 0;

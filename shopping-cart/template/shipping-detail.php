@@ -1,4 +1,4 @@
-		<?php
+<?php
 	$customer_shipping = $_SESSION['shopping-cart']['customer']['shipping'];
 	$customer_billing = $_SESSION['shopping-cart']['customer']['billing'];
 ?>
@@ -35,18 +35,18 @@
 		<td><?php echo $customer_shipping['country'] ?></td>
 	</tr>
 	<tr>
-		<?php if (is_numeric($customer_shipping['province'])) {
+		<?php if (isset($customer_shipping['province']) && is_numeric($customer_shipping['province'])) {
 			$customer_shipping['province'] = get_the_title($customer_shipping['province']);
 		} ?>
 		<td><?php _e('Province', 'cell-store') ?></td>
-		<td><?php echo $customer_shipping['province'] ?></td>
+		<td><?php if (isset($customer_shipping['province'])) { echo $customer_shipping['province']; } ?></td>
 	</tr>
 	<tr>
-		<?php if (is_numeric($customer_shipping['city'])) {
+		<?php if (isset($customer_shipping['city']) && is_numeric($customer_shipping['city'])) {
 			$customer_shipping['city'] = get_the_title($customer_shipping['city']);
 		} ?>
 		<td><?php _e('City', 'cell-store') ?></td>
-		<td><?php echo $customer_shipping['city'] ?></td>
+		<td><?php if (isset($customer_shipping['city'])) { echo $customer_shipping['city']; } ?></td>
 	</tr>
 	<tr>
 		<?php if (isset($customer_shipping['district']) && is_numeric($customer_shipping['district'])) {

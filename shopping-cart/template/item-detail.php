@@ -19,13 +19,13 @@
 			<tr class="item">
 				<td>
 					<h4><a href="<?php echo get_permalink($item_details['ID']) ?>"><span class="product-title"><?php echo $item_details['name'] ?></span></a></h4>
-					<span><?php _e('Option', 'hijabchic') ?> : <?php echo $option ?> <br> <?php _e('Amount', 'hijabchic') ?> : <?php echo number_format($item_details['quantity'],0,'','.') ?></span>
+					<span><?php _e('Option', 'cell-store') ?> : <?php echo $option ?> <br> <?php _e('Amount', 'cell-store') ?> : <?php echo number_format($item_details['quantity'],0,'','.') ?></span>
 				</td>
 				<td class="cost"><span><?php echo 'IDR '.number_format($price,0,'','.').',-' ?></span></td>
 			</tr>
 		<?php endforeach ?>
 		<tr class="subtotal">
-			<td><?php _e('Sub Total', 'hijabchic') ?></td>
+			<td><?php _e('Sub Total', 'cell-store') ?></td>
 			<td class="cost"><span><?php echo 'IDR '.number_format($total_price,0,'','.').',-' ?></span></td>
 		</tr>
 		<?php if (isset($_SESSION['shopping-cart']['coupon']['discount'])): ?>
@@ -36,7 +36,7 @@
 				$total_price = $old_total_price - ($old_total_price * $discount_value/100);
 			?>
 			<tr>
-				<td ><strong><?php printf(__('Total after discount of %s', 'hijabchic'),$_SESSION['shopping-cart']['coupon']['discount-value']) ?></strong></td>
+				<td ><strong><?php printf(__('Total after discount of %s', 'cell-store'),$_SESSION['shopping-cart']['coupon']['discount-value']) ?></strong></td>
 				<td class="cost"><?php echo 'IDR ' .number_format($total_price,0,'','.').',-' ?></td>
 			</tr>
 		<?php endif ?>
@@ -72,7 +72,7 @@
 			
 			if ((isset($free_shipping) && $shipping_destination_id == $free_shipping_area) || (isset($free_shipping) && is_descendant($shipping_destination_id,$free_shipping_area))) {
 				$shipping_cost = 0;
-				$shipping_option = __('FREE', 'hijabchic');
+				$shipping_option = __('FREE', 'cell-store');
 				$valid_free_shipping = true;
 			}
 
@@ -84,11 +84,11 @@
 		?>
 		<?php if (isset($shipping_option) && isset($shipping_rate) && isset($shipping_destination_id)): ?>
 			<tr class="shipping">
-				<td><?php echo __('Shipping Cost to <strong>', 'hijabchic') . get_the_title($shipping_destination_id) . '</strong> ('.$shipping_option.')'?></td>
+				<td><?php echo __('Shipping Cost to <strong>', 'cell-store') . get_the_title($shipping_destination_id) . '</strong> ('.$shipping_option.')'?></td>
 				<td class="cost"><span> <?php echo 'IDR  '.number_format($shipping_cost,'0',',','.').',-' ?></span></td>
 			</tr>
 			<tr class="total">
-				<td><?php _e('Total', 'hijabchic') ?></td>
+				<td><?php _e('Total', 'cell-store') ?></td>
 				<td class="cost"><span> <?php echo 'IDR  '.number_format($grand_total,'0',',','.').',-' ?></span></td>
 			</tr>
 		<?php endif ?>
