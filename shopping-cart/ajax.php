@@ -36,20 +36,16 @@ function process_update_shopping_cart() {
 		die();
 	} else {
 		// validate data
-		if (isset($_POST['add-coupon'])) {
+		if (isset($_POST['add-coupon']) && $_POST['add-coupon'] != '') {
 			$coupon_code = $_POST['add-coupon'];
-		}
-		$return = get_permalink( get_page_by_path( 'checkout' ) );
-
-		if (isset($coupon_code)) {
 			$coupon_result = process_coupon($coupon_code);
 			ajax_response($coupon_result);
-		} else{
-			$result['type'] = 'success';
-			$result['message'] = __('Shopping Cart Updated', 'cell-store');
 		}
 
+		$result['type'] = 'success';
+		$result['message'] = __('Shopping Cart Updated', 'cell-store');
 
+		$return = get_permalink( get_page_by_path( 'checkout' ) );
 		ajax_response($result,$return);
 		die();
 	}
@@ -68,29 +64,81 @@ function process_checkout() {
 		die();
 	} else {
 
+		// setup return address
+		$return_error = $_POST['_wp_http_referer'];
+		$return_success = get_permalink( get_page_by_path( 'payment-option' ) );
+
+		// cek for shipping detail field
 		$shipping['first-name'] = $_POST['first-name'];
 		$shipping['last-name'] = $_POST['last-name'];
 		$shipping['email'] = $_POST['email'];
 		$shipping['telephone'] = $_POST['telephone'];
 		$shipping['company'] = $_POST['company'];
 		$shipping['address'] = $_POST['address'];
-		$shipping['country'] = $_POST['country'];
-		if ($_POST['province'] != 'intro') {
+		$shipping['postcode'] = $_POST['postcode'];
+
+		$required_field = array('first-name','email','telephone','address');
+		$missing_field = array();
+		$missing_string = __( 'Missing shipping field : ', 'cell-store');
+
+		foreach ($shipping as $shipping_key => $shipping_value) {
+			if (in_array($shipping_key, $required_field) && $shipping_value == '') {
+				$missing_field[] = $shipping_key;
+				$shipping_title = ucfirst(str_replace('-', ' ', $shipping_key));
+				$missing_string = $missing_string.' '.ucfirst($shipping_title).', ';
+			}
+		}
+
+		if (count($missing_field) > 0) {
+			$result['type'] = 'error';
+			$result['message'] = $missing_string;
+			ajax_response($result,$return_error);
+		}
+
+
+		// cek for shipping destination
+		if (isset($_POST['country'])) {
+			$shipping['country'] = $_POST['country'];
+		}
+		if (isset($_POST['province'])) {
 			$shipping['province'] = $_POST['province'];
 		}
-		if ($_POST['city'] != 'intro') {
+		if (isset($_POST['city'])) {
 			$shipping['city'] = $_POST['city'];
 		}
-		if ($_POST['district'] != 'intro') {
+		if (isset($_POST['district'])) {
 			$shipping['district'] = $_POST['district'];
 		}
-		$shipping['postcode'] = $_POST['postcode'];
 		if (isset($_POST['save-shipping-address'])) {
 			$save_as_shipping = $_POST['save-shipping-address'];
 		}
-		
-		$return = get_permalink( get_page_by_path( 'payment-option' ) );
 
+		// shipping to district ?
+		if ( isset($shipping['district']) && is_numeric($shipping['district']) && $shipping['district'] != 0) {
+			$shipping_to = $shipping['district'];
+		}
+
+		// shipping to city
+		if (!isset($shipping_to) && isset($shipping['city']) && is_numeric($shipping['city']) && $shipping['city'] != 0) {
+			$shipping_to = $shipping['city'];
+		}
+
+		// shipping to province
+		if (!isset($shipping_to) && isset($shipping['province']) && is_numeric($shipping['province']) && $shipping['province'] != 0) {
+			$shipping_to = $shipping['province'];
+		}
+
+		// shipping to country
+		if (!isset($shipping_to) && isset($shipping['country']) && is_numeric($shipping['country']) && $shipping['country'] != 0) {
+			$shipping_to = $shipping['country'];
+		}
+
+		// error shipping
+		if(!isset($shipping_to)){
+			$result['type'] = 'error';
+			$result['message'] = __('Shipping destination is out of our coverage. Please contact us for additional support.', 'cell-store');
+			ajax_response($result, $return_error);
+		}
 
 		// count total weight
 		$total_weight = 0;
@@ -111,6 +159,7 @@ function process_checkout() {
 		// add totals to payment session
 		$payment['total-weight'] = ceil($total_weight);
 		$payment['total-item-cost'] = $total_price;
+		$payment['shipping-destination-id'] = $shipping_to;
 		$_SESSION['shopping-cart']['payment'] = $payment;
 
 		// add shipping address
@@ -127,6 +176,9 @@ function process_checkout() {
 			$billing['first-name'] = $first_name;
 			$billing['last-name'] = $user_data['last_name'][0];
 			$billing['email'] = $current_user->user_email;
+			if (isset($user_data['telephone'][0])) {
+				# code...
+			}
 			$billing['telephone'] = $user_data['telephone'][0];
 			$billing['company'] = $user_data['company'][0];
 			$billing['address'] = $user_data['address'][0];
@@ -148,11 +200,18 @@ function process_checkout() {
 				update_user_meta($current_user->ID, 'shipping-company', $shipping['company']);
 				update_user_meta($current_user->ID, 'shipping-address', $shipping['address']);
 				update_user_meta($current_user->ID, 'shipping-country', $shipping['country']);
-				update_user_meta($current_user->ID, 'shipping-province', $shipping['province']);
-				update_user_meta($current_user->ID, 'shipping-city', $shipping['city']);
-				update_user_meta($current_user->ID, 'shipping-district', $shipping['district']);
-				update_user_meta($current_user->ID, 'shipping-postcode', $shipping['postcode']);
-
+				if (isset($shipping['province'])) {
+					update_user_meta($current_user->ID, 'shipping-province', $shipping['province']);
+				}
+				if (isset($shipping['city'])) {
+					update_user_meta($current_user->ID, 'shipping-city', $shipping['city']);
+				}
+				if (isset($shipping['district'])) {
+					update_user_meta($current_user->ID, 'shipping-district', $shipping['district']);
+				}
+				if (isset($shipping['postcode'])) {
+					update_user_meta($current_user->ID, 'shipping-postcode', $shipping['postcode']);
+				}
 			}
 		} else {
 
@@ -176,29 +235,42 @@ function process_checkout() {
 					$notifcation = wp_new_user_notification($user_id, $_POST['password']);
 					$login = wp_signon( array( 'user_login' => $_POST['username'], 'user_password' => $_POST['password'], 'remember' => false ), false );
 
-
 					add_user_meta($user_id, 'first-name', $shipping['first-name']);
-					add_user_meta($user_id, 'last-name', $shipping['last-name']);
 					add_user_meta($user_id, 'telephone', $shipping['telephone']);
-					add_user_meta($user_id, 'company', $shipping['company']);
 					add_user_meta($user_id, 'address', $shipping['address']);
 					add_user_meta($user_id, 'country', $shipping['country']);
-					add_user_meta($user_id, 'province', $shipping['province']);
-					add_user_meta($user_id, 'city', $shipping['city']);
-					add_user_meta($user_id, 'district', $shipping['district']);
-					add_user_meta($user_id, 'postcode', $shipping['postcode']);
+
+					if (isset($shipping['last-name'])) {
+						add_user_meta($user_id, 'last-name', $shipping['last-name']);
+						add_user_meta($user_id, 'shipping-last-name', $shipping['last-name']);
+					}
+					if (isset($shipping['company'])) {
+						add_user_meta($user_id, 'company', $shipping['company']);
+						add_user_meta($user_id, 'shipping-company', $shipping['company']);
+					}
+
+					if (isset($shipping['province'])) {
+						add_user_meta($user_id, 'province', $shipping['province']);
+						add_user_meta($user_id, 'shipping-province', $shipping['province']);
+					}
+					if (isset($shipping['city'])) {
+						add_user_meta($user_id, 'city', $shipping['city']);
+						add_user_meta($user_id, 'shipping-city', $shipping['city']);
+					}
+					if (isset($shipping['district'])) {
+						add_user_meta($user_id, 'district', $shipping['district']);
+						add_user_meta($user_id, 'shipping-district', $shipping['district']);
+					}
+					if (isset($shipping['postcode'])) {
+						add_user_meta($user_id, 'postcode', $shipping['postcode']);
+						add_user_meta($user_id, 'shipping-postcode', $shipping['postcode']);
+					}
 
 					add_user_meta($user_id, 'shipping-first-name', $shipping['first-name']);
-					add_user_meta($user_id, 'shipping-last-name', $shipping['last-name']);
 					add_user_meta($user_id, 'shipping-email', $shipping['email']);
 					add_user_meta($user_id, 'shipping-telephone', $shipping['telephone']);
-					add_user_meta($user_id, 'shipping-company', $shipping['company']);
 					add_user_meta($user_id, 'shipping-address', $shipping['address']);
 					add_user_meta($user_id, 'shipping-country', $shipping['country']);
-					add_user_meta($user_id, 'shipping-province', $shipping['province']);
-					add_user_meta($user_id, 'shipping-city', $shipping['city']);
-					add_user_meta($user_id, 'shipping-district', $shipping['district']);
-					add_user_meta($user_id, 'shipping-postcode', $shipping['postcode']);
 
 					// registration result
 					$success['type'] = 'success';
@@ -208,71 +280,22 @@ function process_checkout() {
 			}
 		}
 
-		// check shipping destination
-
-		// shipping to district ?
-		if ( isset($shipping['district']) && is_numeric($shipping['district'])) {
-			$_SESSION['shopping-cart']['payment']['shipping-destination-id'] = $shipping['district'];
-			$shipping_to = $shipping['district'];
-		} elseif (isset($shipping['district'])) {
-			$shipping_destination = get_page_by_title($shipping['district'], 'OBJECT', 'shipping-destination');
-			if (isset($shipping_destination)) {
-				$_SESSION['shopping-cart']['payment']['shipping-destination-id'] = $shipping_destination->ID;
-				$shipping_to = $shipping_destination->post_title;
-			}
-		}
-
-		// shipping to city
-		if (!isset($shipping_to) && isset($shipping['city']) && is_numeric($shipping['city'])) {
-			$_SESSION['shopping-cart']['payment']['shipping-destination-id'] = $shipping['city'];
-			$shipping_to = $shipping['city'];
-		} elseif (!isset($shipping_to) && isset($shipping['city'])) {
-			$shipping_destination = get_page_by_title($shipping['city'], 'OBJECT', 'shipping-destination');
-			if ($shipping_destination) {
-				$_SESSION['shopping-cart']['payment']['shipping-destination-id'] = $shipping_destination->ID;
-				$shipping_to = $shipping_destination->post_title;
-			}
-		}
-
-		// shipping to province
-		if (!isset($shipping_to) && isset($shipping['province']) && is_numeric($shipping['province'])) {
-			$_SESSION['shopping-cart']['payment']['shipping-destination-id'] = $shipping['province'];
-			$shipping_to = $shipping['province'];
-		} elseif (!isset($shipping_to) && is_numeric($shipping['province'])) {
-			$shipping_destination = get_page_by_title($shipping['province'], 'OBJECT', 'shipping-destination');
-			if ($shipping_destination) {
-				$_SESSION['shopping-cart']['payment']['shipping-destination-id'] = $shipping_destination->ID;
-				$shipping_to = $shipping_destination->post_title;
-			}
-		}
-
-		// shipping to country
-		if (!isset($shipping_to) && isset($shipping['country']) && is_numeric($shipping['country'])) {
-			$_SESSION['shopping-cart']['payment']['shipping-destination-id'] = $shipping['country'];
-			$shipping_to = $shipping['country'];
-		} elseif (!isset($shipping_to) && is_numeric($shipping['country'])) {
-			$shipping_destination = get_page_by_title($shipping['country'], 'OBJECT', 'shipping-destination');
-			if ($shipping_destination) {
-				$_SESSION['shopping-cart']['payment']['shipping-destination-id'] = $shipping_destination->ID;
-				$shipping_to = $shipping_destination->post_title;
-			}
-		}
-
 		unset($_SESSION['shopping-cart']['payment']['shipping-option']);
 		unset($_SESSION['shopping-cart']['payment']['shipping-rate']);
 
+		// echo '<pre>';
+		// print_r($_POST);
+		// print_r($_SESSION);
+		// echo '</pre>';
 
-		// check shipping destination
-
-
-		if ($shipping_to) {
+		if (isset($shipping_to) && $shipping_to !='') {
 			$result['type'] = 'success';
-			$result['message'] = __('Shipping destination confirmed', 'cell-store');
-			ajax_response($result,$return);
+			$result['message'] = __('Shipping destination confirmed.', 'cell-store');
+			ajax_response($result,$return_success);
 		} else {
 			$result['type'] = 'error';
-			$result['message'] = __('Shipping destination not confirmed', 'cell-store');
-			ajax_response($result,$return);
+			$result['message'] = __('Shipping destination not confirmed.', 'cell-store');
+			ajax_response($result,$return_error);
 		}
 
 		die();
@@ -488,6 +511,8 @@ function process_payment_confirmation() {
 
 		if ($mtcn) {
 			$mtcn_code = '. MTCN code : '.$mtcn;
+		} else {
+			$mtcn_code = '';
 		}
 		
 		$transaction_id = get_id_by_slug($transaction_slug,'transaction');
@@ -501,7 +526,7 @@ function process_payment_confirmation() {
 				'comment_post_ID' => $transaction_id,
 				'comment_author' => $name,
 				'comment_author_email' => $email,
-				'comment_content' => 'Transaction payment confirmed by '.$name.' at '.$date.' by '. $method .' on behalf of '. $account_holder. $mtcn_cod,
+				'comment_content' => 'Transaction payment confirmed by '.$name.' at '.$date.' by '. $method .' on behalf of '. $account_holder. $mtcn_code,
 				'user_id' => $user->ID,
 				'comment_author_IP' => $_SERVER['REMOTE_ADDR'],
 				'comment_agent' => $_SERVER['HTTP_USER_AGENT'],
