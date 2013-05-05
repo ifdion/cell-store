@@ -3,68 +3,72 @@
 include_once ('ajax.php');
 
 
-/* add shopping cart to shopping-cart-page
+/* required script 
 ---------------------------------------------------------------
 */
 
-add_filter('the_content','cell_shopping_cart');
-
-function cell_shopping_cart($content){
-	if (is_page('shopping-cart')){
-		return cell_shopping_cart_content().$content;
-	} else{
-		return $content;
-	}
+add_action('init', 'register_address_script');
+function register_address_script() {
+	wp_register_script('address', plugins_url('cell-store/js/address.js'), array('jquery'), '1.0', true);
+	wp_localize_script( 'address', 'global', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 }
 
+add_action('wp_footer', 'print_address_script');
+function print_address_script() {
+	global $add_address_script;
+	if ( ! $add_address_script ){
+		return;		
+	}
+	wp_print_scripts('address');
+}
+/* cell-shopping-cart shortcode
+---------------------------------------------------------------
+*/
+
+add_shortcode( 'cell-shopping-cart', 'cell_shopping_cart_content' );
+
 function cell_shopping_cart_content(){
+	// check if current theme has a replacement template
+	if ( '' != locate_template( 'store-shopping-cart.php' ) ) {
+		$current_theme = wp_get_theme();
+		$template = $current_theme->theme_root.'/'.$current_theme->stylesheet.'/store-shopping-cart.php';
+	} else{
+		$template = 'template/shopping-cart.php';
+	}
 	ob_start();
-		include('template/shopping-cart.php');
+		include($template);
 		$shopping_cart_content = ob_get_contents();
 	ob_end_clean();
 	return $shopping_cart_content;
 }
 
 
-/* add checkout to checkout page
+/* cell-checkout shortcode
 ---------------------------------------------------------------
 */
-// add_action('wp_print_scripts', 'add_suggest_script');
-// function add_suggest_script(){	
-// 		wp_enqueue_script('suggest');
-// }
+add_shortcode( 'cell-checkout', 'cell_check_out_content' );
 
-/* checkout content 
----------------------------------------------------------------
-*/
+function cell_check_out_content(){
 
-// add_filter('the_content','cell_check_out');
-// function cell_check_out($content){
-// 	if (is_page('checkout')){
-// 		return cell_check_out_content().$content;
-// 	} else{
-// 		return $content;
-// 	}
-// }
+	// add addrees script
+	global $add_address_script;
+	$add_address_script = true;
 
-add_action('template_redirect', 'cell_check_out_script');
-function cell_check_out_script(){
-	if (is_page('checkout')){
-		wp_enqueue_script('address', plugins_url().'/cell-store/js/address.js', array('jquery'), '0.1', true);
-		wp_localize_script( 'address', 'global', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
-	}	
-}
+	// check if current theme has a replacement template
+	if ( '' != locate_template( 'store-checkout.php' ) ) {
+		wp_die( 'ada file?' );
+		$current_theme = wp_get_theme();
+		$template = $current_theme->theme_root.'/'.$current_theme->stylesheet.'/store-checkout.php';
+	} else{
+		$template = 'template/checkout.php';
+	}
 
-function cell_check_out_content($print = true){
+	// output shortcode
 	ob_start();
-		include('template/checkout.php');
+		include($template);
 		$check_out_content = ob_get_contents();
 	ob_end_clean();
-	if ($print == true) {
-		print $check_out_content;
-	} else {
-		return $check_out_content;
-	}
+	return $check_out_content;
 	
 }
 
@@ -74,51 +78,73 @@ function cell_check_out_content($print = true){
 */
 
 
-// add_filter('the_content','cell_payment_option');
-// function cell_payment_option($content){
-// 	if (is_page('payment-option')){
-// 		return cell_payment_option_content().$content;
-// 	} else{
-// 		return $content;
-// 	}
-// }
+add_shortcode( 'cell-payment-option', 'cell_payment_option_content' );
 
-function cell_payment_option_content($print = true){
-	ob_start();
-		include('template/payment-option.php');
-		$payment_option_content = ob_get_contents();
-	ob_end_clean();
-	if ($print == true) {
-		print $payment_option_content;
-	} else {
-		return $payment_option_content;
+function cell_payment_option_content(){
+	// check if current theme has a replacement template
+	if ( '' != locate_template( 'store-payment-option.php' ) ) {
+		$current_theme = wp_get_theme();
+		$template = $current_theme->theme_root.'/'.$current_theme->stylesheet.'/store-payment-option.php';
+	} else{
+		$template = 'template/payment-option.php';
 	}
+
+	ob_start();
+		include($template);
+		$check_out_content = ob_get_contents();
+	ob_end_clean();
+	return $check_out_content;
+	
 }
+
 
 /* order confirmation
 ---------------------------------------------------------------
 */
 
 
-// add_filter('the_content','cell_order_confirmation');
-// function cell_order_confirmation($content){
-// 	if (is_page('order-confirmation')){
-// 		return cell_order_confirmation_content().$content;
-// 	} else{
-// 		return $content;
-// 	}
-// }
+add_shortcode( 'cell-order-confirmation', 'cell_order_confirmation_content' );
 
-function cell_order_confirmation_content($print = true){
+function cell_order_confirmation_content(){
+
+	// check if current theme has a replacement template
+	if ( '' != locate_template( 'store-order-confirmation.php' ) ) {
+		$current_theme = wp_get_theme();
+		$template = $current_theme->theme_root.'/'.$current_theme->stylesheet.'/store-order-confirmation.php';
+	} else{
+		$template = 'template/order-confirmation.php';
+	}
+
 	ob_start();
 		include('template/order-confirmation.php');
 		$order_confirmation_content = ob_get_contents();
 	ob_end_clean();
-	if ($print == true) {
-		print $order_confirmation_content;
-	} else {
-		return $order_confirmation_content;
+	return $order_confirmation_content;
+	
+}
+
+/* payment confirmation
+---------------------------------------------------------------
+*/
+
+
+add_shortcode( 'cell-payment-confirmation', 'cell_payment_confirmation_content' );
+
+function cell_payment_confirmation_content(){
+
+	// check if current theme has a replacement template
+	if ( '' != locate_template( 'store-payment-confirmation.php' ) ) {
+		$current_theme = wp_get_theme();
+		$template = $current_theme->theme_root.'/'.$current_theme->stylesheet.'/store-payment-confirmation.php';
+	} else{
+		$template = 'template/payment-confirmation.php';
 	}
+
+	ob_start();
+		include('template/payment-confirmation.php');
+		$order_confirmation_content = ob_get_contents();
+	ob_end_clean();
+	return $order_confirmation_content;
 	
 }
 
