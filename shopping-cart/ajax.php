@@ -167,27 +167,60 @@ function process_checkout() {
 
 		if (is_user_logged_in()) {
 			global $current_user;
-			$user_data = get_user_meta($current_user->ID);
-			if ($user_data['first_name'][0]) {
-				$first_name = $user_data['first_name'][0] ;
+			$user_meta = get_user_meta($current_user->ID);
+			if ($user_meta['first_name'][0]) {
+				$first_name = $user_meta['first_name'][0] ;
 			} else {
 				$first_name = $current_user->display_name;
 			}
 			$billing['first-name'] = $first_name;
-			$billing['last-name'] = $user_data['last_name'][0];
+			$billing['last-name'] = $user_meta['last_name'][0];
 			$billing['email'] = $current_user->user_email;
-			if (isset($user_data['telephone'][0])) {
-				# code...
+			if (isset($user_meta['telephone'][0])) {
+				$billing['telephone'] = $user_meta['telephone'][0];
+			} else {
+				$billing['telephone'] = $shipping['telephone'];
 			}
-			$billing['telephone'] = $user_data['telephone'][0];
-			$billing['company'] = $user_data['company'][0];
-			$billing['address'] = $user_data['address'][0];
-			$billing['country'] = $user_data['country'][0];
-			$billing['province'] = $user_data['province'][0];
-			$billing['city'] = $user_data['city'][0];
-			$billing['district'] = $user_data['district'][0];
-			$billing['postcode'] = $user_data['postcode'][0];
-
+			if (isset($user_meta['company'][0])) {
+				$billing['company'] = $user_meta['company'][0];
+			} else {
+				$billing['company'] = $shipping['company'];
+			}
+			if (isset($user_meta['address'][0])) {
+				$billing['address'] = $user_meta['address'][0];
+			} else {
+				$billing['address'] = $shipping['address'];
+			}
+			if (isset($user_meta['country'][0])) {
+				$billing['country'] = $user_meta['country'][0];
+			} else {
+				$billing['country'] = $shipping['country'];
+			}
+			if (isset($user_meta['province'][0])) {
+				$billing['province'] = $user_meta['province'][0];
+			} else {
+				$billing['province'] = $shipping['province'];
+			}
+			if (isset($user_meta['city'][0])) {
+				$billing['city'] = $user_meta['city'][0];
+			} elseif(isset($shipping['city'])) {
+				$billing['city'] = $shipping['city'];
+			} else {
+				$billing['city'] = '';
+			}
+			if (isset($user_meta['district'][0])) {
+				$billing['district'] = $user_meta['district'][0];
+			} elseif(isset($shipping['district'])) {
+				$billing['district'] = $shipping['district'];
+			} else {
+				$billing['district'] = '';
+			}
+			if (isset($user_meta['postcode'][0])) {
+				$billing['postcode'] = $user_meta['postcode'][0];
+			} else {
+				$billing['postcode'] = $shipping['postcode'];
+			}
+			
 			// if is a logged in user get billing data from db
 			$_SESSION['shopping-cart']['customer']['billing'] = $billing;
 
@@ -520,6 +553,10 @@ function process_payment_confirmation() {
 		if ($transaction_id) {
 
 			$user = get_user_by('email', $email);
+			$user_id = 0;
+			if ($user) {
+				$user_id = $user->ID;
+			}
 			$time = current_time('mysql');
 
 			$comment = array(
@@ -527,7 +564,7 @@ function process_payment_confirmation() {
 				'comment_author' => $name,
 				'comment_author_email' => $email,
 				'comment_content' => 'Transaction payment confirmed by '.$name.' at '.$date.' by '. $method .' on behalf of '. $account_holder. $mtcn_code,
-				'user_id' => $user->ID,
+				'user_id' => $user_id,
 				'comment_author_IP' => $_SERVER['REMOTE_ADDR'],
 				'comment_agent' => $_SERVER['HTTP_USER_AGENT'],
 				'comment_date' => $time,
