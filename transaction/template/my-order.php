@@ -32,7 +32,7 @@
 					<ul>
 						<?php if ( $user_transaction->have_posts() ) : while ( $user_transaction->have_posts() ) : $user_transaction->the_post(); ?>
 							<?php
-								$status = get_post_meta($post->ID, '_transaction_status', true);
+								$status = get_post_meta($user_transaction->post->ID, '_transaction_status', true);
 								if (!$status) {
 									$status = 'pending';
 								}
