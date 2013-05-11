@@ -17,12 +17,9 @@
 			$user_data = get_user_meta($current_user->ID);
 			if ($user_data['first_name'][0]) {
 				$full_name = $user_data['first_name'][0] ;
-
 				if (isset($user_data['last_name'][0])) {
 					$full_name .= ' '.$user_data['last_name'][0];
 				}
-
-
 			} else {
 				$full_name = $current_user->display_name;
 			}
