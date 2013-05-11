@@ -36,7 +36,6 @@
 		<div class="user-confirmation">
 			<h3><?php _e('Transaction Confirmation', 'cell-store') ?></h3>
 			<?php if (function_exists('cell_payment_detail')) { cell_payment_detail();} ?>
-			<?php // if (function_exists('cell_order_confirmation_content')) { cell_order_confirmation_content();} ?>
 			<div class="form-actions">
 				<button type="submit" class="btn btn-primary"><?php _e('Confirm Purchase Order', 'cell-store') ?> <i class="icon icon-chevron-right icon-white"></i></button>
 				<?php wp_nonce_field('purchase_confirmation','purchase_confirmation_nonce'); ?>
