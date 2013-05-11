@@ -168,7 +168,7 @@
 				} else {
 					$selected_city = '';
 				}
-				if (isset($selected_province) && $selected_province != '') {
+				if (isset($selected_province) && $selected_province != '' && $selected_province != 0) {
 					$args = array(
 						'post_type' => 'shipping-destination',
 						'post_parent' => $selected_province,
@@ -206,7 +206,7 @@
 				if (is_numeric($current_district)) {
 					$selected_district = $current_district;
 				}
-				if (isset($selected_city) && $selected_city != '') {
+				if (isset($selected_city) && $selected_city != '' && $selected_city != 0) {
 					$args = array(
 						'post_type' => 'shipping-destination',
 						'post_parent' => $selected_city,
