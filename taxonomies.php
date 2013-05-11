@@ -8,6 +8,28 @@ add_action( 'init', 'cell_store_taxonomies', 1 );
 
 function cell_store_taxonomies() {
 
+	$collection_labels = array(
+		'name' => _x( 'Collection', 'taxonomy general name' ),
+		'singular_name' => _x( 'Collection', 'taxonomy singular name' ),
+		'search_items' =>  __( 'Search Collection','cell-store'),
+		'all_items' => __( 'All Collection','cell-store' ),
+		'parent_item' => __( 'Parent Collection','cell-store' ),
+		'parent_item_colon' => __( 'Parent Collection:','cell-store' ),
+		'edit_item' => __( 'Edit Collection','cell-store' ), 
+		'update_item' => __( 'Update Collection','cell-store' ),
+		'add_new_item' => __( 'Add New Collection','cell-store' ),
+		'new_item_name' => __( 'New Collection Name','cell-store' ),
+		'menu_name' => __( 'Collection','cell-store' ),
+	);
+	
+	register_taxonomy('collection',array('product'), array(
+		'hierarchical' => true,
+		'labels' => $collection_labels,
+		'show_ui' => true,
+		'query_var' => true,
+		'rewrite' => array( 'slug' => 'collection' ),
+	));
+
 	$product_category_labels = array(
 		'name' => _x( 'Product Category', 'taxonomy general name' ),
 		'singular_name' => _x( 'Product Category', 'taxonomy singular name' ),
