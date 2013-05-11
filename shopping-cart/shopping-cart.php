@@ -2,6 +2,16 @@
 
 include_once ('ajax.php');
 
+
+/* global script 
+---------------------------------------------------------------
+*/
+add_action( 'init','cell_store_script' );
+function cell_store_script(){
+	wp_register_script( 'address', plugins_url('cell-store/js/address.js'), array('jquery'), '1.0', true);	
+}
+
+
 /* cell-shopping-cart shortcode
 ---------------------------------------------------------------
 */
@@ -35,7 +45,7 @@ add_shortcode( 'cell-checkout', 'cell_checkout_shortcode' );
 
 function cell_checkout_shortcode(){
 	// add addrees script
-	wp_register_script('address', plugins_url('cell-store/js/address.js'), array('jquery'), '1.0', true);
+	wp_enqueue_script('address');
 	wp_localize_script( 'address', 'global', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 
 	// check if current theme has a replacement template
