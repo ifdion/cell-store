@@ -23,7 +23,6 @@ function cell_store_init() {
 }
 add_action('plugins_loaded', 'cell_store_init');
 
-
 /* session
 ---------------------------------------------------------------
 */
@@ -31,13 +30,6 @@ add_action('plugins_loaded', 'cell_store_init');
 	if (!session_id()) {
 		session_start();
 	}
-
-	$global_message = isset( $_SESSION['global_message'] ) ? $_SESSION['global_message'] : false;
-	if ( isset( $_SESSION['global_message'] ) ) unset( $_SESSION['global_message'] );
-
-
-
-
 
 /* global 
 ---------------------------------------------------------------
@@ -48,6 +40,8 @@ add_action('plugins_loaded', 'cell_store_init');
 	include_once ('common-functions.php');
 
 	include_once ('wpalchemy/setup.php');
+
+	include_once ('user-management/user-management.php');
 
 /* custom post types 
 ---------------------------------------------------------------
@@ -78,6 +72,5 @@ add_action('plugins_loaded', 'cell_store_init');
 */
 
 	include_once ('shopping-cart/shopping-cart.php');
-
 
 ?>
