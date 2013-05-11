@@ -1,103 +1,411 @@
 <?php
 
-include_once ('ajax.php');
-include_once ('front-end.php');
-include_once ('admin-page.php');
-
-/* write the user meta on edit screen
+/* iniate cell user dependency 
 ---------------------------------------------------------------
 */
 
-add_action( 'show_user_profile', 'my_show_extra_profile_fields' );
-add_action( 'edit_user_profile', 'my_show_extra_profile_fields' );
-
-function my_show_extra_profile_fields( $user ) {
-	include('template/admin-user-detail.php');
+add_action( 'admin_notices', 'cell_login_dependency' );
+function cell_login_dependency(){
+	if (!class_exists('CellLogin')) {
+		echo '<div class="error"><p>'.__( '<strong>Cell User</strong> plugin dependency is missing.', 'cell-store' ).'</p></div>';
+	}
 }
 
-/* save the user meta on edit screen
+/* initiate cell user
 ---------------------------------------------------------------
 */
 
-add_action( 'personal_options_update', 'my_save_extra_profile_fields' );
-add_action( 'edit_user_profile_update', 'my_save_extra_profile_fields' );
+add_action( 'init','iniate_cell_login' );
+function iniate_cell_login(){
 
-function my_save_extra_profile_fields( $user_id ) {
-	if ( !current_user_can( 'edit_user', $user_id ) )
-		return false;
-	update_user_meta( $user_id, 'telephone', $_POST['telephone'] );
-	update_user_meta( $user_id, 'company', $_POST['company'] );
-	update_user_meta( $user_id, 'address', $_POST['address'] );
-	update_user_meta( $user_id, 'district', $_POST['district'] );
-	update_user_meta( $user_id, 'city', $_POST['city'] );
-	update_user_meta( $user_id, 'postcode', $_POST['postcode'] );
-	update_user_meta( $user_id, 'country', $_POST['country'] );
-	update_user_meta( $user_id, 'province', $_POST['province'] );
-	update_user_meta( $user_id, 'shipping-first-name', $_POST['shipping-first-name'] );
-	update_user_meta( $user_id, 'shipping-last-name', $_POST['shipping-last-name'] );
-	update_user_meta( $user_id, 'shipping-telephone', $_POST['shipping-telephone'] );
-	update_user_meta( $user_id, 'shipping-company', $_POST['shipping-company'] );
-	update_user_meta( $user_id, 'shipping-address', $_POST['shipping-address'] );
-	update_user_meta( $user_id, 'shipping-city', $_POST['shipping-city'] );
-	update_user_meta( $user_id, 'shipping-district', $_POST['shipping-district'] );
-	update_user_meta( $user_id, 'shipping-postcode', $_POST['shipping-postcode'] );
-	update_user_meta( $user_id, 'shipping-country', $_POST['shipping-country'] );
-	update_user_meta( $user_id, 'shipping-province', $_POST['shipping-province'] );
-}
+	$login_args = array(
+		'page' => 'login',
+		'page-redirect' => 'profile',
+	);
 
-/* global registration fields 
----------------------------------------------------------------
-*/
+	if (class_exists('CellLogin')) {
+		$login_form = new CellLogin( $login_args);
+	}
 
-$registration_field = array(
-	'username' => array( // the key will be used in the label for attribute and the input name
-		'title' => __('Username', 'cell-store'), // the label text
-		'type' => 'text', // the input type or textarea
-		'required' => 1, // is it required? 1 or 0
-		'required_text' => __('(required)', 'cell-store'),
-		'note' =>__('Use 3 - 15 character lowercase, numbers and \'- \' only', 'cell-store') // does it need a helper note, use inline html tags only
-		),
-	'email' => array(
-		'title' => __('Email', 'cell-store'),
-		'type' => 'text',
-		'required' => 1,
-		'note' => ''
-		),
-	'password' => array(
-		'title' => __('Password', 'cell-store'),
-		'type' => 'password',
-		'required' => 1,
-		'note' => ''
+	$register_form_args = array(
+		'page' => 'register',
+		'page-redirect' => 'profile',
+		'fields' =>  array(
+			'username' => array( // the key will be used in the label for attribute and the input name
+				'title' => __('User Name', 'cell-user'), // the label text
+				'type' => 'text', // the input type or textarea
+				'required_text' => __('(required)', 'cell-user'),
+				'note' =>__('Use 3 - 15 character lowercase, numbers and \'- \' only', 'cell-user') // does it need a helper note, use inline html tags only
+			),
+			'email' => array(
+				'title' => __('Email', 'cell-user'),
+				'type' => 'text',
+				'note' => ''
+			),
+			'password' => array(
+				'title' => __('Password', 'cell-user'),
+				'type' => 'password',
+				'note' => ''
+			)
 		)
 	);
 
+	if (class_exists('CellRegister')) {
+		$login_form = new CellRegister($register_form_args);
+	}
 
-/* load fancy script 
----------------------------------------------------------------
-*/
-add_action('template_redirect', 'cell_profile_script');
-function cell_profile_script(){
-	if (is_page('profile')){
-		wp_enqueue_script('address', plugins_url().'/cell-store/js/address.js', array('jquery'), '0.1', true);
-		wp_localize_script( 'address', 'global', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
-	}	
+	$membership_fields = array(
+		'account_level' => array(
+			'title' => __('Account Level', 'cell-user'),
+			'type' => 'text',
+		),
+		'account_payment' => array(
+			'title' => __('Account Payment', 'cell-user'),
+			'type' => 'text',
+		),
+	);
+
+	$billing_fields = array(
+		'first_name' => array(
+			'title' => __('First Name', 'cell-user'),
+			'type' => 'text',
+		),
+		'last_name' => array(
+			'title' => __('Last Name', 'cell-user'),
+			'type' => 'text',
+		),
+		'telephone' => array(
+			'title' => __('Telephone', 'cell-user'),
+			'type' => 'text',
+		),
+		'company' => array(
+			'title' => __('Company', 'cell-user'),
+			'type' => 'text',
+		),
+		'address' => array(
+			'title' => __('Address', 'cell-user'),
+			'type' => 'textarea',
+		),
+		'country' => array(
+			'title' => __('Country', 'cell-user'),
+			'type' => 'select',
+			'option' => 'get_country',
+			'attr' => array(
+				'class' => 'select-address',
+				'data-target' => 'province'
+			)
+		),
+		'province' => array(
+			'title' => __('Province', 'cell-user'),
+			'type' => 'select',
+			'option' => 'get_province',
+			'attr' => array(
+				'class' => 'select-address',
+				'data-target' => 'city'
+			)
+		),
+		'city' => array(
+			'title' => __('City', 'cell-user'),
+			'type' => 'select',
+			'option' => 'get_city',
+			'attr' => array(
+				'class' => 'select-address',
+				'data-target' => 'district'
+			)
+		),
+		'district' => array(
+			'title' => __('District', 'cell-user'),
+			'type' => 'select',
+			'option' => 'get_district',
+			'attr' => array(
+				'class' => 'select-address',
+			)
+		),
+		'postcode' => array(
+			'title' => __('Post Code', 'cell-user'),
+			'type' => 'text',
+		),
+		'have-shipping' => array(
+			'title' => __('Have Shipping', 'cell-user'),
+			'type' => 'checkbox',
+		),
+	);
+
+	$shipping_fields = array(
+		'shipping-first-name' => array(
+			'title' => __('Shipping First Name', 'cell-user'),
+			'type' => 'text',
+		),
+		'shipping-last-name' => array(
+			'title' => __('Shipping Last Name', 'cell-user'),
+			'type' => 'text',
+		),
+		'shipping-email' => array(
+			'title' => __('Shipping Email', 'cell-user'),
+			'type' => 'text',
+		),
+		'shipping-telephone' => array(
+			'title' => __('Shipping Telephone', 'cell-user'),
+			'type' => 'text',
+		),
+		'shipping-company' => array(
+			'title' => __('Shipping Company', 'cell-user'),
+			'type' => 'text',
+		),
+		'shipping-address' => array(
+			'title' => __('Shipping Address', 'cell-user'),
+			'type' => 'textarea',
+		),
+		'shipping-country' => array(
+			'title' => __('Shipping Country', 'cell-user'),
+			'type' => 'select',
+			'option' => 'get_country',
+			'attr' => array(
+				'class' => 'select-address',
+				'data-target' => 'shipping-province'
+			)
+		),
+		'shipping-province' => array(
+			'title' => __('Shipping Province', 'cell-user'),
+			'type' => 'select',
+			'option' => 'get_shipping_province',
+			'attr' => array(
+				'class' => 'select-address',
+				'data-target' => 'shipping-city'
+			)
+		),
+		'shipping-city' => array(
+			'title' => __('Shipping City', 'cell-user'),
+			'type' => 'select',
+			'option' => 'get_shipping_city',
+			'attr' => array(
+				'class' => 'select-address',
+				'data-target' => 'shipping-district'
+			)
+		),
+		'shipping-district' => array(
+			'title' => __('Shipping District', 'cell-user'),
+			'type' => 'select',
+			'option' => 'get_shipping_district',
+			'attr' => array(
+				'class' => 'select-address',
+			)
+		),
+		'shipping-postcode' => array(
+			'title' => __('Shipping Post Code', 'cell-user'),
+			'type' => 'text',
+		),
+	);
+		'page' => 'profile',
+		'page-redirect' => 'login',
+		'include-script' => 'address',
+		'fieldset' => array(
+			'billing' => array(
+				'title' => __('Billing', 'cell-user'),
+				'class' => 'billing fieldset',
+				'fields' => $billing_fields,
+				'public' => true,
+			),
+			'shipping' => array(
+				'title' => __('Shipping', 'cell-user'),
+				'class' => 'shipping fieldset',
+				'fields' => $shipping_fields,
+				'show-on' => 'have-shipping',
+				'public' => true,
+			),
+		),
+	);
+
+	}
+
 }
 
-/* Global Administration Edit User field 
+/* option functions 
 ---------------------------------------------------------------
 */
 
-$admin_edit_user_field = array(
+function get_country(){
+	global  $wpdb;
+	$result = array();
+	$result[0] = __( 'Please select.', 'cell-store' );
+	$query = $wpdb->get_results(
+		"SELECT ID, post_title
+		FROM $wpdb->posts
+		WHERE post_status = 'publish'
+		AND     post_type = 'shipping-destination'
+		AND   post_parent = 0
+		ORDER BY post_title
+		DESC");
+	foreach ($query as $key => $value) {
+		$result[$value->ID] = $value->post_title;
+	}
+	return $result;
+}
 
-	);
+function get_province($user_id){
+	if (!$user_id) {
+		$result = array(__( 'Please select.', 'cell-store' ));
+		return $result;
+	} else {
+		global $wpdb;
+		$user_meta = get_user_meta( $user_id );
+		$result = array();
+		$result[0] = __( 'Please select.', 'cell-store' );
+		
+		if (isset($user_meta['country'][0])) {
+			$user_country = $user_meta['country'][0];
+			$query = $wpdb->get_results(
+				"SELECT ID, post_title
+				FROM $wpdb->posts
+				WHERE post_status = 'publish'
+				AND     post_type = 'shipping-destination'
+				AND   post_parent = $user_country
+				ORDER BY post_title
+				DESC");
+			foreach ($query as $key => $value) {
+				$result[$value->ID] = $value->post_title;
+			}
+		}
+		return $result;
+	}
+}
 
+function get_city($user_id){
+	if (!$user_id) {
+		$result = array(__( 'Please select.', 'cell-store' ));
+		return $result;
+	} else {
+		global $wpdb;
+		$user_meta = get_user_meta( $user_id );
+		$result = array();
+		$result[0] = __( 'Please select.', 'cell-store' );
+		
+		if (isset($user_meta['province'][0]) && $user_meta['province'][0] != 0) {
+			$user_province = $user_meta['province'][0];
+			$query = $wpdb->get_results(
+				"SELECT ID, post_title
+				FROM $wpdb->posts
+				WHERE post_status = 'publish'
+				AND     post_type = 'shipping-destination'
+				AND   post_parent = $user_province
+				ORDER BY post_title
+				DESC");
+			foreach ($query as $key => $value) {
+				$result[$value->ID] = $value->post_title;
+			}
+		}
+		return $result;
+	}
+}
 
-/* Global Edit User Field
----------------------------------------------------------------
-*/
+function get_district($user_id){
+	if (!$user_id) {
+		$result = array(__( 'Please select.', 'cell-store' ));
+		return $result;
+	} else {
+		global $wpdb;
+		$user_meta = get_user_meta( $user_id );
+		$result = array();
+		$result[0] = __( 'Please select.', 'cell-store' );
+		
+		if (isset($user_meta['city'][0]) && $user_meta['city'][0] != 0) {
+			$user_city = $user_meta['city'][0];
+			$query = $wpdb->get_results(
+				"SELECT ID, post_title
+				FROM $wpdb->posts
+				WHERE post_status = 'publish'
+				AND     post_type = 'shipping-destination'
+				AND   post_parent = $user_city
+				ORDER BY post_title
+				DESC");
+			foreach ($query as $key => $value) {
+				$result[$value->ID] = $value->post_title;
+			}
+		}
+		return $result;
+	}
+}
 
-$admin_edit_user_field = array(
+function get_shipping_province($user_id){
+	if (!$user_id) {
+		$result = array(__( 'Please select.', 'cell-store' ));
+		return $result;
+	} else {
+		global $wpdb;
+		$user_meta = get_user_meta( $user_id );
+		$result = array();
+		$result[0] = __( 'Please select.', 'cell-store' );
+		
+		if (isset($user_meta['shipping-country'][0]) && $user_meta['shipping-country'][0] != 0) {
+			$user_shipping_country = $user_meta['shipping-country'][0];
+			$query = $wpdb->get_results(
+				"SELECT ID, post_title
+				FROM $wpdb->posts
+				WHERE post_status = 'publish'
+				AND     post_type = 'shipping-destination'
+				AND   post_parent = $user_shipping_country
+				ORDER BY post_title
+				DESC");
+			foreach ($query as $key => $value) {
+				$result[$value->ID] = $value->post_title;
+			}
+		}
+		return $result;
+	}
+}
 
-	);
+function get_shipping_city($user_id){
+	if (!$user_id) {
+		$result = array(__( 'Please select.', 'cell-store' ));
+		return $result;
+	} else {
+		global $wpdb;
+		$user_meta = get_user_meta( $user_id );
+		$result = array();
+		$result[0] = __( 'Please select.', 'cell-store' );
+		
+		if (isset($user_meta['shipping-province'][0]) && $user_meta['shipping-province'][0] != 0) {
+			$user_shipping_province = $user_meta['shipping-province'][0];
+			$query = $wpdb->get_results(
+				"SELECT ID, post_title
+				FROM $wpdb->posts
+				WHERE post_status = 'publish'
+				AND     post_type = 'shipping-destination'
+				AND   post_parent = $user_shipping_province
+				ORDER BY post_title
+				DESC");
+			foreach ($query as $key => $value) {
+				$result[$value->ID] = $value->post_title;
+			}
+		}
+		return $result;
+	}
+}
 
-?>
+function get_shipping_district($user_id){
+	if (!$user_id) {
+		$result = array(__( 'Please select.', 'cell-store' ));
+		return $result;
+	} else {
+		global $wpdb;
+		$user_meta = get_user_meta( $user_id );
+		$result = array();
+		$result[0] = __( 'Please select.', 'cell-store' );
+		
+		if (isset($user_meta['shipping-city'][0]) && $user_meta['shipping-city'][0] != 0) {
+			$user_shipping_city = $user_meta['shipping-city'][0];
+			$query = $wpdb->get_results(
+				"SELECT ID, post_title
+				FROM $wpdb->posts
+				WHERE post_status = 'publish'
+				AND     post_type = 'shipping-destination'
+				AND   post_parent = $user_shipping_city
+				ORDER BY post_title
+				DESC");
+			foreach ($query as $key => $value) {
+				$result[$value->ID] = $value->post_title;
+			}
+		}
+		return $result;
+	}
+}
