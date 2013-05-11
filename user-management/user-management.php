@@ -196,6 +196,7 @@ function iniate_cell_login(){
 			'type' => 'text',
 		),
 	);
+	$user_profile_args = array(
 		'page' => 'profile',
 		'page-redirect' => 'login',
 		'include-script' => 'address',
@@ -216,6 +217,8 @@ function iniate_cell_login(){
 		),
 	);
 
+	if (class_exists('CellProfile')) {
+		$profile_form = new CellProfile($user_profile_args);
 	}
 
 }
@@ -252,7 +255,7 @@ function get_province($user_id){
 		$result = array();
 		$result[0] = __( 'Please select.', 'cell-store' );
 		
-		if (isset($user_meta['country'][0])) {
+		if (isset($user_meta['country'][0]) && $user_meta['country'][0] != 0) {
 			$user_country = $user_meta['country'][0];
 			$query = $wpdb->get_results(
 				"SELECT ID, post_title
