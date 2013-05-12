@@ -259,7 +259,7 @@ function out_of_stock($classes) {
 				return $classes;
 			}
 		} else {
-			if (!$product_meta['_stock'][0]) {
+			if (!isset($product_meta['_stock'][0])) {
 				$classes[] = 'out-of-stock';
 				return $classes;
 			} else {
