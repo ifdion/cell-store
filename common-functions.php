@@ -1,4 +1,5 @@
 <?php
+
 /* ajax : custom function to detect wheter a request is made by ajax or not
 ---------------------------------------------------------------
 */
@@ -214,6 +215,30 @@ if (!function_exists('get_id_by_slug')) {
 				LIMIT 0,1
 			");
 		return $post_id;
+	}
+}
+
+/* setup currency format 
+---------------------------------------------------------------
+*/
+
+if (!function_exists('currency_format')) {
+	function currency_format($number){
+		global $cell_store_option;
+		$currency = $cell_store_option['currency']['symbol'];
+		$thousand_sep = $cell_store_option['currency']['thousand-separator'];
+		$decimal_sep = $cell_store_option['currency']['decimal-separator'];
+		$decimal_digit = $cell_store_option['currency']['decimal-digit'];
+		$in_front = $cell_store_option['currency']['use-in-front'];
+
+		if ($in_front == true) {
+			$result = $currency.' '.number_format($number,$decimal_digit,$decimal_sep,$thousand_sep);
+		} else {
+			$result = number_format($number,$decimal_digit,$decimal_sep,$thousand_sep).' '.$currency;
+		}
+
+		return $result;
+
 	}
 }
 
