@@ -24,15 +24,7 @@
 	$return = get_permalink( get_page_by_path( 'shopping-cart' ) );
 ?>
 <?php if ($purchase_detail == true): ?>
-	<form id="purchase-confirmation" name="purchase-confirmation" class="well form-horizontal clearfix" action="<?php echo admin_url('admin-ajax.php'); ?>" method="post" enctype="multipart/form-data">
-		<div id="" class="transaction-items">
-			<h3><?php _e('Your Order', 'cell-store') ?></h3>
-			<?php if (function_exists('cell_item_detail')) { cell_item_detail();} ?>
-		</div>
-		<div class="user-address">
-			<h3><?php _e('Shipping Address', 'cell-store') ?></h3>
-			<?php if (function_exists('cell_shipping_detail')) { cell_shipping_detail();} ?>
-		</div>
+	<form id="purchase-confirmation" name="purchase-confirmation" class="well form-horizontal" action="<?php echo admin_url('admin-ajax.php'); ?>" method="post" enctype="multipart/form-data">
 		<div class="user-confirmation">
 			<h3><?php _e('Transaction Confirmation', 'cell-store') ?></h3>
 			<?php if (function_exists('cell_payment_detail')) { cell_payment_detail();} ?>
