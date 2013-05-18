@@ -40,30 +40,33 @@
 	} else {
 		$use_details = false;
 	}
-	$price = $product_meta['_price'][0];
-	$final_price = $price;
-	if (isset($product_meta['_use_discount'][0]) && isset($product_meta['_discount_value'][0])) {
-		$use_discount = true;
-		$discount_value = $product_meta['_discount_value'][0];
-		$todays_date = new DateTime(date("Y-m-d"));
-		$discount_start = new DateTime($product_meta['_discount_start'][0]);
-		$discount_end = new DateTime($product_meta['_discount_end'][0]);
-		if ($todays_date >= $discount_start && $todays_date <= $discount_end) {
-			$valid_discount = true;
-		}
-		if(isset($use_discount) && isset($valid_discount)){
-			if (stripos($discount_value, '%')) {
-				$discount_percentage = str_replace('%', '', $discount_value);
-				$price_after_discount = $price * (100 - $discount_percentage) / 100;
-				$discount_percentage = true;
-			} else {
-				$price_after_discount = $product_meta['_discount_value'][0];
+	if (isset($product_meta['_price'][0])) {
+		$price = $product_meta['_price'][0];
+		$final_price = $price;
+		if (isset($product_meta['_use_discount'][0]) && isset($product_meta['_discount_value'][0])) {
+			$use_discount = true;
+			$discount_value = $product_meta['_discount_value'][0];
+			$todays_date = new DateTime(date("Y-m-d"));
+			$discount_start = new DateTime($product_meta['_discount_start'][0]);
+			$discount_end = new DateTime($product_meta['_discount_end'][0]);
+			if ($todays_date >= $discount_start && $todays_date <= $discount_end) {
+				$valid_discount = true;
 			}
-			$final_price = $price_after_discount;
+			if(isset($use_discount) && isset($valid_discount)){
+				if (stripos($discount_value, '%')) {
+					$discount_percentage = str_replace('%', '', $discount_value);
+					$price_after_discount = $price * (100 - $discount_percentage) / 100;
+					$discount_percentage = true;
+				} else {
+					$price_after_discount = $product_meta['_discount_value'][0];
+				}
+				$final_price = $price_after_discount;
+			}
 		}
 	}
+
 ?>
-<?php if ($price && $in_stock): ?>
+<?php if (isset($price) && $in_stock): ?>
 	<form id="add-to-cart-form" name="add-to-cart-form" class="well form-horizontal product-form" action="<?php echo admin_url('admin-ajax.php'); ?>" method="post" enctype="multipart/form-data">
 		<?php if ($use_variations): ?>
 			<div class="control-group">
