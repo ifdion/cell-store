@@ -23,7 +23,7 @@
 			if ($value['weight']) {
 				printf(__('<dd>Weight : %s</dd>', 'cell-store'),number_format($value['weight'],0,',','.'));
 			}
-			printf(__('<dd>Price : %2$s %1$s,-</dd>', 'cell-store'),number_format($value['price'],0,',','.'), $currency);
+			printf(__('<dd>Price : %s</dd>', 'cell-store'),currency_format($value['price']));
 			if ($value['stock-manage']) {
 				echo __('<dd>Stock Managed</dd>', 'cell-store');
 			}
@@ -34,11 +34,11 @@
 	<h2><?php _e('Payment Details', 'cell-store') ?></h2>
 	<?php
 		echo '<ul>';
-			echo '<li><strong>'. __('Total Item Cost', 'cell-store').'</strong> : '.$currency . ' ' . number_format($payment['total-item-cost'],0,',','.').',-'.'</li>';
+			echo '<li><strong>'. __('Total Item Cost', 'cell-store').'</strong> : '.currency_format($payment['total-item-cost']).'</li>';
 			echo '<li><strong>'. __('Payment Method', 'cell-store').'</strong> : '.$payment['method'].'</li>';
 			echo '<li><strong>'. __('Total Weight', 'cell-store').'</strong> : ' . number_format($payment['total-weight'],0,',','.').' kg'.'</li>';
 			echo '<li><strong>'. __('Shipping Option', 'cell-store').'</strong> : '.$payment['shipping-option'].'</li>';
-			echo '<li><strong>'. __('Shipping Rate', 'cell-store').'</strong> : '.$currency . ' ' . number_format($payment['shipping-rate'],0,',','.').',-'.'</li>';
+			echo '<li><strong>'. __('Shipping Rate', 'cell-store').'</strong> : '. currency_format($payment['shipping-rate']) .'</li>';
 		echo '</ul>';
 	?>
 	<hr>

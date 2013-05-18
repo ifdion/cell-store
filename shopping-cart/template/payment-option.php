@@ -20,7 +20,7 @@
 											$cost = 'Free';
 											$checked = '';
 										} else{
-											$cost = $currency.' '.number_format($value['shipping_rate'],0,',','.').',- per kg';
+											$cost = currency_format($value['shipping_rate']).' per kg';
 											$checked = 'checked="checked"';
 										}
 										$note = '';

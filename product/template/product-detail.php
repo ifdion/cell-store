@@ -49,12 +49,12 @@
 		<dt><?php _e('Price', 'cell-store') ?></dt>
 		<?php if ($price_after_discount): ?>
 			<dd>
-				<?php echo $currency.number_format($price_after_discount,0,'','.').',-' ?>
-				<?php echo ' | was '.$currency.number_format($price,0,'','.').',-' ?>
+				<?php echo currency_format($price_after_discount); ?>
+				<?php echo ' | was '.currency_format($price); ?>
 				<?php if($discount_percentage) echo $discount_value.' discount'; ?>
 			</dd>
 		<?php else: ?>
-			<dd><?php echo $currency.number_format($price,0,'','.').',-' ?></dd>	
+			<dd><?php echo currency_format($price) ?></dd>
 		<?php endif ?>
 		<?php if ($use_variations): ?>
 			<dt><?php _e('Options', 'cell-store') ?></dt>

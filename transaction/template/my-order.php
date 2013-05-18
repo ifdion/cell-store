@@ -101,20 +101,20 @@
 									<h4><a href="<?php echo get_permalink($item_details['ID']) ?>"><span class="product-title"><?php echo $item_details['name'] ?></span></a></h4>
 									<span><?php _e('Option', 'cell-store') ?> : <?php echo $option ?> <br> Amount : <?php echo number_format($item_details['quantity'],0,'','.') ?></span>
 								</td>
-								<td class="cost"><span><?php echo $currency.' '.number_format($price,0,'','.').',-' ?></span></td>
+								<td class="cost"><span><?php echo currency_format($price) ?></span></td>
 							</tr>
 						<?php endforeach ?>
 						<tr class="subtotal">
 							<td><?php _e('Sub Total', 'cell-store') ?></td>
-							<td class="cost"><span><?php echo $currency.' '.number_format($total_price,0,'','.').',-' ?></span></td>
+							<td class="cost"><span><?php echo currency_format($total_price) ?></span></td>
 						</tr>
 						<tr class="shipping">
 							<td><?php _e('Shipping Cost', 'cell-store') ?> : <?php echo $shipping_option ?></td>
-							<td class="cost"><span> <?php echo $currency.' '.number_format($shipping_cost,'0',',','.').',-' ?></span></td>
+							<td class="cost"><span> <?php echo currency_format($shipping_cost) ?></span></td>
 						</tr>
 						<tr class="total">
 							<td><?php _e('Total', 'cell-store') ?></td>
-							<td class="cost"><span> <?php echo $currency.' '.number_format($grand_total,'0',',','.').',-' ?></span></td>
+							<td class="cost"><span> <?php echo currency_format($grand_total) ?></span></td>
 						</tr>
 					</table>
 				</div>

@@ -93,8 +93,7 @@ function product_custom_column($column){
 			break;
 		case 'product_price':
 			if (isset($product_meta['_price'][0])) {
-
-				echo $currency.' '.number_format($product_meta['_price'][0],0,',','.').',-';
+				echo currency_format($product_meta['_price'][0]);
 			} else {
 				echo 'n/a';
 			}
