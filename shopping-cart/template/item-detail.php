@@ -1,3 +1,7 @@
+<?php
+	global $cell_store_option;
+	$currency = $cell_store_option['currency']['symbol'];
+?>
 <?php if ($_SESSION['shopping-cart']['items']):?>
 	<?php
 		$items = $_SESSION['shopping-cart']['items'];
@@ -21,12 +25,12 @@
 					<h4><a href="<?php echo get_permalink($item_details['ID']) ?>"><span class="product-title"><?php echo $item_details['name'] ?></span></a></h4>
 					<span><?php _e('Option', 'cell-store') ?> : <?php echo $option ?> <br> <?php _e('Amount', 'cell-store') ?> : <?php echo number_format($item_details['quantity'],0,'','.') ?></span>
 				</td>
-				<td class="cost"><span><?php echo 'IDR '.number_format($price,0,'','.').',-' ?></span></td>
+				<td class="cost"><span><?php echo $currency.''.number_format($price,0,'','.').',-' ?></span></td>
 			</tr>
 		<?php endforeach ?>
 		<tr class="subtotal">
 			<td><?php _e('Sub Total', 'cell-store') ?></td>
-			<td class="cost"><span><?php echo 'IDR '.number_format($total_price,0,'','.').',-' ?></span></td>
+			<td class="cost"><span><?php echo $currency.''.number_format($total_price,0,'','.').',-' ?></span></td>
 		</tr>
 		<?php if (isset($_SESSION['shopping-cart']['coupon']['discount'])): ?>
 			<?php
@@ -37,7 +41,7 @@
 			?>
 			<tr>
 				<td ><strong><?php printf(__('Total after discount of %s', 'cell-store'),$_SESSION['shopping-cart']['coupon']['discount-value']) ?></strong></td>
-				<td class="cost"><?php echo 'IDR ' .number_format($total_price,0,'','.').',-' ?></td>
+				<td class="cost"><?php echo $currency.'' .number_format($total_price,0,'','.').',-' ?></td>
 			</tr>
 		<?php endif ?>
 		<?php
@@ -85,11 +89,11 @@
 		<?php if (isset($shipping_option) && isset($shipping_rate) && isset($shipping_destination_id)): ?>
 			<tr class="shipping">
 				<td><?php echo __('Shipping Cost to <strong>', 'cell-store') . get_the_title($shipping_destination_id) . '</strong> ('.$shipping_option.')'?></td>
-				<td class="cost"><span> <?php echo 'IDR  '.number_format($shipping_cost,'0',',','.').',-' ?></span></td>
+				<td class="cost"><span> <?php echo $currency.' '.number_format($shipping_cost,'0',',','.').',-' ?></span></td>
 			</tr>
 			<tr class="total">
 				<td><?php _e('Total', 'cell-store') ?></td>
-				<td class="cost"><span> <?php echo 'IDR  '.number_format($grand_total,'0',',','.').',-' ?></span></td>
+				<td class="cost"><span> <?php echo $currency.' '.number_format($grand_total,'0',',','.').',-' ?></span></td>
 			</tr>
 		<?php endif ?>
 	</table>

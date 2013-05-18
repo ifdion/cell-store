@@ -1,6 +1,8 @@
 <?php
+	global $cell_store_option;
+	$currency = $cell_store_option['currency']['symbol'];
+
 include_once ('ajax.php');
-// include_once ('admin-page.php');
 
 /* Post Types
 --------------------------------------------------------------
@@ -91,7 +93,8 @@ function product_custom_column($column){
 			break;
 		case 'product_price':
 			if (isset($product_meta['_price'][0])) {
-				echo 'IDR '.number_format($product_meta['_price'][0],0,',','.').',-';
+
+				echo $currency.' '.number_format($product_meta['_price'][0],0,',','.').',-';
 			} else {
 				echo 'n/a';
 			}

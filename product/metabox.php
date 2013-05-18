@@ -1,10 +1,14 @@
+<?php
+	global $cell_store_option;
+	$currency = $cell_store_option['currency']['symbol'];
+?>
 <div class="my_meta_control">
 
 	<div id="product-basic" class="meta-parts">
 		<label><?php _e('Price', 'cell-store') ?></label>
 		<p>
 			<input type="text" name="<?php $metabox->the_name('price'); ?>" value="<?php $metabox->the_value('price'); ?>"/>
-			<span><?php _e('Enter in a price, in IDR (e.g. 100000)', 'cell-store') ?></span>
+			<span><?php printf(__( 'Enter in a price, in %s (e.g. 100000)','cell-store' ), $currency) ?></span>
 		</p>
 		<label><?php _e('Stock', 'cell-store') ?></label>
 		<p>
@@ -62,7 +66,8 @@
 		<div id="discount-input" class="optional-meta">
 			<p>
 				<input type="text" name="<?php $metabox->the_name('discount_value'); ?>" value="<?php $metabox->the_value('discount_value'); ?>"/>
-				<span><?php _e('Enter the discounted price in IDR (e.g. 90000) or the discount percentage (e.g. 10%)', 'cell-store') ?></span>
+				<span><?php printf(__( 'Enter the discounted price in %s (e.g. 90000) or the discount percentage (e.g. 10&#37;)','cell-store' ), $currency) ?></span>
+
 			</p>
 			<label><?php _e('Discount Start / End Date', 'cell-store') ?></label>
 			<p>

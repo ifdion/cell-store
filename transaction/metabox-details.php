@@ -1,3 +1,7 @@
+<?php
+	global $cell_store_option;
+	$currency = $cell_store_option['currency']['symbol'];
+?>
 <div class="my_meta_control">
 	<?php
 		$post_meta = get_post_meta($post->ID);
@@ -8,7 +12,6 @@
 			$coupon = unserialize($post_meta['_coupon'][0]);
 		}
 		$items = unserialize($post_meta['_items'][0]);
-		$currency = 'IDR';
 	?>
 	<h2><?php _e('Items', 'cell-store') ?></h2>
 	<?php
