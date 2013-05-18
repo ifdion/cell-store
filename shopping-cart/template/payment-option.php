@@ -3,10 +3,6 @@
 					<?php
 						$shipping_destination_id = $_SESSION['shopping-cart']['payment']['shipping-destination-id'];
 						$shipping_option = get_post_meta($shipping_destination_id,'detail',true);
-						// $test = get_post_meta( $shipping_destination_id);
-						// echo '<pre>';
-						// print_r($test);
-						// echo '</pre>';
 					?>
 					<h3><?php _e('Shipping Option', 'cell-store') ?></h3>
 					<p><?php _e('You are shipping destination is registered to : ', 'cell-store') ?> <strong><?php echo(get_the_title($shipping_destination_id)) ?></strong>.</p>
