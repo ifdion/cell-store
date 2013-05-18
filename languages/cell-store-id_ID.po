@@ -1,385 +1,434 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Cell Email\n"
-"POT-Creation-Date: 2012-12-11 08:32+0700\n"
-"PO-Revision-Date: 2012-12-11 08:32+0700\n"
+"POT-Creation-Date: 2013-05-17 23:58+0700\n"
+"PO-Revision-Date: 2013-05-18 15:26+0700\n"
 "Last-Translator: Dion <ifdion@gmail.com>\n"
 "Language-Team: Dion <ifdion@gmail.com>\n"
 "Language: Bahasa Indonesia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.5.5\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../cell-store-options-backu0.php:13 ../cell-store-options-backu0.php:14
 #: ../cell-store-options.php:13 ../cell-store-options.php:14
 #, fuzzy
 msgid "Store Options"
 msgstr "Pilihan"
 
-#: ../cell-store-options-backu0.php:28 ../cell-store-options.php:43
+#: ../cell-store-options.php:43
 #, fuzzy
 msgid "General Options"
 msgstr "Pilihan"
 
-#: ../cell-store-options-backu0.php:29 ../cell-store-options.php:44
+#: ../cell-store-options.php:44
 msgid "<p class=\"description\">General Store Options</p>"
 msgstr "<p class=\"description\">Pilihan Umum</p>"
 
-#: ../cell-store-options-backu0.php:34 ../cell-store-options.php:49
+#: ../cell-store-options.php:49
 msgid "Email address to send correspondence"
 msgstr "Alamat email untuk korespondensi"
 
-#: ../cell-store-options-backu0.php:40 ../cell-store-options.php:56
+#: ../cell-store-options.php:56
 #, fuzzy
 msgid "Product Slug"
 msgstr "Tag Produk"
 
-#: ../cell-store-options-backu0.php:47 ../cell-store-options.php:64
+#: ../cell-store-options.php:64
+msgid "Collection Slug"
+msgstr "Slug Koleksi"
+
+#: ../cell-store-options.php:72
 #, fuzzy
 msgid "Product Category Slug"
 msgstr "Kategori Produk"
 
-#: ../cell-store-options-backu0.php:54 ../cell-store-options.php:72
+#: ../cell-store-options.php:80
 #, fuzzy
 msgid "Product Tag Slug"
 msgstr "Tag Produk"
 
-#: ../cell-store-options-backu0.php:61 ../cell-store-options.php:80
+#: ../cell-store-options.php:88
 msgid "Redirection after Buy"
 msgstr "Pengarahan setelah Pembelian"
 
-#: ../cell-store-options-backu0.php:68 ../cell-store-options.php:87
+#: ../cell-store-options.php:95
 msgid "Days before unconfirmed order cancelation"
 msgstr "Hari sebelum pembatalan order"
 
-#: ../cell-store-options-backu0.php:76 ../cell-store-options.php:96
+#: ../cell-store-options.php:104
 msgid "Store Pages"
 msgstr "Halaman Toko"
 
-#: ../cell-store-options-backu0.php:77 ../cell-store-options.php:97
+#: ../cell-store-options.php:105
 msgid "<p class=\"description\">Choose which page is used as a store page.</p>"
 msgstr "<p class=\"description\">Pilih halaman untuk halaman toko.</p>"
 
-#: ../cell-store-options-backu0.php:82 ../cell-store-options.php:102
+#: ../cell-store-options.php:110
 #, fuzzy
 msgid "Shopping Cart Page"
 msgstr "Keranjang Belanja sudah Diperbarui"
 
-#: ../cell-store-options-backu0.php:87 ../cell-store-options.php:107
+#: ../cell-store-options.php:115
 #, fuzzy
 msgid "Check Out Page"
 msgstr "Checkout"
 
-#: ../cell-store-options-backu0.php:92 ../cell-store-options.php:112
+#: ../cell-store-options.php:120
 #, fuzzy
 msgid "Payment Option Page"
 msgstr "Pilihan Pembayaran"
 
-#: ../cell-store-options-backu0.php:97 ../cell-store-options.php:117
+#: ../cell-store-options.php:125
 #, fuzzy
 msgid "Order Confirmation Page"
 msgstr "Konfirmasi Pembayaran"
 
-#: ../cell-store-options-backu0.php:102 ../cell-store-options.php:122
+#: ../cell-store-options.php:130
 #, fuzzy
 msgid "Payment Confirmation Page"
 msgstr "Konfirmasi Pembayaran"
 
-#: ../cell-store-options-backu0.php:107 ../cell-store-options.php:127
+#: ../cell-store-options.php:135
 #, fuzzy
 msgid "Login Page"
 msgstr "Masuk"
 
-#: ../cell-store-options-backu0.php:112 ../cell-store-options.php:132
+#: ../cell-store-options.php:140
 #, fuzzy
 msgid "Profile Page"
 msgstr "Profil sudah diperbarui."
 
-#: ../cell-store-options-backu0.php:117 ../cell-store-options.php:137
+#: ../cell-store-options.php:145
 #, fuzzy
 msgid "My Transaction Page"
 msgstr "Transaksi"
 
-#: ../cell-store-options-backu0.php:124 ../cell-store-options.php:144
+#: ../cell-store-options.php:152
 #, fuzzy
 msgid "Store Details"
 msgstr "Detail"
 
-#: ../cell-store-options-backu0.php:125 ../cell-store-options.php:145
+#: ../cell-store-options.php:153
 msgid ""
 "<p class=\"description\">Basic Store details for invoice and correspondence."
 "</p>"
 msgstr "<p class=\"description\">Detail untuk invoice dan korespondensi.</p>"
 
-#: ../cell-store-options-backu0.php:130 ../cell-store-options.php:150
+#: ../cell-store-options.php:158
 #, fuzzy
 msgid "Store Name"
 msgstr "Nama Belakang"
 
-#: ../cell-store-options-backu0.php:135 ../cell-store-options.php:156
+#: ../cell-store-options.php:164
 #, fuzzy
 msgid "Store Address"
 msgstr "Alamat"
 
-#: ../cell-store-options-backu0.php:141 ../cell-store-options.php:162
+#: ../cell-store-options.php:170
 #, fuzzy
 msgid "Store Phone Number"
 msgstr "Nomor Telepon"
 
-#: ../cell-store-options-backu0.php:146 ../cell-store-options.php:168
+#: ../cell-store-options.php:176
 #, fuzzy
 msgid "Store Phone Number (2)"
 msgstr "Nomor Telepon"
 
-#: ../cell-store-options-backu0.php:151 ../cell-store-options.php:174
+#: ../cell-store-options.php:182
 #, fuzzy
 msgid "Store Email"
 msgstr "Email"
 
-#: ../cell-store-options-backu0.php:159 ../cell-store-options.php:182
+#: ../cell-store-options.php:190
 msgid "PayPal"
 msgstr ""
 
-#: ../cell-store-options-backu0.php:160 ../cell-store-options.php:183
+#: ../cell-store-options.php:191
 msgid "<p class=\"description\">Basic setup for PayPal payment gateway.</p>"
 msgstr "<p class=\"description\">Pilihan untuk pembayaran PayPal.</p>"
 
-#: ../cell-store-options-backu0.php:165 ../cell-store-options.php:188
+#: ../cell-store-options.php:196
 msgid "Enable"
 msgstr "Gunakan"
 
-#: ../cell-store-options-backu0.php:166 ../cell-store-options-backu0.php:195
-#: ../cell-store-options-backu0.php:226 ../cell-store-options-backu0.php:243
-#: ../cell-store-options.php:189 ../cell-store-options.php:219
-#: ../cell-store-options.php:256 ../cell-store-options.php:279
+#: ../cell-store-options.php:197 ../cell-store-options.php:227
+#: ../cell-store-options.php:264 ../cell-store-options.php:287
 msgid "Check to enable"
 msgstr "Cek untuk menggunakan"
 
-#: ../cell-store-options-backu0.php:172 ../cell-store-options.php:195
-#: ../banner/banner.php:66 ../coupon/coupon.php:82 ../product/product.php:74
+#: ../cell-store-options.php:203 ../banner/banner.php:66
+#: ../coupon/coupon.php:82 ../product/product.php:74
 #: ../transaction/transaction.php:87
 msgid "Title"
 msgstr "Judul"
 
-#: ../cell-store-options-backu0.php:177 ../cell-store-options.php:201
+#: ../cell-store-options.php:209
 msgid "Image Upload"
 msgstr "Unggah Gambar"
 
-#: ../cell-store-options-backu0.php:178 ../cell-store-options.php:202
-#: ../cell-store-options.php:245 ../cell-store-options.php:268
-#: ../cell-store-options.php:291
+#: ../cell-store-options.php:210 ../cell-store-options.php:253
+#: ../cell-store-options.php:276 ../cell-store-options.php:299
 msgid "This is the image that will be used before the title."
 msgstr "Gambar ini akan digunakan sebelum judul."
 
-#: ../cell-store-options-backu0.php:183 ../cell-store-options.php:207
+#: ../cell-store-options.php:215
 #, fuzzy
 msgid "Description"
 msgstr "Deskripsi & Detail"
 
-#: ../cell-store-options-backu0.php:188 ../cell-store-options.php:212
+#: ../cell-store-options.php:220
 #, fuzzy
 msgid "Email Account"
 msgstr "Buat Akun"
 
-#: ../cell-store-options-backu0.php:194 ../cell-store-options.php:218
+#: ../cell-store-options.php:226
 msgid "Enable Sandbox Mode"
 msgstr "Gunakan Mode Sandbox"
 
-#: ../cell-store-options-backu0.php:201 ../cell-store-options.php:225
+#: ../cell-store-options.php:233
 msgid "Sandbox Email Account"
 msgstr "Email untuk Sandbox"
 
-#: ../cell-store-options-backu0.php:209 ../cell-store-options.php:233
+#: ../cell-store-options.php:241
 msgid "Bank"
 msgstr ""
 
-#: ../cell-store-options-backu0.php:210 ../cell-store-options.php:234
+#: ../cell-store-options.php:242
 msgid ""
 "<p class=\"description\">Basic setup for Bank Wire Transfer payment gateway."
 "</p>"
 msgstr "<p class=\"description\">Pilihan untuk pembayaran Bank.</p>"
 
-#: ../cell-store-options-backu0.php:215 ../cell-store-options.php:239
+#: ../cell-store-options.php:247
 msgid "Bank 1 : Title"
 msgstr "Bank 1 : Nama"
 
-#: ../cell-store-options-backu0.php:220 ../cell-store-options.php:250
+#: ../cell-store-options.php:252
+#, fuzzy
+msgid "Bank 1 Image Upload"
+msgstr "Unggah Gambar Bank 2"
+
+#: ../cell-store-options.php:258
 #, fuzzy
 msgid "Bank 1 : Description"
 msgstr "Deskripsi & Detail"
 
-#: ../cell-store-options-backu0.php:225 ../cell-store-options.php:255
+#: ../cell-store-options.php:263
 msgid "Enable Bank 2"
 msgstr "Gunakan Bank 2"
 
-#: ../cell-store-options-backu0.php:232 ../cell-store-options.php:262
+#: ../cell-store-options.php:270
 msgid "Bank 2 : Title"
 msgstr "Bank 2 : Nama"
 
-#: ../cell-store-options-backu0.php:237 ../cell-store-options.php:273
+#: ../cell-store-options.php:275
+msgid "Bank 2 Image Upload"
+msgstr "Unggah Gambar Bank 2"
+
+#: ../cell-store-options.php:281
 #, fuzzy
 msgid "Bank 2 : Description"
 msgstr "Deskripsi & Detail"
 
-#: ../cell-store-options-backu0.php:242 ../cell-store-options.php:278
+#: ../cell-store-options.php:286
 msgid "Enable Bank 3"
 msgstr "Gunakan Bank 3"
 
-#: ../cell-store-options-backu0.php:249 ../cell-store-options.php:285
+#: ../cell-store-options.php:293
 msgid "Bank 3 : Title"
 msgstr "Bank 3 : Nama"
 
-#: ../cell-store-options-backu0.php:254 ../cell-store-options.php:296
+#: ../cell-store-options.php:298
+msgid "Bank 3 Image Upload"
+msgstr "Unggah Gambar Bank 3"
+
+#: ../cell-store-options.php:304
 #, fuzzy
 msgid "Bank 3 : Description"
 msgstr "Deskripsi & Detail"
 
-#: ../cell-store-options-backu0.php:261 ../cell-store-options.php:303
+#: ../cell-store-options.php:311
 #, fuzzy
 msgid "Pricing"
 msgstr "Harga"
 
-#: ../cell-store-options-backu0.php:262 ../cell-store-options.php:304
+#: ../cell-store-options.php:312
 msgid "<p class=\"description\">Basic setup for Pricing.</p>"
 msgstr "<p class=\"description\">Pilihan untuk harga.</p>"
 
-#: ../cell-store-options-backu0.php:267 ../cell-store-options.php:309
+#: ../cell-store-options.php:317
 msgid "Currency Display"
 msgstr "Mata Uang"
 
-#: ../cell-store-options-backu0.php:273 ../cell-store-options.php:315
+#: ../cell-store-options.php:323
 msgid "Thousand Separator"
 msgstr "Pemisah untuk Ribuan"
 
-#: ../cell-store-options-backu0.php:279 ../cell-store-options.php:321
+#: ../cell-store-options.php:329
 msgid "Decimal Separator"
 msgstr "Pemisah untuk Desimal"
 
-#: ../cell-store-options-backu0.php:285 ../cell-store-options.php:327
+#: ../cell-store-options.php:335
 msgid "Number of Decimal"
 msgstr "Jumlah angka Desimal"
 
-#: ../cell-store-options-backu0.php:291 ../cell-store-options.php:333
+#: ../cell-store-options.php:341
 msgid "Currency Placement"
 msgstr "Posisi Mata Uang"
 
-#: ../cell-store-options.php:244 ../cell-store-options.php:267
-msgid "Bank 2 Image Upload"
-msgstr "Unggah Gambar Bank 2"
-
-#: ../cell-store-options.php:290
-msgid "Bank 3 Image Upload"
-msgstr "Unggah Gambar Bank 3"
-
 #: ../taxonomies.php:14
+#, fuzzy
+msgid "Search Collection"
+msgstr "Cari Kupon"
+
+#: ../taxonomies.php:15
+#, fuzzy
+msgid "All Collection"
+msgstr "Semua Posisi"
+
+#: ../taxonomies.php:16
+#, fuzzy
+msgid "Parent Collection"
+msgstr "Induk Posisi:"
+
+#: ../taxonomies.php:17
+#, fuzzy
+msgid "Parent Collection:"
+msgstr "Induk  Posisi:"
+
+#: ../taxonomies.php:18
+#, fuzzy
+msgid "Edit Collection"
+msgstr "Edit Posisi"
+
+#: ../taxonomies.php:19
+#, fuzzy
+msgid "Update Collection"
+msgstr "Perbarui Posisi"
+
+#: ../taxonomies.php:20
+#, fuzzy
+msgid "Add New Collection"
+msgstr "Tambahan  Posisi Baru"
+
+#: ../taxonomies.php:21
+#, fuzzy
+msgid "New Collection Name"
+msgstr "Nama Posisi baru"
+
+#: ../taxonomies.php:22
+msgid "Collection"
+msgstr "Koleksi"
+
+#: ../taxonomies.php:36
 msgid "Search Product Category"
 msgstr "Cari Kategori Produk"
 
-#: ../taxonomies.php:15
+#: ../taxonomies.php:37
 msgid "All Product Category"
 msgstr "Semua Kategori Produk"
 
-#: ../taxonomies.php:16
+#: ../taxonomies.php:38
 msgid "Parent Product Category"
 msgstr "Induk Kategori Produk"
 
-#: ../taxonomies.php:17
+#: ../taxonomies.php:39
 msgid "Parent Product Category:"
 msgstr "Induk Kategori Produk:"
 
-#: ../taxonomies.php:18
+#: ../taxonomies.php:40
 msgid "Edit Product Category"
 msgstr "Edit Kategori Produk"
 
-#: ../taxonomies.php:19
+#: ../taxonomies.php:41
 msgid "Update Product Category"
 msgstr "Perbarui Kategori Produk"
 
-#: ../taxonomies.php:20
+#: ../taxonomies.php:42
 msgid "Add New Product Category"
 msgstr "Tambahkan Kategori Produk Baru"
 
-#: ../taxonomies.php:21
+#: ../taxonomies.php:43
 msgid "New Product Category Name"
 msgstr "Nama Kategori Produk baru"
 
-#: ../taxonomies.php:22 ../product/product.php:77
+#: ../taxonomies.php:44 ../product/product.php:77
 msgid "Product Category"
 msgstr "Kategori Produk"
 
-#: ../taxonomies.php:36
+#: ../taxonomies.php:58
 msgid "Search Product Tag"
 msgstr "Cari Tag Produk"
 
-#: ../taxonomies.php:37
+#: ../taxonomies.php:59
 msgid "All Product Tag"
 msgstr "Semua Tag Produk"
 
-#: ../taxonomies.php:38
+#: ../taxonomies.php:60
 msgid "Parent Product Tag"
 msgstr "Induk Tag Produk"
 
-#: ../taxonomies.php:39
+#: ../taxonomies.php:61
 msgid "Parent Product Tag:"
 msgstr "Induk Tag Produk:"
 
-#: ../taxonomies.php:40
+#: ../taxonomies.php:62
 msgid "Edit Product Tag"
 msgstr "Edit Tag Produk"
 
-#: ../taxonomies.php:41
+#: ../taxonomies.php:63
 msgid "Update Product Tag"
 msgstr "Perbarui Tag Produk"
 
-#: ../taxonomies.php:42
+#: ../taxonomies.php:64
 msgid "Add New Product Tag"
 msgstr "Tambahkan Tag Produk Baru"
 
-#: ../taxonomies.php:43
+#: ../taxonomies.php:65
 msgid "New Product Tag Name"
 msgstr "Nama Tag Produk Baru"
 
-#: ../taxonomies.php:44 ../product/product.php:78
+#: ../taxonomies.php:66 ../product/product.php:78
 msgid "Product Tag"
 msgstr "Tag Produk"
 
-#: ../taxonomies.php:58
+#: ../taxonomies.php:80
 msgid "Search Positions"
 msgstr "Cari Posisi"
 
-#: ../taxonomies.php:59
+#: ../taxonomies.php:81
 msgid "All Positions"
 msgstr "Semua Posisi"
 
-#: ../taxonomies.php:60
+#: ../taxonomies.php:82
 msgid "Parent Position"
 msgstr "Induk Posisi:"
 
-#: ../taxonomies.php:61
+#: ../taxonomies.php:83
 msgid "Parent Position:"
 msgstr "Induk  Posisi:"
 
-#: ../taxonomies.php:62
+#: ../taxonomies.php:84
 msgid "Edit Position"
 msgstr "Edit Posisi"
 
-#: ../taxonomies.php:63
+#: ../taxonomies.php:85
 msgid "Update Position"
 msgstr "Perbarui Posisi"
 
-#: ../taxonomies.php:64
+#: ../taxonomies.php:86
 msgid "Add New Position"
 msgstr "Tambahan  Posisi Baru"
 
-#: ../taxonomies.php:65
+#: ../taxonomies.php:87
 msgid "New Position Name"
 msgstr "Nama Posisi baru"
 
-#: ../taxonomies.php:66 ../banner/banner.php:68
+#: ../taxonomies.php:88 ../banner/banner.php:68
 msgid "Position"
 msgstr "Posisi"
 
@@ -599,7 +648,7 @@ msgstr "Tidak ada kupon di sampah"
 
 #: ../lookbook/lookbook.php:22
 msgid "Lookbook"
-msgstr ""
+msgstr "Lookbook"
 
 #: ../options/options.php:49 ../options/options.php:51
 #: ../product/template/product-detail.php:57
@@ -888,7 +937,9 @@ msgstr "Produk"
 msgid "Product Details"
 msgstr "Detail Produk"
 
-#: ../product/product.php:79 ../transaction/transaction.php:90
+#: ../product/product.php:79
+#: ../shopping-cart/template/payment-confirmation.php:48
+#: ../transaction/transaction.php:90
 msgid "Date"
 msgstr "Tanggal"
 
@@ -919,47 +970,39 @@ msgid "Details"
 msgstr "Detail"
 
 #: ../product/template/product-detail.php:95
-#: ../product/template/product-form.php:70
+#: ../product/template/product-form.php:73
 #: ../shopping-cart/template/item-detail.php:22
+#: ../transaction/template/my-order.php:98
 msgid "Option"
 msgstr "Pilihan"
 
 #: ../product/template/product-detail.php:106
-#: ../product/template/product-form.php:83
+#: ../product/template/product-form.php:86
 msgid "Quantity"
 msgstr "Jumlah"
 
 #: ../product/template/product-detail.php:112
-#: ../product/template/product-form.php:96
+#: ../product/template/product-form.php:99
 msgid "Add to Cart"
 msgstr "Masukkan ke keranjang belanja"
 
 #: ../product/template/product-detail.php:129
-#: ../product/template/product-form.php:115
+#: ../product/template/product-form.php:118
 msgid "Out of Stock"
 msgstr "Stok Habis"
 
-#: ../product/template/product-form.php:97
-#: ../shopping-cart/template/checkout.php:322
+#: ../product/template/product-form.php:100
+#: ../shopping-cart/template/checkout.php:270
 msgid "Checkout"
 msgstr "Checkout"
 
-#: ../shipping-destination/ajax.php:27
-#: ../shopping-cart/template/checkout.php:56
-#: ../shopping-cart/template/checkout.php:199
-#: ../shopping-cart/template/checkout.php:235
-#: ../shopping-cart/template/checkout.php:270
-#: ../shopping-cart/template/checkout.php:305
-#: ../user-management/template/custom-edit-profile-form.php:89
-#: ../user-management/template/custom-edit-profile-form.php:125
-#: ../user-management/template/custom-edit-profile-form.php:160
-#: ../user-management/template/custom-edit-profile-form.php:195
-#: ../user-management/template/custom-edit-profile-form.php:277
-#: ../user-management/template/custom-edit-profile-form.php:313
-#: ../user-management/template/custom-edit-profile-form.php:348
-#: ../user-management/template/custom-edit-profile-form.php:383
-msgid "Other"
-msgstr "Lainnya"
+#: ../shipping-destination/ajax.php:28
+#: ../shopping-cart/template/checkout.php:103
+#: ../shopping-cart/template/checkout.php:145
+#: ../shopping-cart/template/checkout.php:185
+#: ../shopping-cart/template/checkout.php:223
+msgid "Please select"
+msgstr "Silahkan pilih"
 
 #: ../shipping-destination/metabox.php:2
 msgid ""
@@ -1013,6 +1056,7 @@ msgid "Shipping Destination"
 msgstr "Tujuan Pengiriman"
 
 #: ../shipping-destination/shipping-destination.php:52
+#: ../shopping-cart/template/checkout.php:2
 msgid "Shipping Detail"
 msgstr "Detail Pengiriman"
 
@@ -1024,61 +1068,74 @@ msgstr "Masukkan Tujuan Pengiriman disini"
 msgid "Item removed from cart"
 msgstr "Barang sudah dikeluarkan dari keranjang belanja."
 
-#: ../shopping-cart/ajax.php:49
+#: ../shopping-cart/ajax.php:46
 msgid "Shopping Cart Updated"
 msgstr "Keranjang Belanja sudah Diperbarui"
 
-#: ../shopping-cart/ajax.php:166
+#: ../shopping-cart/ajax.php:82
+msgid "Missing shipping field : "
+msgstr ""
+
+#: ../shopping-cart/ajax.php:139
+msgid ""
+"Shipping destination is out of our coverage. Please contact us for "
+"additional support."
+msgstr ""
+
+#: ../shopping-cart/ajax.php:258
 msgid "Username or email already registered"
 msgstr "Usernama atau email sudah terdaftar"
 
-#: ../shopping-cart/ajax.php:205
+#: ../shopping-cart/ajax.php:310
 msgid "Registration Success"
 msgstr "Pendaftaran Berhasil."
 
-#: ../shopping-cart/ajax.php:270
-msgid "Shipping destination confirmed"
+#: ../shopping-cart/ajax.php:326
+#, fuzzy
+msgid "Shipping destination confirmed."
 msgstr "Tujuan pengiriman tercatat"
 
-#: ../shopping-cart/ajax.php:274
-msgid "Shipping destination not confirmed"
+#: ../shopping-cart/ajax.php:330
+#, fuzzy
+msgid "Shipping destination not confirmed."
 msgstr "Tujuan pengiriman tidak tercatat"
 
-#: ../shopping-cart/ajax.php:310
+#: ../shopping-cart/ajax.php:366
 msgid "Payment and shipping confirmed"
 msgstr "Pembayaran dan metode pengiriman tercatat"
 
-#: ../shopping-cart/ajax.php:317
+#: ../shopping-cart/ajax.php:373
 msgid "You have to agree with the term and condition"
 msgstr "Anda harus setuju dengan syarat dan ketentuan"
 
-#: ../shopping-cart/ajax.php:372
+#: ../shopping-cart/ajax.php:428
+#: ../shopping-cart/template/order-confirmation.php:29
 msgid "Transaction Confirmation"
 msgstr "Konfirmasi Transaksi"
 
-#: ../shopping-cart/ajax.php:373 ../transaction/transaction.php:289
+#: ../shopping-cart/ajax.php:429 ../transaction/transaction.php:289
 #, php-format
 msgid "<p> Dear %s </p>"
 msgstr "<p> Yang terhormat %s</p>"
 
-#: ../shopping-cart/ajax.php:374 ../transaction/transaction.php:290
+#: ../shopping-cart/ajax.php:430 ../transaction/transaction.php:290
 #, php-format
 msgid "<p> Thank you for shopping at %s </p>"
 msgstr "<p> Terimakasih sudah berbelanja di %s </p>"
 
-#: ../shopping-cart/ajax.php:375
+#: ../shopping-cart/ajax.php:431
 #, php-format
 msgid "<p> Your order : %s  has been received </p>"
 msgstr "<p> Order anda : %s  sudah diterima </p>"
 
-#: ../shopping-cart/ajax.php:376 ../transaction/transaction.php:293
+#: ../shopping-cart/ajax.php:432 ../transaction/transaction.php:293
 #, php-format
 msgid ""
 "<p> To check the status of your order at any time, you can log into your "
 "account at %s </p>"
 msgstr "<p> Untuk cek status order anda, silahkan login di  %s </p>"
 
-#: ../shopping-cart/ajax.php:377 ../transaction/transaction.php:294
+#: ../shopping-cart/ajax.php:433 ../transaction/transaction.php:294
 #, php-format
 msgid ""
 "<p> If you have any questions, please contact us at %1$s or SMS us at "
@@ -1087,85 +1144,85 @@ msgstr ""
 "<p> Jika ada pertanyaan, silahkan hubungi kami di %1$s atau SMS ke "
 "+6287824039090. Pastikan anda menyebutkan kode order anda : %2$s </p>"
 
-#: ../shopping-cart/ajax.php:378 ../transaction/transaction.php:295
+#: ../shopping-cart/ajax.php:434 ../transaction/transaction.php:295
 #, php-format
 msgid "<p> Once again, thanks for shopping with %s </p>"
 msgstr "<p> Sekali lagi, terimakasih telah berbelanja %s </p>"
 
-#: ../shopping-cart/ajax.php:379 ../transaction/transaction.php:296
+#: ../shopping-cart/ajax.php:435 ../transaction/transaction.php:296
 #, php-format
 msgid "<p> Sincerely, <br/> %s  Team </p>"
 msgstr "<p> Dengan hormat, <br/> Tim %s </p>"
 
-#: ../shopping-cart/ajax.php:388 ../transaction/transaction.php:19
+#: ../shopping-cart/ajax.php:444 ../transaction/transaction.php:19
 msgid "New Transaction"
 msgstr "Transaksi baru"
 
-#: ../shopping-cart/ajax.php:389
+#: ../shopping-cart/ajax.php:445
 #, php-format
 msgid "New transaction has been made at %s "
 msgstr "Transaksi baru telah dibuat di %s "
 
-#: ../shopping-cart/ajax.php:417
+#: ../shopping-cart/ajax.php:473
 #, php-format
 msgid "Coupon used once for <a href=\" %1$s\"> a transaction </a> by %2$s"
 msgstr ""
 "Kupon telah digunakan untuk <a href=\" %1$s\"> transaksi </a> oleh %2$s"
 
-#: ../shopping-cart/ajax.php:455
+#: ../shopping-cart/ajax.php:511
 msgid "Purchase has been made"
 msgstr "Transaksi telah dibuat"
 
-#: ../shopping-cart/ajax.php:514
+#: ../shopping-cart/ajax.php:576
 msgid "Payment Confirmation"
 msgstr "Konfirmasi Pembayaran"
 
-#: ../shopping-cart/ajax.php:515
+#: ../shopping-cart/ajax.php:577
 msgid "Your confirmation has been sent"
 msgstr "Konfirmasi telah terkirim"
 
-#: ../shopping-cart/ajax.php:524
+#: ../shopping-cart/ajax.php:586
 msgid "New Payment Confirmation"
 msgstr "Konfirmasi Pembayaran baru"
 
-#: ../shopping-cart/ajax.php:535
+#: ../shopping-cart/ajax.php:597
 msgid "Confirmation has been send"
 msgstr "Konfirmasi telah dikirim"
 
-#: ../shopping-cart/template/checkout.php:4
-#: ../shopping-cart/template/checkout.php:116
+#: ../shopping-cart/template/checkout.php:16
+#: ../user-management/user-management.php:70
 #: ../user-management/template/custom-edit-profile-form.php:14
 #: ../user-management/template/custom-edit-profile-form.php:214
 msgid "First Name"
 msgstr "Nama Depan"
 
-#: ../shopping-cart/template/checkout.php:10
-#: ../shopping-cart/template/checkout.php:122
+#: ../shopping-cart/template/checkout.php:22
+#: ../user-management/user-management.php:74
 #: ../user-management/template/custom-edit-profile-form.php:20
 #: ../user-management/template/custom-edit-profile-form.php:220
 msgid "Last Name"
 msgstr "Nama Belakang"
 
-#: ../shopping-cart/template/checkout.php:16
-#: ../shopping-cart/template/checkout.php:128
+#: ../shopping-cart/template/checkout.php:28
+#: ../shopping-cart/template/payment-confirmation.php:36
 #: ../shopping-cart/template/shipping-detail.php:15
-#: ../user-management/user-management.php:61
+#: ../user-management/user-management.php:41
 #: ../user-management/template/custom-edit-profile-form.php:26
 #: ../user-management/template/custom-edit-profile-form.php:226
 msgid "Email"
 msgstr "Email"
 
-#: ../shopping-cart/template/checkout.php:22
-#: ../shopping-cart/template/checkout.php:134
+#: ../shopping-cart/template/checkout.php:34
 #: ../shopping-cart/template/shipping-detail.php:19
+#: ../user-management/user-management.php:78
 #: ../user-management/template/custom-edit-profile-form.php:45
 #: ../user-management/template/custom-edit-profile-form.php:232
 msgid "Telephone"
 msgstr "Telepon"
 
-#: ../shopping-cart/template/checkout.php:28
-#: ../shopping-cart/template/checkout.php:147
+#: ../shopping-cart/template/checkout.php:49
 #: ../shopping-cart/template/shipping-detail.php:23
+#: ../user-management/user-management.php:82
 #: ../user-management/template/admin-user-detail.php:8
 #: ../user-management/template/admin-user-detail.php:70
 #: ../user-management/template/custom-edit-profile-form.php:51
@@ -1173,9 +1230,9 @@ msgstr "Telepon"
 msgid "Company"
 msgstr "Perusahaan"
 
-#: ../shopping-cart/template/checkout.php:34
-#: ../shopping-cart/template/checkout.php:160
+#: ../shopping-cart/template/checkout.php:64
 #: ../shopping-cart/template/shipping-detail.php:27
+#: ../user-management/user-management.php:86
 #: ../user-management/template/admin-user-detail.php:12
 #: ../user-management/template/admin-user-detail.php:76
 #: ../user-management/template/custom-edit-profile-form.php:57
@@ -1183,9 +1240,9 @@ msgstr "Perusahaan"
 msgid "Address"
 msgstr "Alamat"
 
-#: ../shopping-cart/template/checkout.php:40
-#: ../shopping-cart/template/checkout.php:173
+#: ../shopping-cart/template/checkout.php:79
 #: ../shopping-cart/template/shipping-detail.php:34
+#: ../user-management/user-management.php:90
 #: ../user-management/template/admin-user-detail.php:23
 #: ../user-management/template/admin-user-detail.php:89
 #: ../user-management/template/custom-edit-profile-form.php:69
@@ -1193,26 +1250,15 @@ msgstr "Alamat"
 msgid "Country"
 msgstr "Negara"
 
-#: ../shopping-cart/template/checkout.php:52
-#: ../shopping-cart/template/checkout.php:65
-#: ../shopping-cart/template/checkout.php:73
-#: ../shopping-cart/template/checkout.php:81
-#: ../shopping-cart/template/checkout.php:195
-#: ../shopping-cart/template/checkout.php:229
-#: ../shopping-cart/template/checkout.php:264
-#: ../shopping-cart/template/checkout.php:299
-msgid "Please select"
-msgstr "Silahkan pilih"
-
-#: ../shopping-cart/template/checkout.php:62
-#: ../user-management/template/custom-edit-profile-form.php:98
-#: ../user-management/template/custom-edit-profile-form.php:286
-msgid "Province / State / County"
+#: ../shopping-cart/template/checkout.php:112
+#: ../shopping-cart/template/shipping-detail.php:41
+#: ../user-management/user-management.php:99
+msgid "Province"
 msgstr "Propinsi"
 
-#: ../shopping-cart/template/checkout.php:70
-#: ../shopping-cart/template/checkout.php:240
+#: ../shopping-cart/template/checkout.php:155
 #: ../shopping-cart/template/shipping-detail.php:48
+#: ../user-management/user-management.php:108
 #: ../user-management/template/admin-user-detail.php:39
 #: ../user-management/template/admin-user-detail.php:105
 #: ../user-management/template/custom-edit-profile-form.php:133
@@ -1220,9 +1266,9 @@ msgstr "Propinsi"
 msgid "City"
 msgstr "Kota"
 
-#: ../shopping-cart/template/checkout.php:78
-#: ../shopping-cart/template/checkout.php:275
+#: ../shopping-cart/template/checkout.php:195
 #: ../shopping-cart/template/shipping-detail.php:56
+#: ../user-management/user-management.php:117
 #: ../user-management/template/admin-user-detail.php:47
 #: ../user-management/template/admin-user-detail.php:113
 #: ../user-management/template/custom-edit-profile-form.php:168
@@ -1230,8 +1276,7 @@ msgstr "Kota"
 msgid "District"
 msgstr "Kecamatan"
 
-#: ../shopping-cart/template/checkout.php:86
-#: ../shopping-cart/template/checkout.php:310
+#: ../shopping-cart/template/checkout.php:233
 #: ../shopping-cart/template/shipping-detail.php:62
 #: ../user-management/template/admin-user-detail.php:16
 #: ../user-management/template/admin-user-detail.php:82
@@ -1240,17 +1285,20 @@ msgstr "Kecamatan"
 msgid "Postcode"
 msgstr "Kodepos"
 
-#: ../shopping-cart/template/checkout.php:91
+#: ../shopping-cart/template/checkout.php:250
+msgid "Save as Shipping Address"
+msgstr "Simpan sebagai Alamat Pengiriman"
+
+#: ../shopping-cart/template/checkout.php:254
 msgid "Set Up an Account"
 msgstr "Buat Akun"
 
-#: ../shopping-cart/template/checkout.php:93
-#: ../user-management/user-management.php:54
+#: ../shopping-cart/template/checkout.php:256
 msgid "Username"
 msgstr "Username"
 
-#: ../shopping-cart/template/checkout.php:99
-#: ../user-management/user-management.php:67
+#: ../shopping-cart/template/checkout.php:262
+#: ../user-management/user-management.php:46
 #: ../user-management/template/custom-edit-profile-form.php:32
 #: ../user-management/template/custom-login-form.php:19
 #: ../user-management/template/custom-reset-password-form.php:7
@@ -1258,18 +1306,9 @@ msgstr "Username"
 msgid "Password"
 msgstr "Password"
 
-#: ../shopping-cart/template/checkout.php:103
+#: ../shopping-cart/template/checkout.php:266
 msgid "Checkout faster and track your purchase with your account."
 msgstr "Checkout lebih cepat dan lacak pembelian dengan akunmu."
-
-#: ../shopping-cart/template/checkout.php:205
-#: ../shopping-cart/template/shipping-detail.php:41
-msgid "Province"
-msgstr "Propinsi"
-
-#: ../shopping-cart/template/checkout.php:317
-msgid "Save as Shipping Address"
-msgstr "Simpan sebagai Alamat Pengiriman"
 
 #: ../shopping-cart/template/item-detail.php:22
 #, fuzzy
@@ -1277,6 +1316,7 @@ msgid "Amount"
 msgstr "Negara"
 
 #: ../shopping-cart/template/item-detail.php:28
+#: ../transaction/template/my-order.php:104
 #, fuzzy
 msgid "Sub Total"
 msgstr "Total"
@@ -1297,12 +1337,125 @@ msgstr "Biaya Pengiriman :"
 
 #: ../shopping-cart/template/item-detail.php:91
 #: ../shopping-cart/template/shopping-cart.php:46
+#: ../transaction/template/my-order.php:112
 msgid "Total"
 msgstr "Total"
 
-#: ../shopping-cart/template/order-confirmation.php:3
+#: ../shopping-cart/template/order-confirmation.php:32
 msgid "Confirm Purchase Order"
 msgstr "Konfirmasi Order Pembelian"
+
+#: ../shopping-cart/template/order-confirmation.php:39
+msgid "Purchase Detail is Incomplete"
+msgstr ""
+
+#: ../shopping-cart/template/order-confirmation.php:40
+msgid "Plese review your shopping cart and resubmit your purchase detail."
+msgstr ""
+
+#: ../shopping-cart/template/order-confirmation.php:40
+#, fuzzy
+msgid "Go to shopping cart"
+msgstr "%s sudah dimasukkan ke keranjang belanja"
+
+#: ../shopping-cart/template/payment-confirmation.php:3
+msgid "Thank you for your order"
+msgstr ""
+
+#: ../shopping-cart/template/payment-confirmation.php:5
+#, php-format
+msgid ""
+"Your order has been confirmed with transaction code : <strong> %s </strong>"
+msgstr ""
+
+#: ../shopping-cart/template/payment-confirmation.php:7
+msgid ""
+"Please complete your payment via bank transfer / e-banking / m-banking to:"
+msgstr ""
+
+#: ../shopping-cart/template/payment-confirmation.php:8
+msgid ""
+"<strong>BCA : on behalf of Nisa Pratiwi , account number 4377227777</strong> "
+"or"
+msgstr ""
+
+#: ../shopping-cart/template/payment-confirmation.php:9
+#: ../shopping-cart/template/payment-confirmation.php:10
+msgid ""
+"<strong>BANK MANDIRI : on behalf of Nisa Pratiwi , account number "
+"1310088333333</strong> or"
+msgstr ""
+
+#: ../shopping-cart/template/payment-confirmation.php:11
+msgid "<strong>WESTERN UNION : on behalf of Iqbal Alghifari.</strong>"
+msgstr ""
+
+#: ../shopping-cart/template/payment-confirmation.php:12
+msgid ""
+"Keep your transaction script or record, you will need this to finish the "
+"payment confirmation step"
+msgstr ""
+
+#: ../shopping-cart/template/payment-confirmation.php:27
+#: ../shopping-cart/template/payment-confirmation.php:86
+#, fuzzy
+msgid "Confirm Payment"
+msgstr "Konfirmasi Pengiriman & Pembayaran"
+
+#: ../shopping-cart/template/payment-confirmation.php:30
+#: ../user-management/template/admin-user-detail.php:57
+msgid "Name"
+msgstr "Nama"
+
+#: ../shopping-cart/template/payment-confirmation.php:42
+#: ../transaction/transaction.php:88
+#, fuzzy
+msgid "Transaction Code"
+msgstr "Transaksi"
+
+#: ../shopping-cart/template/payment-confirmation.php:54
+#: ../transaction/metabox-details.php:35
+msgid "Payment Method"
+msgstr "Metode Pembayaran"
+
+#: ../shopping-cart/template/payment-confirmation.php:57
+msgid "BCA - Bank/ATM Transfer"
+msgstr ""
+
+#: ../shopping-cart/template/payment-confirmation.php:58
+msgid "Mandiri - Bank/ATM Transfer"
+msgstr ""
+
+#: ../shopping-cart/template/payment-confirmation.php:59
+msgid "m-banking BCA"
+msgstr ""
+
+#: ../shopping-cart/template/payment-confirmation.php:60
+#, fuzzy
+msgid "m-banking Mandiri"
+msgstr "Transfer Bank"
+
+#: ../shopping-cart/template/payment-confirmation.php:61
+msgid "klikBCA"
+msgstr ""
+
+#: ../shopping-cart/template/payment-confirmation.php:62
+msgid "Mandiri E Banking"
+msgstr ""
+
+#: ../shopping-cart/template/payment-confirmation.php:63
+#: ../shopping-cart/template/payment-confirmation.php:68
+#, fuzzy
+msgid "Other Method"
+msgstr "Metode Pembayaran"
+
+#: ../shopping-cart/template/payment-confirmation.php:74
+msgid "Account Holder"
+msgstr ""
+
+#: ../shopping-cart/template/payment-confirmation.php:80
+msgid "MTCN Number"
+msgstr ""
 
 #: ../shopping-cart/template/payment-detail.php:1
 msgid "Please review your transaction details"
@@ -1322,7 +1475,7 @@ msgid "Payment will be made using <strong> %s </strong>"
 msgstr "<p>Pembayaran akan dibuat dengan <strong></strong></p>"
 
 #: ../shopping-cart/template/payment-option.php:7
-#: ../shopping-cart/template/payment-option.php:31
+#: ../shopping-cart/template/payment-option.php:59
 #: ../transaction/metabox-details.php:37
 msgid "Shipping Option"
 msgstr "Pilihan Pembayaran"
@@ -1332,7 +1485,36 @@ msgstr "Pilihan Pembayaran"
 msgid "You are shipping destination is registered to : "
 msgstr "Masukkan Tujuan Pengiriman disini"
 
-#: ../shopping-cart/template/payment-option.php:32
+#: ../shopping-cart/template/payment-option.php:33
+msgid "Payment Option"
+msgstr "Pilihan Pembayaran"
+
+#: ../shopping-cart/template/payment-option.php:37
+msgid "Western Union"
+msgstr ""
+
+#: ../shopping-cart/template/payment-option.php:38
+msgid "BCA"
+msgstr ""
+
+#: ../shopping-cart/template/payment-option.php:39
+#, fuzzy
+msgid "Bank Mandiri"
+msgstr "Transfer Bank"
+
+#: ../shopping-cart/template/payment-option.php:43
+msgid "Terms & Conditions"
+msgstr "Syarat & Ketentuan"
+
+#: ../shopping-cart/template/payment-option.php:47
+msgid "I agree with the term and conditions"
+msgstr "Saya setuju dengan syarat dan ketentuan"
+
+#: ../shopping-cart/template/payment-option.php:53
+msgid "Confirm Shipping & Payment"
+msgstr "Konfirmasi Pengiriman & Pembayaran"
+
+#: ../shopping-cart/template/payment-option.php:60
 msgid ""
 "For international purchase, we will process order by custom to ensure your "
 "order get the best payment and shipping method.<br> We will contact you via "
@@ -1347,38 +1529,9 @@ msgstr ""
 "menyelesaikan pembayaran. <br/> Cek folder email span jika email kami tidak "
 "sampai ke inbox anda."
 
-#: ../shopping-cart/template/payment-option.php:33
+#: ../shopping-cart/template/payment-option.php:61
 msgid "Thank you"
 msgstr "Terima kasih"
-
-#: ../shopping-cart/template/payment-option.php:35
-msgid "Payment Option"
-msgstr "Pilihan Pembayaran"
-
-#: ../shopping-cart/template/payment-option.php:39
-msgid "Western Union"
-msgstr ""
-
-#: ../shopping-cart/template/payment-option.php:40
-msgid "BCA"
-msgstr ""
-
-#: ../shopping-cart/template/payment-option.php:41
-#, fuzzy
-msgid "Bank Mandiri"
-msgstr "Transfer Bank"
-
-#: ../shopping-cart/template/payment-option.php:45
-msgid "Terms & Conditions"
-msgstr "Syarat & Ketentuan"
-
-#: ../shopping-cart/template/payment-option.php:49
-msgid "I agree with the term and conditions"
-msgstr "Saya setuju dengan syarat dan ketentuan"
-
-#: ../shopping-cart/template/payment-option.php:55
-msgid "Confirm Shipping & Payment"
-msgstr "Konfirmasi Pengiriman & Pembayaran"
 
 #: ../shopping-cart/template/shipping-detail.php:7
 #, fuzzy
@@ -1447,10 +1600,6 @@ msgstr "Detail Pembayaran"
 msgid "Total Item Cost"
 msgstr "Total Harga Barang"
 
-#: ../transaction/metabox-details.php:35
-msgid "Payment Method"
-msgstr "Metode Pembayaran"
-
 #: ../transaction/metabox-details.php:36
 msgid "Total Weight"
 msgstr "Berat Total"
@@ -1464,6 +1613,7 @@ msgid "Shipping & Billing Details"
 msgstr "Detail Pengiriman dan Penagihan"
 
 #: ../transaction/metabox-details.php:58
+#: ../user-management/user-management.php:211
 msgid "Shipping"
 msgstr "Pengiriman"
 
@@ -1545,6 +1695,7 @@ msgid "Transaction"
 msgstr "Transaksi"
 
 #: ../transaction/transaction.php:52 ../transaction/transaction.php:89
+#: ../transaction/template/my-order.php:135
 msgid "Transaction Status"
 msgstr "Status Transaksi"
 
@@ -1555,11 +1706,6 @@ msgstr "Detail Transaksi"
 #: ../transaction/transaction.php:72
 msgid "Transaction History"
 msgstr "Sejarah Transaksi"
-
-#: ../transaction/transaction.php:88
-#, fuzzy
-msgid "Transaction Code"
-msgstr "Transaksi"
 
 #: ../transaction/transaction.php:173
 msgid "Transaction canceled due to no payment confirmation within 3 days"
@@ -1584,6 +1730,46 @@ msgid ""
 "<p> Please use the the code : %s  to track your order shipping status </p>"
 msgstr ""
 "<p> Gunakan kode ini : %s  untuk melacak status pengiriman order anda. </p>"
+
+#: ../transaction/template/my-order.php:3
+#, fuzzy
+msgid "Insert Your Transaction Code"
+msgstr "Transaksi"
+
+#: ../transaction/template/my-order.php:11
+#, fuzzy
+msgid "Send"
+msgstr "Kirim Key"
+
+#: ../transaction/template/my-order.php:17
+#, fuzzy
+msgid "My Transaction"
+msgstr "Transaksi"
+
+#: ../transaction/template/my-order.php:43
+#, fuzzy
+msgid "No Transaction"
+msgstr "Transaksi baru"
+
+#: ../transaction/template/my-order.php:78
+msgid "Your Order"
+msgstr ""
+
+#: ../transaction/template/my-order.php:108
+#, fuzzy
+msgid "Shipping Cost"
+msgstr "Nomor Resi Pengiriman"
+
+#: ../transaction/template/my-order.php:118
+#: ../user-management/user-management.php:156
+#: ../user-management/template/admin-user-detail.php:54
+msgid "Shipping Address"
+msgstr "Alamat Pengiriman"
+
+#: ../transaction/template/my-order.php:137
+#, fuzzy
+msgid "Shipping Tracking code"
+msgstr "Kode Pelacakan"
 
 #: ../user-management/ajax.php:23
 msgid "Username not valid."
@@ -1678,14 +1864,113 @@ msgstr "Password salah."
 msgid "Profile updated."
 msgstr "Profil sudah diperbarui."
 
-#: ../user-management/user-management.php:57
+#: ../user-management/user-management.php:10
+msgid "<strong>Cell User</strong> plugin dependency is missing."
+msgstr ""
+
+#: ../user-management/user-management.php:35
+#, fuzzy
+msgid "User Name"
+msgstr "Username"
+
+#: ../user-management/user-management.php:37
 msgid "(required)"
 msgstr "(wajib)"
 
-#: ../user-management/user-management.php:58
+#: ../user-management/user-management.php:38
 #, fuzzy
 msgid "Use 3 - 15 character lowercase, numbers and '- ' only"
 msgstr "Hanya gunakan huruf kecil, angka dan '-'"
+
+#: ../user-management/user-management.php:59
+msgid "Account Level"
+msgstr ""
+
+#: ../user-management/user-management.php:63
+#, fuzzy
+msgid "Account Payment"
+msgstr "Pembayaran"
+
+#: ../user-management/user-management.php:125
+#, fuzzy
+msgid "Post Code"
+msgstr "Kodepos"
+
+#: ../user-management/user-management.php:129
+#, fuzzy
+msgid "Have Shipping"
+msgstr "Pengiriman"
+
+#: ../user-management/user-management.php:136
+#, fuzzy
+msgid "Shipping First Name"
+msgstr "Pengiriman & Pembayaran"
+
+#: ../user-management/user-management.php:140
+#, fuzzy
+msgid "Shipping Last Name"
+msgstr "Ongkos Kirim"
+
+#: ../user-management/user-management.php:144
+#, fuzzy
+msgid "Shipping Email"
+msgstr "Detail Pengiriman"
+
+#: ../user-management/user-management.php:148
+#, fuzzy
+msgid "Shipping Telephone"
+msgstr "Pilihan Pembayaran"
+
+#: ../user-management/user-management.php:152
+#, fuzzy
+msgid "Shipping Company"
+msgstr "Nomor Resi Pengiriman"
+
+#: ../user-management/user-management.php:160
+#, fuzzy
+msgid "Shipping Country"
+msgstr "Nomor Resi Pengiriman"
+
+#: ../user-management/user-management.php:169
+#, fuzzy
+msgid "Shipping Province"
+msgstr "Nomor Resi Pengiriman"
+
+#: ../user-management/user-management.php:178
+#, fuzzy
+msgid "Shipping City"
+msgstr "Nomor Resi Pengiriman"
+
+#: ../user-management/user-management.php:187
+#, fuzzy
+msgid "Shipping District"
+msgstr "Tujuan Pengiriman"
+
+#: ../user-management/user-management.php:195
+#, fuzzy
+msgid "Shipping Post Code"
+msgstr "Nomor Resi Pengiriman"
+
+#: ../user-management/user-management.php:205
+msgid "Billing"
+msgstr "Penagihan"
+
+#: ../user-management/user-management.php:233
+#: ../user-management/user-management.php:250
+#: ../user-management/user-management.php:256
+#: ../user-management/user-management.php:278
+#: ../user-management/user-management.php:284
+#: ../user-management/user-management.php:306
+#: ../user-management/user-management.php:312
+#: ../user-management/user-management.php:334
+#: ../user-management/user-management.php:340
+#: ../user-management/user-management.php:362
+#: ../user-management/user-management.php:368
+#: ../user-management/user-management.php:390
+#: ../user-management/user-management.php:396
+#, fuzzy
+msgid "Please select."
+msgstr "Silahkan pilih"
 
 #: ../user-management/template/admin-user-detail.php:1
 #: ../user-management/template/login-form.php:10
@@ -1702,18 +1987,26 @@ msgstr "Nomor Telepon"
 msgid "State / Province"
 msgstr "Propinsi"
 
-#: ../user-management/template/admin-user-detail.php:54
-msgid "Shipping Address"
-msgstr "Alamat Pengiriman"
-
-#: ../user-management/template/admin-user-detail.php:57
-msgid "Name"
-msgstr "Nama"
-
 #: ../user-management/template/custom-edit-profile-form.php:38
 #: ../user-management/template/custom-reset-password-form.php:13
 msgid "Retype Password"
 msgstr "Ketik ulang Password"
+
+#: ../user-management/template/custom-edit-profile-form.php:89
+#: ../user-management/template/custom-edit-profile-form.php:125
+#: ../user-management/template/custom-edit-profile-form.php:160
+#: ../user-management/template/custom-edit-profile-form.php:195
+#: ../user-management/template/custom-edit-profile-form.php:277
+#: ../user-management/template/custom-edit-profile-form.php:313
+#: ../user-management/template/custom-edit-profile-form.php:348
+#: ../user-management/template/custom-edit-profile-form.php:383
+msgid "Other"
+msgstr "Lainnya"
+
+#: ../user-management/template/custom-edit-profile-form.php:98
+#: ../user-management/template/custom-edit-profile-form.php:286
+msgid "Province / State / County"
+msgstr "Propinsi"
 
 #: ../user-management/template/custom-edit-profile-form.php:119
 #: ../user-management/template/custom-edit-profile-form.php:154
@@ -1726,9 +2019,8 @@ msgid "Please select - leave empty if not applicalble"
 msgstr "Silahkan pilih - kosongkan jika tidak bisa digunakan"
 
 #: ../user-management/template/custom-edit-profile-form.php:206
-#, fuzzy
 msgid "Use another shipping address"
-msgstr "Simpan sebagai Alamat Pengiriman"
+msgstr "Gunakan alamat pengiriman lain"
 
 #: ../user-management/template/custom-edit-profile-form.php:392
 msgid "Save"
@@ -1801,17 +2093,8 @@ msgstr "Lupa password ?"
 #~ msgid "Shipping & Billing"
 #~ msgstr "Pengiriman dan Penagihan"
 
-#~ msgid "Billing"
-#~ msgstr "Penagihan"
-
-#~ msgid "Payment"
-#~ msgstr "Pembayaran"
-
 #~ msgid "<h2>Please <a href=\" %s\">checkout</a> first</h2>"
 #~ msgstr "<h2>Silahkan <a href=\" %s\">checkout</a> terlebih dulu</h2>"
-
-#~ msgid "Shipping & Payment"
-#~ msgstr "Pengiriman & Pembayaran"
 
 #~ msgid "Send Reset Key"
 #~ msgstr "Kirim Rest Key"
