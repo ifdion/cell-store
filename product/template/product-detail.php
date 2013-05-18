@@ -1,5 +1,8 @@
 <?php
 	global $post;
+	global $cell_store_option;
+	$currency = $cell_store_option['currency']['symbol'];
+
 	$product_meta = get_post_meta($post->ID);
 	if ($product_meta['_use_variations'][0] == 1) {
 		$use_variations = true;
@@ -46,12 +49,12 @@
 		<dt><?php _e('Price', 'cell-store') ?></dt>
 		<?php if ($price_after_discount): ?>
 			<dd>
-				<?php echo 'Rp.'.number_format($price_after_discount,0,'','.').',-' ?>
-				<?php echo ' | was Rp.'.number_format($price,0,'','.').',-' ?>
+				<?php echo $currency.number_format($price_after_discount,0,'','.').',-' ?>
+				<?php echo ' | was '.$currency.number_format($price,0,'','.').',-' ?>
 				<?php if($discount_percentage) echo $discount_value.' discount'; ?>
 			</dd>
 		<?php else: ?>
-			<dd><?php echo 'Rp.'.number_format($price,0,'','.').',-' ?></dd>	
+			<dd><?php echo $currency.number_format($price,0,'','.').',-' ?></dd>	
 		<?php endif ?>
 		<?php if ($use_variations): ?>
 			<dt><?php _e('Options', 'cell-store') ?></dt>

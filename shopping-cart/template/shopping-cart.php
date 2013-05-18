@@ -1,3 +1,7 @@
+<?php
+	global $cell_store_option;
+	$currency = $cell_store_option['currency']['symbol'];
+?>
 <?php if (isset($_SESSION['shopping-cart']['items'])): ?>
 	<?php
 		$items = $_SESSION['shopping-cart']['items'];
@@ -32,9 +36,9 @@
 					<tr>
 						<td><a href="<?php echo wp_nonce_url(admin_url('admin-ajax.php') . '?action=delete_cart_item&cart-item='.$key, 'delete_cart_item') ?>" title="Remove">✕</a></td>
 						<td><a href="<?php echo get_permalink($item_details['ID']) ?>"><?php echo $item_details['name'].$option ?></a></td>
-						<td><?php echo 'Rp'.number_format($item_details['price'],0,'','.').',-' ?></td>
+						<td><?php echo $currency.number_format($item_details['price'],0,'','.').',-' ?></td>
 						<td><?php echo number_format($item_details['quantity'],0,'','.') ?></td>
-						<td><?php echo 'Rp'.number_format($price,0,'','.').',-' ?></td>
+						<td><?php echo $currency.number_format($price,0,'','.').',-' ?></td>
 						<td><?php echo number_format($weight,1,'','.').' kg' ?></td>
 					</tr>
 				<?php endforeach ?>
@@ -46,7 +50,7 @@
 					<td><strong><?php _e('Total', 'cell-store') ?></strong></td>
 					<td></td>
 					<td></td>
-					<td><?php echo 'Rp'.number_format($total_price,0,'','.').',-' ?></td>
+					<td><?php echo $currency.number_format($total_price,0,'','.').',-' ?></td>
 					<td><?php echo number_format(ceil($total_weight),1,',','.').' kg' ?></td>
 				</tr>
 			</tfoot>

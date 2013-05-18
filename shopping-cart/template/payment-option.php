@@ -1,3 +1,7 @@
+<?php
+	global $cell_store_option;
+	$currency = $cell_store_option['currency']['symbol'];
+?>
 			<form id="payment-option" name="payment-option" class="well form-horizontal" action="<?php echo admin_url('admin-ajax.php'); ?>" method="post" enctype="multipart/form-data">
 				<?php if (isset($_SESSION['shopping-cart']['payment']['shipping-destination-id']) && is_numeric($_SESSION['shopping-cart']['payment']['shipping-destination-id'])): ?>
 					<?php
@@ -16,7 +20,7 @@
 											$cost = 'Free';
 											$checked = '';
 										} else{
-											$cost = 'Rp. '.number_format($value['shipping_rate'],0,',','.').',- per kg';
+											$cost = $currency.' '.number_format($value['shipping_rate'],0,',','.').',- per kg';
 											$checked = 'checked="checked"';
 										}
 										$note = '';
