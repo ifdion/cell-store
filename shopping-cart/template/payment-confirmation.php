@@ -1,15 +1,16 @@
+<?php
+	global $cell_store_option;
+	$payment_confirmation_message = $cell_store_option['payment']['confirmation']['message'];
+	$payment_method_option = $cell_store_option['payment']['confirmation']['method-option'];
+	$payment_method_additional_field = $cell_store_option['payment']['confirmation']['additional-field'];
+?>
 <div id="" class="shopping-cart-process clearfix">
 	<div id="" class="transaction-items">
 		<h3><?php _e('Thank you for your order', 'cell-store') ?></h3>
 		<?php if (isset($_SESSION['shopping-cart']['last-transaction'])): ?>
 			<p><?php printf(__('Your order has been confirmed with transaction code : <strong> %s </strong>', 'cell-store'), $_SESSION['shopping-cart']['last-transaction'] ) ?></p>
 		<?php endif ?>
-		<p><?php _e('Please complete your payment via bank transfer / e-banking / m-banking to:', 'cell-store') ?> </p>
-		<p><?php _e('<strong>BCA : on behalf of Nisa Pratiwi , account number 4377227777</strong> or', 'cell-store') ?> </p>
-		<p><?php _e('<strong>BANK MANDIRI : on behalf of Nisa Pratiwi , account number 1310088333333</strong> or', 'cell-store') ?> </p>
-		<p><?php _e('<strong>BANK MANDIRI : on behalf of Nisa Pratiwi , account number 1310088333333</strong> or', 'cell-store') ?> </p>
-		<p><?php _e('<strong>WESTERN UNION : on behalf of Iqbal Alghifari.</strong>', 'cell-store') ?> </p>
-		<p><?php _e('Keep your transaction script or record, you will need this to finish the payment confirmation step', 'cell-store') ?>.</p>
+		<?php echo $payment_confirmation_message ?>
 	</div>
 	<div class="user-credential">
 		<?php
@@ -54,34 +55,20 @@
 				<label class="control-label" for="method"><?php _e('Payment Method', 'cell-store') ?></label>
 				<div class="controls">
 					<select name="method" id="method">
-						<option value="BCA - Bank/ATM Transfer"><?php _e('BCA - Bank/ATM Transfer', 'cell-store') ?></option>
-						<option value="Mandiri - Bank/ATM Transfer"><?php _e('Mandiri - Bank/ATM Transfer', 'cell-store') ?></option>
-						<option value="m-banking BCA"><?php _e('m-banking BCA', 'cell-store') ?></option>
-						<option value="m-banking Mandiri"><?php _e('m-banking Mandiri', 'cell-store') ?></option>
-						<option value="klikBCA"><?php _e('klikBCA', 'cell-store') ?></option>
-						<option value="Mandiri E Banking"><?php _e('Mandiri E Banking', 'cell-store') ?></option>
-						<option value="0"><?php _e('Other Method', 'cell-store') ?></option>
+						<?php foreach ($payment_method_option as $key => $value): ?>
+							<option value="<?php echo $value ?>"><?php echo $value ?></option>
+						<?php endforeach ?>
 					</select>
 				</div>
 			</div>
-			<div class="control-group">
-				<label class="control-label" for="other-method"><?php _e('Other Method', 'cell-store') ?></label>
-				<div class="controls">
-					<input type="text" class="input-xlarge " id="other-method" name="other-method" value="">
+			<?php foreach ($payment_method_additional_field as $key => $value): ?>
+				<div class="control-group">
+					<label class="control-label" for="<?php echo $key ?>"><?php echo $value ; ?></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge " id="<?php echo $key ?>" name="<?php echo $key ?>" value="">
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="account-holder"><?php _e('Account Holder', 'cell-store') ?></label>
-				<div class="controls">
-					<input type="text" class="input-xlarge " id="account-holder" name="account-holder" value="">
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="mtcn-number"><?php _e('MTCN Number', 'cell-store') ?></label>
-				<div class="controls">
-					<input type="text" class="input-xlarge " id="mtcn-number" name="mtcn-number" value="">
-				</div>
-			</div>
+			<?php endforeach ?>
 			<div class="form-actions">
 				<button type="submit" class="btn btn-primary"><?php _e('Confirm Payment', 'cell-store') ?></button>
 				<?php wp_nonce_field('payment_confirm','payment_confirm_nonce'); ?>

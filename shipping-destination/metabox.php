@@ -1,3 +1,8 @@
+<?php
+	global $cell_store_option;
+	$weight_unit = $cell_store_option['product']['weight-unit'];
+?>
+
 <div class="my_meta_control">
 	<?php _e('<p>Each shipping destinations can have one or more shipping options. <br> Shippings to Jakarta can be made using Economical, Reguler or Express Service<br> while shippings to Sabang can only use Reguler Service </p>', 'cell-store') ?>
 	<div id="product-details">
@@ -5,7 +10,7 @@
 		<?php while($mb->have_fields_and_multi('detail')): ?>
 			<div id="" class="">
 				<?php $mb->the_group_open(); ?>
-					<label><?php _e('Shipping Service  : Rate per kg | Shipping Days', 'cell-store') ?></label>
+					<label><?php printf(__('Shipping Service  : Rate per %s | Shipping Days', 'cell-store'), $weight_unit) ?></label>
 					<p>
 						<input type="text" name="<?php $mb->the_name('shipping_service'); ?>" value="<?php $mb->the_value('shipping_service'); ?>" placeholder="Express"/>
 						<input type="text" name="<?php $mb->the_name('shipping_rate'); ?>" value="<?php $mb->the_value('shipping_rate'); ?>" placeholder="10000"/>

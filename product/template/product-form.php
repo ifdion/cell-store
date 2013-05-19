@@ -96,7 +96,6 @@
 			</div>
 		</div>
 		<div class="form-actions">
-			<!-- <button type="submit" class="btn btn-primary"><?php _e('Add to Cart', 'cell-store') ?> </button> <br/> -->
 			<button type="submit" class="btn btn-primary" name="return" value="checkout"><?php _e('Checkout', 'cell-store') ?> </button>
 			<?php wp_nonce_field('add_to_cart','add_to_cart_nonce'); ?>
 			<input name="action" value="add_to_cart" type="hidden">

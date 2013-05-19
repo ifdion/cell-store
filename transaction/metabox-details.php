@@ -1,6 +1,7 @@
 <?php
 	global $cell_store_option;
 	$currency = $cell_store_option['currency']['symbol'];
+	$weight_unit = $cell_store_option['product']['weight-unit'];
 ?>
 <div class="my_meta_control">
 	<?php
@@ -36,7 +37,7 @@
 		echo '<ul>';
 			echo '<li><strong>'. __('Total Item Cost', 'cell-store').'</strong> : '.currency_format($payment['total-item-cost']).'</li>';
 			echo '<li><strong>'. __('Payment Method', 'cell-store').'</strong> : '.$payment['method'].'</li>';
-			echo '<li><strong>'. __('Total Weight', 'cell-store').'</strong> : ' . number_format($payment['total-weight'],0,',','.').' kg'.'</li>';
+			echo '<li><strong>'. __('Total Weight', 'cell-store').'</strong> : ' . number_format($payment['total-weight'],0,',','.').' '.$weight_unit.'</li>';
 			echo '<li><strong>'. __('Shipping Option', 'cell-store').'</strong> : '.$payment['shipping-option'].'</li>';
 			echo '<li><strong>'. __('Shipping Rate', 'cell-store').'</strong> : '. currency_format($payment['shipping-rate']) .'</li>';
 		echo '</ul>';

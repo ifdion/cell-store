@@ -17,10 +17,14 @@ function cell_login_dependency(){
 
 add_action( 'init','iniate_cell_login' );
 function iniate_cell_login(){
+	global $cell_store_option;
+	$login_page = $cell_store_option['shopping']['page']['login'];
+	$profile_page = $cell_store_option['shopping']['page']['profile'];
+	$register_page = $cell_store_option['shopping']['page']['register'];
 
 	$login_args = array(
-		'page' => 'login',
-		'page-redirect' => 'profile',
+		'page' => $login_page,
+		'page-redirect' => $profile_page,
 	);
 
 	if (class_exists('CellLogin')) {
@@ -28,8 +32,8 @@ function iniate_cell_login(){
 	}
 
 	$register_form_args = array(
-		'page' => 'register',
-		'page-redirect' => 'profile',
+		'page' => $register_page,
+		'page-redirect' => $profile_page,
 		'fields' =>  array(
 			'username' => array( // the key will be used in the label for attribute and the input name
 				'title' => __('User Name', 'cell-user'), // the label text
@@ -197,8 +201,8 @@ function iniate_cell_login(){
 		),
 	);
 	$user_profile_args = array(
-		'page' => 'profile',
-		'page-redirect' => 'login',
+		'page' => $profile_page,
+		'page-redirect' => $login_page,
 		'include-script' => 'address',
 		'fieldset' => array(
 			'billing' => array(

@@ -7,6 +7,9 @@ add_action('wp_ajax_nopriv_add_to_cart', 'process_add_to_cart');
 add_action('wp_ajax_add_to_cart', 'process_add_to_cart');
 
 function process_add_to_cart() {
+	global $cell_store_option;
+	$shopping_cart_page = $cell_store_option['shopping']['page']['shopping-cart'];
+
 	if ( empty($_POST) || !wp_verify_nonce($_POST['add_to_cart_nonce'],'add_to_cart') ) {
 		echo 'Sorry, your nonce did not verify.';
 		die();
@@ -23,7 +26,7 @@ function process_add_to_cart() {
 		$price = $_POST['price'];
 		$return = $_POST['_wp_http_referer'];
 		if ($_POST['return']) {
-			$return = get_permalink(get_page_by_path('shopping-cart'));
+			$return = get_permalink(get_page_by_path($shopping_cart_page));
 		}
 		
 

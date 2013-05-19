@@ -1,6 +1,4 @@
 <?php
-	global $cell_store_option;
-	$currency = $cell_store_option['currency']['symbol'];
 
 include_once ('ajax.php');
 
@@ -11,6 +9,9 @@ include_once ('ajax.php');
 add_action('init', 'product_post_type', 0 );
 
 function product_post_type() {
+
+	global $cell_store_option;
+	$product_slug = $cell_store_option['product']['slug'];
 	
 	$product_labels = array(
 		'name' => _x('Product', 'post type general name'),
@@ -34,7 +35,7 @@ function product_post_type() {
 		'show_ui' => true, 
 		'show_in_menu' => true, 
 		'query_var' => true,
-		'rewrite' => array( 'slug' => 'product' ),
+		'rewrite' => array( 'slug' => $product_slug ),
 		'capability_type' => 'post',
 		'map_meta_cap' => true,
 		'has_archive' => true, 

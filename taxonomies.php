@@ -8,6 +8,11 @@ add_action( 'init', 'cell_store_taxonomies', 1 );
 
 function cell_store_taxonomies() {
 
+	global $cell_store_option;
+	$collection_slug = $cell_store_option['product']['collection-slug'];
+	$product_category_slug = $cell_store_option['product']['product-category-slug'];
+	$product_tag_slug = $cell_store_option['product']['product-tag-slug'];
+
 	$collection_labels = array(
 		'name' => _x( 'Collection', 'taxonomy general name' ),
 		'singular_name' => _x( 'Collection', 'taxonomy singular name' ),
@@ -27,7 +32,7 @@ function cell_store_taxonomies() {
 		'labels' => $collection_labels,
 		'show_ui' => true,
 		'query_var' => true,
-		'rewrite' => array( 'slug' => 'collection' ),
+		'rewrite' => array( 'slug' => $collection_slug ),
 	));
 
 	$product_category_labels = array(
@@ -49,7 +54,7 @@ function cell_store_taxonomies() {
 		'labels' => $product_category_labels,
 		'show_ui' => true,
 		'query_var' => true,
-		'rewrite' => array( 'slug' => 'product-category' ),
+		'rewrite' => array( 'slug' => $product_category_slug ),
 	));
 
 	$product_tag_labels = array(
@@ -71,7 +76,7 @@ function cell_store_taxonomies() {
 		'labels' => $product_tag_labels,
 		'show_ui' => true,
 		'query_var' => true,
-		'rewrite' => array( 'slug' => 'product-tag' ),
+		'rewrite' => array( 'slug' => $product_tag_slug ),
 	));
 
 	$position_labels = array(
@@ -96,58 +101,3 @@ function cell_store_taxonomies() {
 	));
 
 }
-
-/* shipping area as setting 
----------------------------------------------------------------
-*/
-// add_action( 'admin_menu', 'register_taxonomy_page' );
-// function register_taxonomy_page() {
-// 	add_submenu_page( 'options-general.php', 'Shipping Area', 'Shipping Area', 'edit_users', 'edit-tags.php?taxonomy=area&post_type=shipping-destination' );
-// }
-
-/* create taxonomy for every project
----------------------------------------------------------------
-*/
-
-function save_cpt_as_term($post_id) {
-
-	$post = get_post( $post_id );
-	$cpt_as_term = array('lot','project','block','sponsor');
-
-	
-	if(in_array($post->post_type, $cpt_as_term) && $post->post_status=='publish'){
-
-		$term_args['name'] = $post->post_title;
-		$term_args['slug'] = $post->post_name.'';
-		$term_id = get_post_meta($post_id, $post->post_type.'-term-id', true);
-
-		if($term_id){
-			$term = wp_update_term( $term_id, $post->post_type.'-term', $term_args );
-		} else {
-			$term = wp_insert_term( $term_args['name'], $post->post_type.'-term', $term_args );
-			$meta_status = add_post_meta($post_id, $post->post_type.'-term-id', $term['term_id'], true);
-		}
-
-	}
-}
-// add_action( 'save_post', 'save_cpt_as_term');
-
-/* delete taxonomy on post delete
----------------------------------------------------------------
-*/
-// add_action('admin_init', 'codex_init');
-function codex_init() {
-	global $wpdb;
-	if (current_user_can('delete_posts')) add_action('before_delete_post', 'delete_cpt_as_term', 10);
-}
-
-function delete_cpt_as_term($pid) {
-	$cpt_as_term = array('lot','project','block','sponsor');
-	$post = get_post( $post_id );
-	if (in_array($post->post_type, $cpt_as_term)) {
-		$term = get_post_meta($pid, $post->post_type.'-term-id', true);
-		wp_delete_term( $term, $post->post_type.'-term');
-	}
-}
-
-?>

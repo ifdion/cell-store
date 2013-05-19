@@ -1,6 +1,6 @@
 <?php
 	global $cell_store_option;
-	$currency = $cell_store_option['currency']['symbol'];
+	$weight_unit = $cell_store_option['product']['weight-unit'];
 ?>
 <?php if (isset($_SESSION['shopping-cart']['items'])): ?>
 	<?php
@@ -39,7 +39,7 @@
 						<td><?php echo currency_format($item_details['price']) ?></td>
 						<td><?php echo number_format($item_details['quantity'],0,'','.') ?></td>
 						<td><?php echo currency_format($price) ?></td>
-						<td><?php echo number_format($weight,1,'','.').' kg' ?></td>
+						<td><?php echo number_format($weight,1,'','.').' '.$weight_unit ?></td>
 					</tr>
 				<?php endforeach ?>
 
@@ -51,7 +51,7 @@
 					<td></td>
 					<td></td>
 					<td><?php echo currency_format($total_price) ?></td>
-					<td><?php echo number_format(ceil($total_weight),1,',','.').' kg' ?></td>
+					<td><?php echo number_format(ceil($total_weight),1,',','.').' '.$weight_unit ?></td>
 				</tr>
 			</tfoot>
 		</table>

@@ -1,7 +1,7 @@
 <?php
 	global $post;
 	global $cell_store_option;
-	$currency = $cell_store_option['currency']['symbol'];
+	$weight_unit = $cell_store_option['product']['weight-unit'];
 
 	$product_meta = get_post_meta($post->ID);
 	if ($product_meta['_use_variations'][0] == 1) {
@@ -51,7 +51,7 @@
 			<dd>
 				<?php echo currency_format($price_after_discount); ?>
 				<?php echo ' | was '.currency_format($price); ?>
-				<?php if($discount_percentage) echo $discount_value.' discount'; ?>
+				<?php if($discount_percentage) echo $discount_value.' '.__( 'discount','cell-store' ); ?>
 			</dd>
 		<?php else: ?>
 			<dd><?php echo currency_format($price) ?></dd>
@@ -78,7 +78,7 @@
 		<?php endif ?>
 
 		<dt><?php _e('Weight', 'cell-store') ?></dt>
-		<dd><?php echo number_format($product_meta['_weight'][0],0,'','.').' kg' ?></dd>
+		<dd><?php echo number_format($product_meta['_weight'][0],0,'','.').' '.$weight_unit ?></dd>
 
 		<?php if ($use_details): ?>
 			<dt><?php _e('Details', 'cell-store') ?></dt>

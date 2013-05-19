@@ -185,8 +185,11 @@ function delete_hit_and_run(){
 }
 
 function filter_where( $where = '' ) {
+	global $cell_store_option;
+	$limit = $cell_store_option['shopping']['cancelation-due'];
+
 	// posts  3 days old
-	$where .= " AND post_date <= '" . date('Y-m-d', strtotime('-1 days')) . "'";
+	$where .= " AND post_date <= '" . date('Y-m-d', strtotime('-'.$limit.' days')) . "'";
 	return $where;
 }
 

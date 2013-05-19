@@ -7,13 +7,16 @@ add_action('wp_ajax_nopriv_delete_cart_item', 'process_delete_cart_item');
 add_action('wp_ajax_delete_cart_item', 'process_delete_cart_item');
 
 function process_delete_cart_item() {
+	global $cell_store_option;
+	$shopping_cart_page = $cell_store_option['shopping']['page']['shopping-cart'];
+
 	if ( empty($_GET) || !wp_verify_nonce($_GET['_wpnonce'],'delete_cart_item') ) {
 		echo 'Sorry, your nonce did not verify.';
 		die();
 	} else {
 		// validate data
 		$cart_item = $_GET['cart-item'];
-		$return = get_permalink( get_page_by_path( 'shopping-cart' ) );
+		$return = get_permalink( get_page_by_path( $shopping_cart_page ) );
 		unset($_SESSION['shopping-cart']['items'][$cart_item]);
 		$result['type'] = 'success';
 		$result['message'] = __('Item removed from cart', 'cell-store');
@@ -31,6 +34,9 @@ add_action('wp_ajax_nopriv_update_shopping_cart', 'process_update_shopping_cart'
 add_action('wp_ajax_update_shopping_cart', 'process_update_shopping_cart');
 
 function process_update_shopping_cart() {
+	global $cell_store_option;
+	$checkout_page = $cell_store_option['shopping']['page']['checkout'];
+
 	if ( empty($_POST) || !wp_verify_nonce($_POST['update_shopping_cart_nonce'],'update_shopping_cart') ) {
 		echo 'Sorry, your nonce did not verify.';
 		die();
@@ -45,7 +51,7 @@ function process_update_shopping_cart() {
 		$result['type'] = 'success';
 		$result['message'] = __('Shopping Cart Updated', 'cell-store');
 
-		$return = get_permalink( get_page_by_path( 'checkout' ) );
+		$return = get_permalink( get_page_by_path( $checkout_page ) );
 		ajax_response($result,$return);
 		die();
 	}
@@ -59,6 +65,9 @@ add_action('wp_ajax_nopriv_checkout', 'process_checkout');
 add_action('wp_ajax_checkout', 'process_checkout');
 
 function process_checkout() {
+	global $cell_store_option;
+	$payment_option_page = $cell_store_option['shopping']['page']['payment-option'];
+
 	if ( empty($_POST) || !wp_verify_nonce($_POST['checkout_nonce'],'checkout') ) {
 		echo 'Sorry, your nonce did not verify.';
 		die();
@@ -66,7 +75,7 @@ function process_checkout() {
 
 		// setup return address
 		$return_error = $_POST['_wp_http_referer'];
-		$return_success = get_permalink( get_page_by_path( 'payment-option' ) );
+		$return_success = get_permalink( get_page_by_path( $payment_option_page ) );
 
 		// cek for shipping detail field
 		$shipping['first-name'] = $_POST['first-name'];
@@ -339,6 +348,9 @@ add_action('wp_ajax_nopriv_payment_option', 'process_payment_option');
 add_action('wp_ajax_payment_option', 'process_payment_option');
 
 function process_payment_option() {
+	global $cell_store_option;
+	$order_confirmation_page = $cell_store_option['shopping']['page']['order-confirmation'];
+
 	if ( empty($_POST) || !wp_verify_nonce($_POST['payment_option_nonce'],'payment_option') ) {
 		echo 'Sorry, your nonce did not verify.';
 		die();
@@ -361,7 +373,7 @@ function process_payment_option() {
 			$_SESSION['shopping-cart']['payment']['shipping-option'] = $shipping_service;
 			$_SESSION['shopping-cart']['payment']['shipping-rate'] = $shipping_rate;
 
-			$return = get_permalink(get_page_by_path('order-confirmation'));
+			$return = get_permalink(get_page_by_path($order_confirmation_page));
 			$result['type'] = 'success';
 			$result['message'] = __('Payment and shipping confirmed', 'cell-store');
 			ajax_response($result,$return);
