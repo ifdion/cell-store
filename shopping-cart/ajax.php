@@ -535,29 +535,50 @@ add_action('wp_ajax_nopriv_payment_confirm', 'process_payment_confirmation');
 add_action('wp_ajax_payment_confirm', 'process_payment_confirmation');
 
 function process_payment_confirmation() {
+	global $cell_store_option;
+	$additional_field = $cell_store_option['payment']['confirmation']['additional-field'];
+
 	if ( empty($_POST) || !wp_verify_nonce($_POST['payment_confirm_nonce'],'payment_confirm') ) {
 		echo 'Sorry, your nonce did not verify.';
 		die();
 	} else {
 
-		$name = $_POST['name'];
-		$email = $_POST['email'];
-		$transaction_slug = $_POST['transaction-slug'];
-		$date = $_POST['date'];
-		$method = $_POST['method'];
-		$other_method = $_POST['other-method'];
-		$account_holder = $_POST['account-holder'];
 		$return = $_POST['_wp_http_referer'];
-		$mtcn = $_POST['mtcn-number'];
 
-		if ($other_method) {
-			$method = $other_method;
+		if ($_POST['name'] != '') {
+			$name = $_POST['name'];
+		} else {
+			$result['type'] = 'error';
+			$result['message'] = __('Name is missing', 'cell-store');
+			ajax_response($result,$return);
 		}
 
-		if ($mtcn) {
-			$mtcn_code = '. MTCN code : '.$mtcn;
+		if ($_POST['email'] != '') {
+			$email = $_POST['email'];
 		} else {
-			$mtcn_code = '';
+			$result['type'] = 'error';
+			$result['message'] = __('Email is missing', 'cell-store');
+			ajax_response($result,$return);
+		}
+
+		if ($_POST['transaction-slug'] != '') {
+			$transaction_slug = $_POST['transaction-slug'];
+		} else {
+			$result['type'] = 'error';
+			$result['message'] = __('Transaction Code is missing', 'cell-store');
+			ajax_response($result,$return);
+		}
+
+		$date = $_POST['date'];
+		$method = $_POST['method'];
+
+		$account_holder = '';
+		if (isset($_POST['account-holder']) && $_POST['account-holder'] != '') {
+			$account_holder = __( ' on behalf of ','cell-store' ).  $_POST['account-holder'];
+		}
+
+		if (isset($_POST['other-method']) && $_POST['other-method'] != '') {
+			$method = $_POST['other-method'];
 		}
 		
 		$transaction_id = get_id_by_slug($transaction_slug,'transaction');
@@ -571,11 +592,19 @@ function process_payment_confirmation() {
 			}
 			$time = current_time('mysql');
 
+			$additional_message = '';
+
+			foreach ($additional_field as $key => $value) {
+				if (isset($_POST[$key]) && $_POST[$key] != '') {
+					$additional_message .= ' -'.$value.':'.$_POST[$key].'- ';
+				}
+			}
+
 			$comment = array(
 				'comment_post_ID' => $transaction_id,
 				'comment_author' => $name,
 				'comment_author_email' => $email,
-				'comment_content' => 'Transaction payment confirmed by '.$name.' at '.$date.' by '. $method .' on behalf of '. $account_holder. $mtcn_code,
+				'comment_content' => 'Transaction payment confirmed by '.$name.' at '.$date.' by '. $method . $account_holder. $additional_message,
 				'user_id' => $user_id,
 				'comment_author_IP' => $_SERVER['REMOTE_ADDR'],
 				'comment_agent' => $_SERVER['HTTP_USER_AGENT'],
@@ -603,6 +632,10 @@ function process_payment_confirmation() {
 			} else {
 				wp_mail(get_bloginfo('admin_email'), $mail_title, $message);
 			}
+		} else {
+			$result['type'] = 'error';
+			$result['message'] = __('Invalid Transaction Code', 'cell-store');
+			ajax_response($result,$return);
 		}
 
 		$result['type'] = 'success';

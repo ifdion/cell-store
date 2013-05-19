@@ -61,6 +61,18 @@
 					</select>
 				</div>
 			</div>
+			<div class="control-group">
+				<label class="control-label" for="other-method"><?php _e('Other Method', 'cell-store') ?></label>
+				<div class="controls">
+					<input type="text" class="input-xlarge " id="other-method" name="other-method" value="">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="account-holder"><?php _e('Account Holder', 'cell-store') ?></label>
+				<div class="controls">
+					<input type="text" class="input-xlarge " id="account-holder" name="account-holder" value="">
+				</div>
+			</div>
 			<?php foreach ($payment_method_additional_field as $key => $value): ?>
 				<div class="control-group">
 					<label class="control-label" for="<?php echo $key ?>"><?php echo $value ; ?></label>
