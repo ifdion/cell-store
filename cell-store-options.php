@@ -64,7 +64,7 @@ $cell_store_option = array(
 			),
 			array(
 				'title' => __( 'Western Union','cell-store' ),
-				'image' => plugins_url('cell-store/img/western-union.png'),
+				'image' => plugins_url('cell-store/img/western_union.png'),
 				'description' => ''
 			),
 		),
@@ -82,8 +82,6 @@ $cell_store_option = array(
 				__( 'Other Method','cell-store' ),
 			),
 			'additional-field' => array(
-				'other-method' => __( 'Other Method','cell-store' ),
-				'account-holder' => __( 'Account Holder','cell-store' ),
 				'mtcn-number' => __( 'MTCN Number','cell-store' ),
 			)
 		),
