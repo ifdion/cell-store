@@ -2,7 +2,7 @@
 	global $cell_store_option;
 	$currency = $cell_store_option['currency']['symbol'];
 ?>
-		<div id="" class="shopping-cart-process clearfix">
+		<div id="" class="shopping-cart-process my-order clearfix">
 			<div id="" class="transaction-items">
 				<h3><?php _e('Insert Your Transaction Code', 'cell-store') ?></h3>
 					<form id="checkout" name="checkout" class="well form-horizontal" action="" method="get" enctype="multipart/form-data">
@@ -36,6 +36,8 @@
 					<ul>
 						<?php if ( $user_transaction->have_posts() ) : while ( $user_transaction->have_posts() ) : $user_transaction->the_post(); ?>
 							<?php
+								global $post;
+								setup_postdata($user_transaction->post);
 								$status = get_post_meta($user_transaction->post->ID, '_transaction_status', true);
 								if (!$status) {
 									$status = 'pending';
@@ -77,7 +79,7 @@
 					$status = 'pending';
 				}
 			?>
-			<div id="" class="shopping-cart-process clearfix">
+			<div id="" class="shopping-cart-process my-order clearfix">
 				<div id="" class="transaction-items">
 					<h3><?php _e('Your Order', 'cell-store') ?></h3>
 					<table>
