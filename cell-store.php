@@ -49,6 +49,8 @@ add_action('plugins_loaded', 'cell_store_init');
 
 	include_once ('product/product.php');
 
+	// include_once ('collection/collection.php');
+
 	include_once ('transaction/transaction.php');
 
 	include_once ('shipping-destination/shipping-destination.php');
