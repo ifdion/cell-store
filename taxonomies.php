@@ -211,7 +211,7 @@ function cell_store_collection(){
 					if (has_post_thumbnail( get_the_ID())) {
 						echo '<div id="" class="archive-banner">';
 						echo '<a href="'.$link.'">';
-							the_post_thumbnail('800');
+							the_post_thumbnail('lookbook');
 						echo '</a>';
 						echo '</div>';
 					}
