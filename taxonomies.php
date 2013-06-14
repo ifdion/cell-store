@@ -190,6 +190,7 @@ function cell_store_collection(){
 
 	ob_start();
 
+		echo '<div class="collection-shortcode clearfix">';
 		foreach ($collections as $key => $collection) {
 			$link = get_term_link( $collection );
 
@@ -209,7 +210,7 @@ function cell_store_collection(){
 			if ( $side_loop->have_posts() ) :
 				while ( $side_loop->have_posts() ) : $side_loop->the_post();
 					if (has_post_thumbnail( get_the_ID())) {
-						echo '<div id="" class="archive-banner">';
+						echo '<div id="" class="collection-banner">';
 						echo '<a href="'.$link.'">';
 							the_post_thumbnail('lookbook');
 						echo '</a>';
@@ -267,6 +268,8 @@ function cell_store_collection(){
 			// echo ' <a href="'.$next_link.'">Next</a>';
 			// echo count($collections).'/'.$all_collections;
 		}
+
+		echo '</div>';
 
 		$collections_content = ob_get_contents();
 	ob_end_clean();
