@@ -318,22 +318,15 @@ add_shortcode( 'cell-my-order', 'cell_my_order_content' );
 function cell_my_order_content(){
 
 	// check if current theme has a replacement template
-	if ( '' != locate_template( 'store-my-order.php' ) ) {
-		$current_theme = wp_get_theme();
-		$template = $current_theme->theme_root.'/'.$current_theme->stylesheet.'/store-my-order.php';
-		return get_template_file($template);
-	} else{
-		return cell_my_order();
+	$template = 'template/my-order.php';
+	if (locate_template('cell-store/my-order.php') != '') {
+		$template = get_stylesheet_directory().'/cell-store/my-order.php';
 	}
-}
-
-function cell_my_order(){
 	ob_start();
-		include('template/my-order.php');
-		$my_order_content = ob_get_contents();
+		include($template);
+		$my_order = ob_get_contents();
 	ob_end_clean();
-	echo $my_order_content;
-	
+	return $my_order;	
 }
 
 ?>
