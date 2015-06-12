@@ -21,28 +21,15 @@
 	} else {
 		$use_details = false;
 	}
+
 	$price = $product_meta['_price'][0];
 	$final_price = $price;
-	if ($product_meta['_use_discount'][0] && $product_meta['_discount_value'][0]) {
-		$use_discount = true;
-		$discount_value = $product_meta['_discount_value'][0];
-		$todays_date = new DateTime(date("Y-m-d"));
-		$discount_start = new DateTime($product_meta['_discount_start'][0]);
-		$discount_end = new DateTime($product_meta['_discount_end'][0]);
-		if ($todays_date >= $discount_start && $todays_date <= $discount_end) {
-			$valid_discount = true;
-		}
-		if($use_discount && $valid_discount){
-			if (stripos($discount_value, '%')) {
-				$discount_percentage = str_replace('%', '', $discount_value);
-				$price_after_discount = $price * (100 - $discount_percentage) / 100;
-				$discount_percentage = true;
-			} else {
-				$price_after_discount = $product_meta['_discount_value'][0];
-			}
-			$final_price = $price_after_discount;
-		}
+	if (cs_get_discount_price()) {
+		$price = $product_meta['_price'][0];
+		$price_after_discount = cs_get_discount_price();
+		$final_price = cs_get_discount_price();
 	}
+	
 ?>
 <?php if ($price): ?>
 	<dl>
