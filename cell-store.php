@@ -35,11 +35,11 @@ add_action('plugins_loaded', 'cell_store_init');
 ---------------------------------------------------------------
 */
 
-	include_once ('cell-store-options.php');
+	include_once ('settings/settings.php');
 
 	include_once ('common-functions.php');
 
-	include_once ('wpalchemy/setup.php');
+	include_once ('metaboxes/setup.php');
 
 	include_once ('user-management/user-management.php');
 
@@ -55,11 +55,11 @@ add_action('plugins_loaded', 'cell_store_init');
 
 	include_once ('shipping-destination/shipping-destination.php');
 
-	include_once ('coupon/coupon.php');
+	// include_once ('coupon/coupon.php');
 
 	include_once ('banner/banner.php');
 
-	include_once ('lookbook/lookbook.php');
+	// include_once ('lookbook/lookbook.php');
 
 
 /* taxonomies
