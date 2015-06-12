@@ -8,7 +8,8 @@ include_once ('ajax.php');
 */
 add_action( 'init','cell_store_script' );
 function cell_store_script(){
-	wp_register_script( 'address', plugins_url('cell-store/js/address.js'), array('jquery'), '1.0', true);	
+	wp_register_script( 'address-script', plugins_url('cell-store/js/address-script.js'), array('jquery'), '1.0', true);
+	wp_localize_script( 'address-script', 'global', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 }
 
 
@@ -17,20 +18,12 @@ function cell_store_script(){
 */
 
 add_shortcode( 'cell-shopping-cart', 'cell_shopping_cart_shortcode' );
-
 function cell_shopping_cart_shortcode(){
 	// check if current theme has a replacement template
-	if ( '' != locate_template( 'store-shopping-cart.php' ) ) {
-		$current_theme = wp_get_theme();
-		$template = $current_theme->theme_root.'/'.$current_theme->stylesheet.'/store-shopping-cart.php';
-		return get_template_file($template);
-	} else{
-		return cell_shopping_cart_base();
-	}
-}
-
-function cell_shopping_cart_base(){
 	$template = 'template/shopping-cart.php';
+	if (locate_template('cell-store/shopping-cart.php') != '') {
+		$template = get_stylesheet_directory().'/cell-store/shopping-cart.php';
+	}
 	ob_start();
 		include($template);
 		$shopping_cart_content = ob_get_contents();
@@ -42,58 +35,40 @@ function cell_shopping_cart_base(){
 ---------------------------------------------------------------
 */
 add_shortcode( 'cell-checkout', 'cell_checkout_shortcode' );
-
 function cell_checkout_shortcode(){
 	// add addrees script
-	wp_enqueue_script('address');
-	wp_localize_script( 'address', 'global', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+	wp_enqueue_script('address-script');
+	wp_localize_script( 'address-script', 'global', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 
 	// check if current theme has a replacement template
-	if ( '' != locate_template( 'store-checkout.php' ) ) {
-		$current_theme = wp_get_theme();
-		$template = $current_theme->theme_root.'/'.$current_theme->stylesheet.'/store-checkout.php';
-		return get_template_file($template);
-	} else{
-		return cell_checkout();
-	}	
-}
-
-function cell_checkout(){
 	$template = 'template/checkout.php';
+	if (locate_template('cell-store/checkout.php') != '') {
+		$template = get_stylesheet_directory().'/cell-store/checkout.php';
+	}
 	ob_start();
 		include($template);
-		$checkout_content = ob_get_contents();
+		$checkout = ob_get_contents();
 	ob_end_clean();
-	echo $checkout_content;
+	return $checkout;
 }
 
 /* payment option
 ---------------------------------------------------------------
 */
 
-
 add_shortcode( 'cell-payment-option', 'cell_payment_option_shortcode' );
-
 function cell_payment_option_shortcode(){
 
 	// check if current theme has a replacement template
-	if ( '' != locate_template( 'store-payment-option.php' ) ) {
-		$current_theme = wp_get_theme();
-		$template = $current_theme->theme_root.'/'.$current_theme->stylesheet.'/store-payment-option.php';
-		return get_template_file($template);
-	} else{
-		return cell_payment_option();
-		
-	}	
-}
-
-function cell_payment_option(){
 	$template = 'template/payment-option.php';
+	if (locate_template('cell-store/payment-option.php') != '') {
+		$template = get_stylesheet_directory().'/cell-store/payment-option.php';
+	}
 	ob_start();
 		include($template);
-		$payment_option_content = ob_get_contents();
+		$payment_option = ob_get_contents();
 	ob_end_clean();
-	echo $payment_option_content;
+	return $payment_option;
 }
 
 /* order confirmation
@@ -102,54 +77,37 @@ function cell_payment_option(){
 
 
 add_shortcode( 'cell-order-confirmation', 'cell_order_confirmation_shortcode' );
-
 function cell_order_confirmation_shortcode(){
 
 	// check if current theme has a replacement template
-	if ( '' != locate_template( 'store-order-confirmation.php' ) ) {
-		$current_theme = wp_get_theme();
-		$template = $current_theme->theme_root.'/'.$current_theme->stylesheet.'/store-order-confirmation.php';
-		return get_template_file($template);
-	} else{
-		return cell_order_confirmation();
-		
-	}	
-}
-
-function cell_order_confirmation(){
 	$template = 'template/order-confirmation.php';
+	if (locate_template('cell-store/order-confirmation.php') != '') {
+		$template = get_stylesheet_directory().'/cell-store/order-confirmation.php';
+	}
 	ob_start();
 		include($template);
-		$order_confirmation_content = ob_get_contents();
+		$order_confirmation = ob_get_contents();
 	ob_end_clean();
-	echo $order_confirmation_content;
+	return $order_confirmation;
 }
+
 /* payment confirmation
 ---------------------------------------------------------------
 */
 
-
 add_shortcode( 'cell-payment-confirmation', 'cell_payment_confirmation_content' );
-
 function cell_payment_confirmation_content(){
 
 	// check if current theme has a replacement template
-	if ( '' != locate_template( 'store-payment-confirmation.php' ) ) {
-		$current_theme = wp_get_theme();
-		$template = $current_theme->theme_root.'/'.$current_theme->stylesheet.'/store-payment-confirmation.php';
-		return get_template_file($template);
-	} else{
-		return cell_payment_confirmation();
+	$template = 'template/payment-confirmation.php';
+	if (locate_template('cell-store/payment-confirmation.php') != '') {
+		$template = get_stylesheet_directory().'/cell-store/payment-confirmation.php';
 	}
-}
-
-function cell_payment_confirmation(){
 	ob_start();
-		include('template/payment-confirmation.php');
-		$payment_confirmation_content = ob_get_contents();
+		include($template);
+		$payment_confirmation = ob_get_contents();
 	ob_end_clean();
-	echo $payment_confirmation_content;
-	
+	return $payment_confirmation;	
 }
 
 /* order detail 
