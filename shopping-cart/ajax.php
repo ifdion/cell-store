@@ -65,8 +65,9 @@ add_action('wp_ajax_nopriv_checkout', 'process_checkout');
 add_action('wp_ajax_checkout', 'process_checkout');
 
 function process_checkout() {
-	global $cell_store_option;
-	$payment_option_page = $cell_store_option['shopping']['page']['payment-option'];
+
+	$cell_store_pages = get_option( 'cell_store_pages' );
+	$payment_option_page = $cell_store_pages['payment-option'];
 
 	if ( empty($_POST) || !wp_verify_nonce($_POST['checkout_nonce'],'checkout') ) {
 		echo 'Sorry, your nonce did not verify.';
@@ -103,7 +104,6 @@ function process_checkout() {
 			$result['message'] = $missing_string;
 			ajax_response($result,$return_error);
 		}
-
 
 		// cek for shipping destination
 		if (isset($_POST['country'])) {
@@ -325,15 +325,11 @@ function process_checkout() {
 		unset($_SESSION['shopping-cart']['payment']['shipping-option']);
 		unset($_SESSION['shopping-cart']['payment']['shipping-rate']);
 
-		// echo '<pre>';
-		// print_r($_POST);
-		// print_r($_SESSION);
-		// echo '</pre>';
-
 		if (isset($shipping_to) && $shipping_to !='') {
 			$result['type'] = 'success';
 			$result['message'] = __('Shipping destination confirmed.', 'cell-store');
 			ajax_response($result,$return_success);
+
 		} else {
 			$result['type'] = 'error';
 			$result['message'] = __('Shipping destination not confirmed.', 'cell-store');
