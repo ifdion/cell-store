@@ -7,7 +7,6 @@ include_once ('ajax.php');
 */
 
 add_action('init', 'product_post_type', 0 );
-
 function product_post_type() {
 
 	global $cell_store_option;
@@ -46,9 +45,7 @@ function product_post_type() {
 	); 
 
 	register_post_type('product',$product_args);
-  
 }
-
 
 /* metabox 
 ---------------------------------------------------------------
@@ -227,6 +224,7 @@ function product_detail(){
 ---------------------------------------------------------------
 */
 
+add_filter('post_class', 'out_of_stock');
 function out_of_stock($classes) {
 	global $post;
 	$product_meta = get_post_meta($post->ID);
@@ -273,16 +271,19 @@ function out_of_stock($classes) {
 		$classes[] = 'unmanaged';
 		return $classes;
 	}
-
 }
-add_filter('post_class', 'out_of_stock');
 
 /* load product form
 ---------------------------------------------------------------
 */
 function cell_product_form(){
+
+	$template = 'template/product-form.php';
+	if (locate_template('cell-store/product-form.php') != '') {
+		$template = get_stylesheet_directory().'/cell-store/product-form.php';
+	}
 	ob_start();
-		include('template/product-form.php');
+		include($template);
 		$product_form_content = ob_get_contents();
 	ob_end_clean();
 	print $product_form_content;	
@@ -295,7 +296,55 @@ add_action('template_redirect', 'cell_product_script');
 function cell_product_script(){
 	if (is_singular('product')){
 		wp_enqueue_script('product-stock', plugins_url().'/cell-store/js/product-stock.js', array('jquery'), '0.1', true);
-		wp_localize_script( 'address', 'global', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+		wp_localize_script( 'product-stock', 'global', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 	}	
 }
+
+
+/* get discounted price 
+---------------------------------------------------------------
+*/
+
+
+function cs_get_discount_price($post_id = 0){
+	global $post;
+	if (isset($post->ID)) {
+		$product_id = $post->ID;
+	} else if ($post_id != 0 && is_numeric($post_id)) {
+		$product_id = $post_id;
+	}
+
+	if (isset($product_id)) {
+		$product_meta = get_post_meta( $product_id );
+		$price = $product_meta['_price'][0];
+
+		if (isset($product_meta['_use_discount'][0]) && isset($product_meta['_discount_value'][0])) {
+			$use_discount = true;
+			$discount_value = $product_meta['_discount_value'][0];
+			$todays_date = new DateTime(date("Y-m-d"));
+			$discount_start = new DateTime($product_meta['_discount_start'][0]);
+			$discount_end = new DateTime($product_meta['_discount_end'][0]);
+			if ($todays_date >= $discount_start && $todays_date <= $discount_end) {
+				$valid_discount = true;
+			}
+			if($use_discount && $valid_discount){
+				if (stripos($discount_value, '%')) {
+					$discount_percentage = str_replace('%', '', $discount_value);
+					$price_after_discount = $price * (100 - $discount_percentage) / 100;
+					$discount_percentage = true;
+				} else {
+					$price_after_discount = $product_meta['_discount_value'][0];
+				}
+				return $price_after_discount;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}		
+	} else {
+		return false;
+	}
+}
+
 ?>
