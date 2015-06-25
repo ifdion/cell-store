@@ -59,6 +59,8 @@ add_action('plugins_loaded', 'cell_store_init');
 
 	include_once ('banner/banner.php');
 
+	include_once ('payments/payments.php');
+
 	// include_once ('lookbook/lookbook.php');
 
 
