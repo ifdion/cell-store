@@ -29,7 +29,7 @@ function process_add_to_cart() {
 			$return = get_permalink(get_page_by_path($shopping_cart_page));
 		}
 		
-
+		// define the product key, stock and product option based on product id and option
 		if (isset($product_option) && isset($stock)) {
 			$cart_item = $product_id.'-'.$product_option;
 			$stock = $stock[$product_option];
@@ -45,6 +45,8 @@ function process_add_to_cart() {
 			$product_option = false;
 			$stock = false;
 		}
+
+		// if stock is managed, add number of quantity based on session
 		if ($stock) {
 			if (isset($_SESSION['shopping-cart']['items'][$cart_item])) {
 				$quantity_in_cart = $_SESSION['shopping-cart']['items'][$cart_item]['quantity'];
@@ -64,16 +66,16 @@ function process_add_to_cart() {
 				$quantity = $quantity + $quantity_in_cart;
 			}
 		}
+
+		// set up new item data
 		$new_item['ID'] = $product_id;
-		$new_item['name'] = $product_name;
 		$new_item['option'] = $product_option;
 		$new_item['quantity'] = $quantity;
-		$new_item['weight'] = $weight;
-		$new_item['price'] = $price;
-		if ($stock) {
-			$new_item['stock-manage'] = 1;
-		}
+
 		$_SESSION['shopping-cart']['items'][$cart_item] = $new_item;
+
+		// remove payment session
+		unset( $_SESSION['shopping-cart']['payment']);
 
 		$result['type'] = 'success';
 		$result['message'] = sprintf(__(' %s added to shopping-cart ','cell-store'), $product_name);

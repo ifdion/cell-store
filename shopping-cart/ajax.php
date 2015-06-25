@@ -3,6 +3,7 @@
 /* add product to cart
 ---------------------------------------------------------------
 */
+
 add_action('wp_ajax_nopriv_delete_cart_item', 'process_delete_cart_item');
 add_action('wp_ajax_delete_cart_item', 'process_delete_cart_item');
 
@@ -18,6 +19,10 @@ function process_delete_cart_item() {
 		$cart_item = $_GET['cart-item'];
 		$return = get_permalink( get_page_by_path( $shopping_cart_page ) );
 		unset($_SESSION['shopping-cart']['items'][$cart_item]);
+
+		// remove payment session
+		unset( $_SESSION['shopping-cart']['payment']);
+
 		$result['type'] = 'success';
 		$result['message'] = __('Item removed from cart', 'cell-store');
 		ajax_response($result,$return);
@@ -30,6 +35,7 @@ function process_delete_cart_item() {
 /* update shopping cart 
 ---------------------------------------------------------------
 */
+
 add_action('wp_ajax_nopriv_update_shopping_cart', 'process_update_shopping_cart');
 add_action('wp_ajax_update_shopping_cart', 'process_update_shopping_cart');
 
@@ -100,7 +106,7 @@ function process_checkout() {
 		}
 
 		if (count($missing_field) > 0) {
-			$result['type'] = 'error';
+			$result['type'] = 'danger';
 			$result['message'] = $missing_string;
 			ajax_response($result,$return_error);
 		}
@@ -144,7 +150,7 @@ function process_checkout() {
 
 		// error shipping
 		if(!isset($shipping_to)){
-			$result['type'] = 'error';
+			$result['type'] = 'danger';
 			$result['message'] = __('Shipping destination is out of our coverage. Please contact us for additional support.', 'cell-store');
 			ajax_response($result, $return_error);
 		}
@@ -152,12 +158,23 @@ function process_checkout() {
 		// count total weight
 		$total_weight = 0;
 		foreach ($_SESSION['shopping-cart']['items'] as $key => $value) {
+
+			// get product data from database
+			$product_meta = get_post_meta( $value['ID'] );
+			// add details from database to product object
+			$value['weight'] = $product_meta['_weight'][0];
+
 			$total_weight += ($value['weight'] * $value['quantity']);
 		}
 
 		// count total item payment
 		$total_price = 0;
 		foreach ($_SESSION['shopping-cart']['items'] as $items) {
+			// get product data from database
+			$product_meta = get_post_meta( $value['ID'] );
+			// add details from database to product object
+			$items['price'] = $product_meta['_price'][0];
+
 			$total_price += ($items['quantity'] * $items['price']);
 			if (isset($_SESSION['shopping-cart']['coupon']['discount-value'])) {
 				$discount_value = str_replace('%', '', $_SESSION['shopping-cart']['coupon']['discount-value']);
@@ -207,8 +224,10 @@ function process_checkout() {
 			}
 			if (isset($user_meta['province'][0])) {
 				$billing['province'] = $user_meta['province'][0];
-			} else {
+			} elseif(isset($shipping['province'])) {
 				$billing['province'] = $shipping['province'];
+			} else {
+				$billing['province'] = '';
 			}
 			if (isset($user_meta['city'][0])) {
 				$billing['city'] = $user_meta['city'][0];
@@ -235,6 +254,7 @@ function process_checkout() {
 
 			// and save the shipping address if necessary
 			if (isset($save_as_shipping)) {
+				update_user_meta($current_user->ID, 'have-shipping', 1);
 				update_user_meta($current_user->ID, 'shipping-first-name', $shipping['first-name']);
 				update_user_meta($current_user->ID, 'shipping-last-name', $shipping['last-name']);
 				update_user_meta($current_user->ID, 'shipping-email', $shipping['email']);
@@ -263,7 +283,7 @@ function process_checkout() {
 			// and register the user data
 			if ($_POST['username'] && $_POST['password']) {
 				if( username_exists($_POST['username']) || email_exists($_POST['email']) ){
-					$error['type'] = 'error';
+					$error['type'] = 'danger danger';
 					$error['message'] = __('Username or email already registered', 'cell-store');
 					ajax_response($error);
 				} else {
@@ -331,7 +351,7 @@ function process_checkout() {
 			ajax_response($result,$return_success);
 
 		} else {
-			$result['type'] = 'error';
+			$result['type'] = 'danger';
 			$result['message'] = __('Shipping destination not confirmed.', 'cell-store');
 			ajax_response($result,$return_error);
 		}
@@ -377,7 +397,7 @@ function process_payment_option() {
 			
 		} else {
 			$return = $_POST['_wp_http_referer'];
-			$error['type'] = 'error';
+			$error['type'] = 'danger danger';
 			$error['message'] = __('You have to agree with the term and condition', 'cell-store');
 			ajax_response($error,$return);
 		}
@@ -397,6 +417,25 @@ function process_purchase_confirmation() {
 		$billing = $_SESSION['shopping-cart']['customer']['billing'];
 		$shipping = $_SESSION['shopping-cart']['customer']['shipping'];
 		$items = $_SESSION['shopping-cart']['items'];
+
+		foreach ($items as $key => $value) {
+			// get product data from database
+			$product_data = get_post( $value['ID'] );
+			$product_meta = get_post_meta( $value['ID'] );
+
+			// get product discount price
+			$product_price = $product_meta['_price'][0];
+			if (cs_get_discount_price($value['ID'])) {
+				$product_price = cs_get_discount_price($value['ID']);
+			}
+
+			// add details from database to product object
+			$items[$key]['stock-manage'] = $product_meta['_use_stock_management'][0];
+			$items[$key]['weight'] = $product_meta['_weight'][0];
+			$items[$key]['name'] = $product_data->post_title;
+			$items[$key]['price'] = $product_price;
+		}
+
 		if (isset($_SESSION['shopping-cart']['coupon'])) {
 			$coupon = $_SESSION['shopping-cart']['coupon'];
 		}
@@ -419,7 +458,7 @@ function process_purchase_confirmation() {
 
 			add_post_meta($new_transaction, '_billing', $_SESSION['shopping-cart']['customer']['billing'], true);
 			add_post_meta($new_transaction, '_shipping', $_SESSION['shopping-cart']['customer']['shipping'], true);
-			add_post_meta($new_transaction, '_items', $_SESSION['shopping-cart']['items'], true);
+			add_post_meta($new_transaction, '_items', $items, true);
 			add_post_meta($new_transaction, '_payment', $_SESSION['shopping-cart']['payment'], true);
 			if (isset($_SESSION['shopping-cart']['coupon'])) {
 				add_post_meta($new_transaction, '_coupon', $_SESSION['shopping-cart']['coupon'], true);
@@ -489,7 +528,10 @@ function process_purchase_confirmation() {
 			}
 
 			// reduce the stock if stock managed
-			foreach ($_SESSION['shopping-cart']['items'] as $item) {
+			foreach ($items as $item) {
+
+
+
 				if ($item['stock-manage']) {
 					$product_meta =get_post_meta($item['ID']);
 					if (isset($product_meta['_use_variations'][0])) {
@@ -508,17 +550,23 @@ function process_purchase_confirmation() {
 			}
 		}
 
-		unset($_SESSION['shopping-cart']['items']);
-		unset($_SESSION['shopping-cart']['coupon']);
-		unset($_SESSION['shopping-cart']['payment']);
+		if ($_SESSION['shopping-cart']['payment']['method'] == 'paypal') {
 
-		$_SESSION['shopping-cart']['last-transaction'] = $slug;
+			cs_process_paypal_paypment();
 
-		$return = get_permalink(get_page_by_path('thank-you'));
-		$result['type'] = 'success';
-		$result['message'] = __('Purchase has been made', 'cell-store');
-		ajax_response($result,$return);
 
+		} else {
+			unset($_SESSION['shopping-cart']['items']);
+			unset($_SESSION['shopping-cart']['coupon']);
+			unset($_SESSION['shopping-cart']['payment']);
+
+			$_SESSION['shopping-cart']['last-transaction'] = $slug;
+
+			$return = get_permalink(get_page_by_path('thank-you'));
+			$result['type'] = 'success';
+			$result['message'] = __('Purchase has been made', 'cell-store');
+			ajax_response($result,$return);
+		}
 		die();
 	}
 }
@@ -531,8 +579,9 @@ add_action('wp_ajax_nopriv_payment_confirm', 'process_payment_confirmation');
 add_action('wp_ajax_payment_confirm', 'process_payment_confirmation');
 
 function process_payment_confirmation() {
-	global $cell_store_option;
-	$additional_field = $cell_store_option['payment']['confirmation']['additional-field'];
+
+	$store_payment = get_option( 'cell_store_payments' );
+	$additional_field = $store_payment['transfer-input'];	
 
 	if ( empty($_POST) || !wp_verify_nonce($_POST['payment_confirm_nonce'],'payment_confirm') ) {
 		echo 'Sorry, your nonce did not verify.';
@@ -544,7 +593,7 @@ function process_payment_confirmation() {
 		if ($_POST['name'] != '') {
 			$name = $_POST['name'];
 		} else {
-			$result['type'] = 'error';
+			$result['type'] = 'danger';
 			$result['message'] = __('Name is missing', 'cell-store');
 			ajax_response($result,$return);
 		}
@@ -552,7 +601,7 @@ function process_payment_confirmation() {
 		if ($_POST['email'] != '') {
 			$email = $_POST['email'];
 		} else {
-			$result['type'] = 'error';
+			$result['type'] = 'danger';
 			$result['message'] = __('Email is missing', 'cell-store');
 			ajax_response($result,$return);
 		}
@@ -560,7 +609,7 @@ function process_payment_confirmation() {
 		if ($_POST['transaction-slug'] != '') {
 			$transaction_slug = $_POST['transaction-slug'];
 		} else {
-			$result['type'] = 'error';
+			$result['type'] = 'danger';
 			$result['message'] = __('Transaction Code is missing', 'cell-store');
 			ajax_response($result,$return);
 		}
@@ -591,8 +640,8 @@ function process_payment_confirmation() {
 			$additional_message = '';
 
 			foreach ($additional_field as $key => $value) {
-				if (isset($_POST[$key]) && $_POST[$key] != '') {
-					$additional_message .= ' -'.$value.':'.$_POST[$key].'- ';
+				if (isset($_POST[$value['title']]) && $_POST[$value['title']] != '') {
+					$additional_message .= ' -'.$value['title'].':'.$_POST[$value['title']].'- ';
 				}
 			}
 
@@ -616,7 +665,7 @@ function process_payment_confirmation() {
 			if (function_exists('cell_email')) {
 				cell_email($email, $mail_title, wpautop($message));
 			} else {
-				wp_mail($user_email, $mail_title, $message);
+				wp_mail($email, $mail_title, $message);
 			}
 
 			// send mail to admin
@@ -629,7 +678,7 @@ function process_payment_confirmation() {
 				wp_mail(get_bloginfo('admin_email'), $mail_title, $message);
 			}
 		} else {
-			$result['type'] = 'error';
+			$result['type'] = 'danger';
 			$result['message'] = __('Invalid Transaction Code', 'cell-store');
 			ajax_response($result,$return);
 		}

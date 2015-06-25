@@ -5,8 +5,26 @@
 <?php if (isset($_SESSION['shopping-cart']['items'])): ?>
 	<?php
 		$items = $_SESSION['shopping-cart']['items'];
+		foreach($items as $key => $item_details){
+			// get product data from database
+			$product_data = get_post( $item_details['ID'] );
+			$product_meta = get_post_meta( $item_details['ID'] );
+
+			// get product discount price
+			$product_price = $product_meta['_price'][0];
+			if (cs_get_discount_price($item_details['ID'])) {
+				$product_price = cs_get_discount_price($item_details['ID']);
+			}
+
+			// add details from database to product object
+			$items[$key]['price'] = $product_price;
+			$items[$key]['weight'] = $product_meta['_weight'][0];
+			$items[$key]['name'] = $product_data->post_title;
+		}
+
 		$total_price = 0;
 		$total_weight = 0;
+		$total_quantity = 0;
 	?>
 	<h2><?php _e('Items', 'cell-store') ?></h2>
 	<form id="update-shopping-cart" name="update-shopping-cart" class="well form-horizontal" action="<?php echo admin_url('admin-ajax.php'); ?>" method="post" enctype="multipart/form-data">
@@ -24,10 +42,12 @@
 			<tbody>
 				<?php foreach ($items as $key => $item_details): ?>
 					<?php
+
 						$price = $item_details['quantity'] * $item_details['price'];
 						$total_price +=$price;
 						$weight = $item_details['quantity'] * $item_details['weight'];
 						$total_weight += $weight;
+						$total_quantity += $item_details['quantity'];
 						$option = '';
 						if ($item_details['option']) {
 							$option = ' ( '.$item_details['option'].' ) ';
@@ -37,9 +57,9 @@
 						<td><a href="<?php echo wp_nonce_url(admin_url('admin-ajax.php') . '?action=delete_cart_item&cart-item='.$key, 'delete_cart_item') ?>" title="Remove">✕</a></td>
 						<td><a href="<?php echo get_permalink($item_details['ID']) ?>"><?php echo $item_details['name'].$option ?></a></td>
 						<td><?php echo currency_format($item_details['price']) ?></td>
-						<td><?php echo number_format($item_details['quantity'],0,'','.') ?></td>
+						<td><?php echo number_format($item_details['quantity'],0,',','.') ?></td>
 						<td><?php echo currency_format($price) ?></td>
-						<td><?php echo number_format($weight,1,'','.').' '.$weight_unit ?></td>
+						<td><?php echo number_format($weight,1,',','.').' '.$weight_unit ?></td>
 					</tr>
 				<?php endforeach ?>
 
