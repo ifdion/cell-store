@@ -4,7 +4,11 @@
 // print_r($options);
 // echo '</pre>';
 
-$transfer_destination = $options['transfer-destination'];
+$transfer_destination = [];
+$next_key = 0;
+if (isset($options['transfer-destination'])) {
+	$transfer_destination = $options['transfer-destination'];
+}
 
 // echo '<pre>';
 // print_r($transfer_destination);
@@ -40,8 +44,6 @@ $transfer_destination = $options['transfer-destination'];
 				<p>
 					<input type="text" value="<?php echo $image ?>" class="regular-text" name="cell_store_payments[transfer-destination][<?php echo $key ?>][image]"/>
 				</p>
-				<p><label>Transfer Detail</label></p>
-				<p><textarea id="" cols="80" rows="3" class="regular-text" name="cell_store_payments[transfer-destination][<?php echo $key ?>][description]"><?php echo $description ?></textarea></p>
 				<hr>
 			</div>
 		</div>
@@ -57,8 +59,6 @@ $transfer_destination = $options['transfer-destination'];
 			<p>
 				<input type="text" class="regular-text" name="cell_store_payments[transfer-destination][<?php echo $next_key ?>][image]"/>
 			</p>
-			<p><label>Transfer Detail</label></p>
-			<p><textarea id="" cols="80" rows="3" class="regular-text" name="cell_store_payments[transfer-destination][<?php echo $next_key ?>][description]"></textarea></p>
 			<hr>
 		</div>
 	</div>

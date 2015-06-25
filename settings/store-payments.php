@@ -18,7 +18,6 @@ function cell_store_payments() {
 		'paypal-currency'		=>	'USD',
 		'paypal-image'			=>	'',
 
-		'enable-transfer'		=>	0,
 		'transfer-detail'		=>	array(),
 
 	);
@@ -101,19 +100,18 @@ function cell_store_initialize_payments() {
 		'store_payment_section'			
 	);
 
-
 	add_settings_field(
-		'Enable Transfer',
-		__( 'Enable Transfer', 'cell_store' ),
-		'cell_store_enable_transfer_callback',
+		'Transfer Destination',
+		__( 'Transfer Destination', 'cell_store' ),
+		'cell_store_transfer_destination_callback',
 		'cell_store_payments',
 		'store_payment_section'
 	);
 
 	add_settings_field(
-		'Transfer Detail',
-		__( 'Transfer Detail', 'cell_store' ),
-		'cell_store_transfer_detail_callback',
+		'Transfer Input',
+		__( 'Transfer Input', 'cell_store' ),
+		'cell_store_transfer_input_callback',
 		'cell_store_payments',
 		'store_payment_section'
 	);
@@ -281,22 +279,7 @@ function cell_store_paypal_image_callback () {
 	
 } // end cell_store_paypal_image_callback
 
-function cell_store_enable_transfer_callback() {
-
-	$options = get_option( 'cell_store_payments' );
-	if (!isset($options['enable-transfer'])) {
-		$options['enable-transfer'] = 0;
-	}
-	
-	$html = '<input type="checkbox" id="enable-transfer" name="cell_store_payments[enable-transfer]" value="1"' . checked( 1, $options['enable-transfer'], false ) . '/>';
-	$html .= '&nbsp;';
-	$html .= '<label for="enable-transfer">Check to Enable</label>';
-	
-	echo $html;
-
-} // end cell_store_enable_transfer_callback
-
-function cell_store_transfer_detail_callback() {
+function cell_store_transfer_destination_callback() {
 
 	$options = get_option( 'cell_store_payments' );
 
@@ -307,7 +290,19 @@ function cell_store_transfer_detail_callback() {
 	echo $transfer_destination;
 
 
-} // end cell_store_transfer_detail_callback
+} // end cell_store_transfer_destination_callback
+
+function cell_store_transfer_input_callback () {
+	
+	$options = get_option( 'cell_store_payments' );
+
+	ob_start();
+		include('template/transfer-input.php');
+		$transfer_input = ob_get_contents();
+	ob_end_clean();
+	echo $transfer_input;
+	
+} // end cell_store_transfer_input_callback
 
 // function cell_store_order_confirmation_callback() {
 	
