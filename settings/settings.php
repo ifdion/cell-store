@@ -9,6 +9,8 @@ require_once 'social-options.php';
 
 require_once 'input-examples.php';
 
+require_once 'store-payments.php';
+
 /**
  * This function introduces the theme options into the 'Appearance' menu and into a top-level 
  * 'Sandbox Theme' menu.
@@ -77,6 +79,8 @@ function cell_store_options_display( $active_tab = '' ) {
 			$active_tab = $_GET[ 'tab' ];
 		} else if( $active_tab == 'store_pages' ) {
 			$active_tab = 'store_pages';
+		} else if( $active_tab == 'store_payments' ) {
+			$active_tab = 'store_payments';
 		} else if( $active_tab == 'input_examples' ) {
 			$active_tab = 'input_examples';
 		} else {
@@ -86,6 +90,7 @@ function cell_store_options_display( $active_tab = '' ) {
 		<h2 class="nav-tab-wrapper">
 			<a href="?page=cell_store_menu" class="nav-tab <?php echo $active_tab == 'store_features' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Store Settings', 'cell_store' ); ?></a>
 			<a href="?page=cell_store_menu&tab=store_pages" class="nav-tab <?php echo $active_tab == 'store_pages' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Store Pages', 'cell_store' ); ?></a>
+			<a href="?page=cell_store_menu&tab=store_payments" class="nav-tab <?php echo $active_tab == 'store_payments' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Store Payments', 'cell_store' ); ?></a>
 			<a href="?page=cell_store_menu&tab=input_examples" class="nav-tab <?php echo $active_tab == 'input_examples' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Input Examples', 'cell_store' ); ?></a>
 			<a href="?page=cell_store_menu&tab=social_options" class="nav-tab <?php echo $active_tab == 'social_options' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Social Options', 'cell_store' ); ?></a>
 		</h2>
@@ -102,6 +107,11 @@ function cell_store_options_display( $active_tab = '' ) {
 				
 					settings_fields( 'cell_store_pages' );
 					do_settings_sections( 'cell_store_pages' );
+
+				} elseif( $active_tab == 'store_payments' ) {
+				
+					settings_fields( 'cell_store_payments' );
+					do_settings_sections( 'cell_store_payments' );
 
 				} elseif( $active_tab == 'input_examples' ) {
 				
