@@ -3,9 +3,9 @@
 	$store_payment = get_option( 'cell_store_payments' );
 	$payment_transfer = $store_payment['transfer-destination'];
 
-	echo '<pre>';
-	print_r($store_payment);
-	echo '</pre>';
+	// echo '<pre>';
+	// print_r($store_payment);
+	// echo '</pre>';
 
 	global $cell_store_option;
 	$weight_unit = $cell_store_option['product']['weight-unit'];
