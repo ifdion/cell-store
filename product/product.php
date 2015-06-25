@@ -308,7 +308,7 @@ function cell_product_script(){
 
 function cs_get_discount_price($post_id = 0){
 	global $post;
-	if (isset($post->ID)) {
+	if (isset($post->ID) && $post->post_type == 'product') {
 		$product_id = $post->ID;
 	} else if ($post_id != 0 && is_numeric($post_id)) {
 		$product_id = $post_id;
