@@ -1,7 +1,14 @@
 <?php
+
+	$store_payment = get_option( 'cell_store_payments' );
+	$payment_transfer = $store_payment['transfer-destination'];
+
+	echo '<pre>';
+	print_r($store_payment);
+	echo '</pre>';
+
 	global $cell_store_option;
 	$weight_unit = $cell_store_option['product']['weight-unit'];
-	$payment_bank = $cell_store_option['payment']['bank'];
 	$payment_agreement = $cell_store_option['payment']['agreement'];
 ?>
 <form id="payment-option" name="payment-option" class="well form-horizontal" action="<?php echo admin_url('admin-ajax.php'); ?>" method="post" enctype="multipart/form-data">
@@ -40,10 +47,15 @@
 			<div class="control-group">
 				<div class="controls">
 					<?php $i = 0; ?>
-					<?php foreach ($payment_bank as $key => $value): ?>
-						<?php $i ++; ?>
-						<label><input type="radio" id="" name="payment-method" value="<?php echo $value['title'] ?>" <?php checked( 1, $i ) ?>> <img class="payment-icon" src="<?php echo $value['image'] ?>"> <?php echo $value['title'] ?></label><br>	
-					<?php endforeach ?>
+					<?php if (isset($store_payment['enable-paypal'])): ?>
+						<label><input type="radio" id="" name="payment-method" value="paypal" <?php checked( 1, $i ) ?>> <img class="payment-icon" src="<?php echo $store_payment['paypal-image'] ?>"> PayPal</label><br>
+					<?php endif ?>
+					<?php if (isset($store_payment['enable-transfer'])): ?>
+						<?php foreach ($payment_transfer as $key => $value): ?>
+							<?php $i ++; ?>
+							<label><input type="radio" id="" name="payment-method" value="<?php echo $value['title'] ?>" <?php checked( 1, $i ) ?>> <img class="payment-icon" src="<?php echo $value['image'] ?>"> <?php echo $value['title'] ?></label><br>
+						<?php endforeach ?>
+					<?php endif ?>
 				</div>
 			</div>
 		</div>
