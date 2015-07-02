@@ -75,7 +75,12 @@ function process_add_to_cart() {
 		$_SESSION['shopping-cart']['items'][$cart_item] = $new_item;
 
 		// remove payment session
-		unset( $_SESSION['shopping-cart']['payment']);
+		unset($_SESSION['shopping-cart']['payment']['total-weight']);
+		unset($_SESSION['shopping-cart']['payment']['total-item-cost']);
+		unset($_SESSION['shopping-cart']['payment']['shipping-destination-id']);
+		unset($_SESSION['shopping-cart']['payment']['method']);
+		unset($_SESSION['shopping-cart']['payment']['shipping-option']);
+		unset($_SESSION['shopping-cart']['payment']['shipping-rate']);
 
 		$result['type'] = 'success';
 		$result['message'] = sprintf(__(' %s added to shopping-cart ','cell-store'), $product_name);
