@@ -13,9 +13,11 @@ function cell_store_default_pages() {
 		'shopping-cart'			=>	'shopping-cart',
 		'checkout'				=>	'checkout',
 		'payment-option'		=>	'payment-option',
-		'terms-of-agreement'		=>	'terms-of-agreement',
+		'terms-of-agreement'	=>	'terms-of-agreement',
 		'order-confirmation'	=>	'order-confirmation',
-		'thank-you'				=>	'thank-you',
+		// 'thank-you'				=>	'thank-you',
+		'payment-success'		=>	'payment-success',
+		'payment-failed'		=>	'payment-failed',
 		'login'					=>	'login',
 		'logout'				=>	'logout',
 		'register'				=>	'register',
@@ -47,51 +49,51 @@ function cell_store_initialize_pages() {
 	);
 	
 	add_settings_field(	
-		'shopping-cart',						
-		'Shopping Cart Page',							
+		'shopping-cart',
+		'Shopping Cart Page',
 		'cell_store_shopping_cart_callback',	
 		'cell_store_pages',	
-		'store_pages_section'			
+		'store_pages_section'
 	);
 
 	add_settings_field(	
-		'checkout',						
-		'Checkout Page',							
+		'checkout',
+		'Checkout Page',
 		'cell_store_checkout_callback',	
 		'cell_store_pages',	
-		'store_pages_section'			
+		'store_pages_section'
 	);
 	
 	add_settings_field(	
-		'payment-option',						
-		'Payment Option Page',							
+		'payment-option',
+		'Payment Option Page',
 		'cell_store_payment_option_callback',	
 		'cell_store_pages',	
-		'store_pages_section'			
+		'store_pages_section'
 	);
 
 	add_settings_field(	
-		'terms-of-agreement',						
-		'Terms of Agreement',							
+		'terms-of-agreement',
+		'Terms of Agreement',
 		'cell_store_terms_of_agreement_callback',	
 		'cell_store_pages',	
-		'store_pages_section'			
+		'store_pages_section'
 	);
 
 	add_settings_field(	
-		'order-confirmation',						
-		'Order Confirmation Page',							
+		'order-confirmation',
+		'Order Confirmation Page',
 		'cell_store_order_confirmation_callback',	
 		'cell_store_pages',	
-		'store_pages_section'			
+		'store_pages_section'
 	);
 
 	add_settings_field(	
-		'thank-you',						
-		'Thank You Page',							
-		'cell_store_thank_you_callback',	
+		'payment-result',
+		'Payment Result Page',
+		'cell_store_payment_result_callback',	
 		'cell_store_pages',	
-		'store_pages_section'			
+		'store_pages_section'
 	);
 	
 	register_setting(
@@ -208,21 +210,24 @@ function cell_store_order_confirmation_callback() {
 	
 } // end cell_store_order_confirmation_callback
 
-function cell_store_thank_you_callback() {
+
+
+function cell_store_payment_result_callback() {
 	
 	// First, we read the social options collection
 	$options = get_option( 'cell_store_pages' );
 	
 	// Next, we need to make sure the element is defined in the options. If not, we'll set an empty string.
 	$url = '';
-	if( isset( $options['thank-you'] ) ) {
-		$url = esc_attr( $options['thank-you'] );
+	if( isset( $options['payment-result'] ) ) {
+		$url = esc_attr( $options['payment-result'] );
 	} // end if
 	
 	// Render the output
-	echo '<input type="text" id="thank-you" name="cell_store_pages[thank-you]" value="' . $url . '" />';
+	echo '<input type="text" id="payment-result" name="cell_store_pages[payment-result]" value="' . $url . '" />';
 	
-} // end cell_store_thank_you_callback
+} // end cell_store_payment_result_callback
+
 
 /* ------------------------------------------------------------------------ *
  * Setting Callbacks
@@ -236,7 +241,7 @@ function cell_store_thank_you_callback() {
  *	
  * @params	$input	The unsanitized collection of options.
  *
- * @returns			The collection of sanitized values.
+ * @returnsThe collection of sanitized values.
  */
 
 function cell_store_sanitize_pages( $input ) {
@@ -248,7 +253,7 @@ function cell_store_sanitize_pages( $input ) {
 	foreach( $input as $key => $val ) {
 	
 		if( isset ( $input[$key] ) ) {
-			$output[$key] = strip_tags( stripslashes( $input[$key] ) );
+$output[$key] = strip_tags( stripslashes( $input[$key] ) );
 		} // end if	
 	
 	} // end foreach

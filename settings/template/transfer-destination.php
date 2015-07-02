@@ -10,9 +10,9 @@ if (isset($options['transfer-destination'])) {
 	$transfer_destination = $options['transfer-destination'];
 }
 
-// echo '<pre>';
-// print_r($transfer_destination);
-// echo '</pre>';
+echo '<pre>';
+print_r($transfer_destination);
+echo '</pre>';
 
 ?>
 
@@ -44,6 +44,7 @@ if (isset($options['transfer-destination'])) {
 				<p>
 					<input type="text" value="<?php echo $image ?>" class="regular-text" name="cell_store_payments[transfer-destination][<?php echo $key ?>][image]"/>
 				</p>
+				<p><textarea id="" name="cell_store_payments[transfer-destination][<?php echo $key ?>][description]" cols="80" rows="10" class="large-text"><?php echo $description ?></textarea><br></p>
 				<hr>
 			</div>
 		</div>
@@ -59,6 +60,7 @@ if (isset($options['transfer-destination'])) {
 			<p>
 				<input type="text" class="regular-text" name="cell_store_payments[transfer-destination][<?php echo $next_key ?>][image]"/>
 			</p>
+			<p><textarea id="" name="cell_store_payments[transfer-destination][<?php echo $next_key ?>][description]" cols="80" rows="10" class="large-text"></textarea><br></p>
 			<hr>
 		</div>
 	</div>

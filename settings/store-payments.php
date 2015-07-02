@@ -17,7 +17,6 @@ function cell_store_payments() {
 		'paypal-signature'		=>	'',
 		'paypal-currency'		=>	'USD',
 		'paypal-image'			=>	'',
-
 		'transfer-detail'		=>	array(),
 
 	);
