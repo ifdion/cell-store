@@ -91,6 +91,26 @@ function cell_order_confirmation_shortcode(){
 	return $order_confirmation;
 }
 
+
+/* payment result
+---------------------------------------------------------------
+*/
+
+add_shortcode( 'cell-payment-result', 'cell_payment_result_content' );
+function cell_payment_result_content(){
+
+	// check if current theme has a replacement template
+	$template = 'template/payment-result.php';
+	if (locate_template('cell-store/payment-result.php') != '') {
+		$template = get_stylesheet_directory().'/cell-store/payment-result.php';
+	}
+	ob_start();
+		include($template);
+		$payment_result = ob_get_contents();
+	ob_end_clean();
+	return $payment_result;	
+}
+
 /* payment confirmation
 ---------------------------------------------------------------
 */
@@ -137,5 +157,35 @@ function cell_payment_detail(){
 	print $payment_detail_content;	
 }
 
+/* switch currency 
+---------------------------------------------------------------
+*/
+
+function cs_switch_currency(){
+
+	$option = get_option('cell_store_features' );
+
+	if ( false === ( $exchange_rate = get_transient( 'cs-exchange-rate' ) ) ) {
+		$api_endpoint = 'https://openexchangerates.org/api/latest.json?app_id='.$option['open-exchange-id'];
+		$api_results = wp_remote_get($api_endpoint);
+		$api_results = json_decode($api_results['body']);
+		$rates = $api_results->rates;
+		$exchange_rate = $rates->$option['secondary-currency'] / $rates->$option['currency'];
+		set_transient( 'cs-exchange-rate', $exchange_rate, 60*60*1 );
+	}
+
+	if (isset($_SESSION['shopping-cart']['payment']['use-seconary-currency'])) {
+		unset($_SESSION['shopping-cart']['payment']['use-seconary-currency']);
+		unset($_SESSION['shopping-cart']['payment']['exchange-rate']);
+		$current_currency = $option['currency'];
+	} else {
+		$_SESSION['shopping-cart']['payment']['use-seconary-currency'] = 1;
+		$_SESSION['shopping-cart']['payment']['exchange-rate'] = $exchange_rate;
+		$current_currency = $option['secondary-currency'];
+	}
+
+	return $current_currency;
+
+}
 
 ?>
