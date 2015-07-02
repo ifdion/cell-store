@@ -47,22 +47,25 @@ add_action('plugins_loaded', 'cell_store_init');
 ---------------------------------------------------------------
 */
 
-	include_once ('product/product.php');
+	$store_features = get_option( 'cell_store_features' );
 
-	// include_once ('collection/collection.php');
+	include_once ('product/product.php');
 
 	include_once ('transaction/transaction.php');
 
 	include_once ('shipping-destination/shipping-destination.php');
 
-	// include_once ('coupon/coupon.php');
-
-	include_once ('banner/banner.php');
-
 	include_once ('payments/payments.php');
 
-	// include_once ('lookbook/lookbook.php');
-
+	if (isset($store_features['enable-coupon'])) {
+		include_once ('coupon/coupon.php');
+	}
+	if (isset($store_features['enable-banner-management'])) {
+		include_once ('banner/banner.php');
+	}
+	if (isset($store_features['enable-lookbook'])) {
+		include_once ('lookbook/lookbook.php');
+	}
 
 /* taxonomies
 ---------------------------------------------------------------
