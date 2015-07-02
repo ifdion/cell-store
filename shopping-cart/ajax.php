@@ -8,8 +8,8 @@ add_action('wp_ajax_nopriv_delete_cart_item', 'process_delete_cart_item');
 add_action('wp_ajax_delete_cart_item', 'process_delete_cart_item');
 
 function process_delete_cart_item() {
-	global $cell_store_option;
-	$shopping_cart_page = $cell_store_option['shopping']['page']['shopping-cart'];
+	$cell_store_pages = get_option( 'cell_store_pages' );
+	$shopping_cart_page = $cell_store_pages['shopping-cart'];
 
 	if ( empty($_GET) || !wp_verify_nonce($_GET['_wpnonce'],'delete_cart_item') ) {
 		echo 'Sorry, your nonce did not verify.';
@@ -21,7 +21,12 @@ function process_delete_cart_item() {
 		unset($_SESSION['shopping-cart']['items'][$cart_item]);
 
 		// remove payment session
-		unset( $_SESSION['shopping-cart']['payment']);
+		unset($_SESSION['shopping-cart']['payment']['total-weight']);
+		unset($_SESSION['shopping-cart']['payment']['total-item-cost']);
+		unset($_SESSION['shopping-cart']['payment']['shipping-destination-id']);
+		unset($_SESSION['shopping-cart']['payment']['method']);
+		unset($_SESSION['shopping-cart']['payment']['shipping-option']);
+		unset($_SESSION['shopping-cart']['payment']['shipping-rate']);
 
 		$result['type'] = 'success';
 		$result['message'] = __('Item removed from cart', 'cell-store');
@@ -40,8 +45,8 @@ add_action('wp_ajax_nopriv_update_shopping_cart', 'process_update_shopping_cart'
 add_action('wp_ajax_update_shopping_cart', 'process_update_shopping_cart');
 
 function process_update_shopping_cart() {
-	global $cell_store_option;
-	$checkout_page = $cell_store_option['shopping']['page']['checkout'];
+	$cell_store_pages = get_option( 'cell_store_pages' );
+	$checkout_page = $cell_store_pages['checkout'];
 
 	if ( empty($_POST) || !wp_verify_nonce($_POST['update_shopping_cart_nonce'],'update_shopping_cart') ) {
 		echo 'Sorry, your nonce did not verify.';
@@ -162,7 +167,10 @@ function process_checkout() {
 			// get product data from database
 			$product_meta = get_post_meta( $value['ID'] );
 			// add details from database to product object
-			$value['weight'] = $product_meta['_weight'][0];
+			$value['weight'] = 0;
+			if (isset($product_meta['_weight'][0])) {
+				$value['weight'] = $product_meta['_weight'][0];
+			}
 
 			$total_weight += ($value['weight'] * $value['quantity']);
 		}
@@ -364,8 +372,18 @@ add_action('wp_ajax_nopriv_payment_option', 'process_payment_option');
 add_action('wp_ajax_payment_option', 'process_payment_option');
 
 function process_payment_option() {
-	global $cell_store_option;
-	$order_confirmation_page = $cell_store_option['shopping']['page']['order-confirmation'];
+	$cell_store_pages = get_option( 'cell_store_pages' );
+	$order_confirmation_page = $cell_store_pages['order-confirmation'];
+
+	// get store features
+	$store_options = get_option('cell_store_features' );
+	$currency_symbol = $store_options['currency'];
+	$weight_unit = $store_options['weight-unit'];
+	$exchange_rate = 1;
+	if (isset($_SESSION['shopping-cart']['payment']['use-seconary-currency'])) {
+		$currency_symbol = $store_options['secondary-currency'];
+		$exchange_rate = $_SESSION['shopping-cart']['payment']['exchange-rate'];
+	}
 
 	if ( empty($_POST) || !wp_verify_nonce($_POST['payment_option_nonce'],'payment_option') ) {
 		echo 'Sorry, your nonce did not verify.';
@@ -389,9 +407,22 @@ function process_payment_option() {
 			$_SESSION['shopping-cart']['payment']['shipping-option'] = $shipping_service;
 			$_SESSION['shopping-cart']['payment']['shipping-rate'] = $shipping_rate;
 
+			if ($payment_method == 'paypal') {
+				// check if current currency is not eligible currency in paypal
+				if (! in_array($currency_symbol, array('AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'JPY', 'MYR', 'MXN', 'NOK', 'NZD', 'PHP', 'PLN', 'GBP', 'RUB', 'SGD', 'SEK', 'CHF', 'TWD', 'THB', 'TRY', 'USD')) ) {
+					// switch to secondary
+					$currency_symbol = cs_switch_currency();
+					$additional_message = sprintf( __(' - Switched currency to %s ', 'cell-store'), $currency_symbol );
+				}
+			}
+
 			$return = get_permalink(get_page_by_path($order_confirmation_page));
 			$result['type'] = 'success';
 			$result['message'] = __('Payment and shipping confirmed', 'cell-store');
+			if (isset($additional_message)) {
+				$result['message'] .= $additional_message;
+			}
+			
 			ajax_response($result,$return);
 
 			
@@ -409,6 +440,9 @@ add_action('wp_ajax_nopriv_purchase_confirmation', 'process_purchase_confirmatio
 add_action('wp_ajax_purchase_confirmation', 'process_purchase_confirmation');
 
 function process_purchase_confirmation() {
+	$cell_store_pages = get_option( 'cell_store_pages' );
+	$payment_result_page = $cell_store_pages['payment-result'];
+
 	if ( empty($_POST) || !wp_verify_nonce($_POST['purchase_confirmation_nonce'],'purchase_confirmation') ) {
 		echo 'Sorry, your nonce did not verify.';
 		die();
@@ -431,7 +465,10 @@ function process_purchase_confirmation() {
 
 			// add details from database to product object
 			$items[$key]['stock-manage'] = $product_meta['_use_stock_management'][0];
-			$items[$key]['weight'] = $product_meta['_weight'][0];
+			$items[$key]['weight'] = 0;
+			if (isset($product_meta['_weight'][0])) {
+				$items[$key]['weight'] = $product_meta['_weight'][0];
+			}
 			$items[$key]['name'] = $product_data->post_title;
 			$items[$key]['price'] = $product_price;
 		}
@@ -472,7 +509,7 @@ function process_purchase_confirmation() {
 			add_post_meta($new_transaction, '_payment_item_cost', $_SESSION['shopping-cart']['payment']['total-item-cost'], true);
 
 			// send email to billing address
-			$mail_title = __('Transaction Confirmation', 'cell-store');
+			$mail_title = __('Transaction Confirmation', 'cell-store'); // TODO : add a proper title
 			$message = sprintf( __('<p> Dear %s </p>', 'cell-store'), $_SESSION['shopping-cart']['customer']['billing']['first-name'] );
 			$message .= sprintf( __('<p> Thank you for shopping at %s </p>', 'cell-store'), get_bloginfo('name') );
 			$message .= sprintf( __('<p> Your order : %s  has been received </p>', 'cell-store'), $slug );
@@ -529,9 +566,6 @@ function process_purchase_confirmation() {
 
 			// reduce the stock if stock managed
 			foreach ($items as $item) {
-
-
-
 				if ($item['stock-manage']) {
 					$product_meta =get_post_meta($item['ID']);
 					if (isset($product_meta['_use_variations'][0])) {
@@ -550,19 +584,23 @@ function process_purchase_confirmation() {
 			}
 		}
 
+		$_SESSION['shopping-cart']['last-transaction'] = $slug;
+
 		if ($_SESSION['shopping-cart']['payment']['method'] == 'paypal') {
 
 			cs_process_paypal_paypment();
 
-
 		} else {
 			unset($_SESSION['shopping-cart']['items']);
 			unset($_SESSION['shopping-cart']['coupon']);
-			unset($_SESSION['shopping-cart']['payment']);
-
-			$_SESSION['shopping-cart']['last-transaction'] = $slug;
-
-			$return = get_permalink(get_page_by_path('thank-you'));
+			unset($_SESSION['shopping-cart']['payment']['total-weight']);
+			unset($_SESSION['shopping-cart']['payment']['total-item-cost']);
+			unset($_SESSION['shopping-cart']['payment']['shipping-destination-id']);
+			unset($_SESSION['shopping-cart']['payment']['method']);
+			unset($_SESSION['shopping-cart']['payment']['shipping-option']);
+			unset($_SESSION['shopping-cart']['payment']['shipping-rate']);
+	
+			$return = get_permalink($payment_result_page);
 			$result['type'] = 'success';
 			$result['message'] = __('Purchase has been made', 'cell-store');
 			ajax_response($result,$return);
@@ -575,15 +613,15 @@ function process_purchase_confirmation() {
 ---------------------------------------------------------------
 */
 
-add_action('wp_ajax_nopriv_payment_confirm', 'process_payment_confirmation');
-add_action('wp_ajax_payment_confirm', 'process_payment_confirmation');
+add_action('wp_ajax_nopriv_payment_confirmation', 'process_payment_confirmation');
+add_action('wp_ajax_payment_confirmation', 'process_payment_confirmation');
 
 function process_payment_confirmation() {
 
 	$store_payment = get_option( 'cell_store_payments' );
 	$additional_field = $store_payment['transfer-input'];	
 
-	if ( empty($_POST) || !wp_verify_nonce($_POST['payment_confirm_nonce'],'payment_confirm') ) {
+	if ( empty($_POST) || !wp_verify_nonce($_POST['payment_confirmation_nonce'],'payment_confirmation') ) {
 		echo 'Sorry, your nonce did not verify.';
 		die();
 	} else {
@@ -688,5 +726,21 @@ function process_payment_confirmation() {
 		ajax_response($result,$return);
 
 	}
+}
+
+/* change currency 
+---------------------------------------------------------------
+*/
+
+add_action('wp_ajax_nopriv_switch_currency', 'process_switch_currency');
+add_action('wp_ajax_switch_currency', 'process_switch_currency');
+
+function process_switch_currency() {
+	$current_currency = cs_switch_currency();
+	$return_url =  wp_get_referer();
+
+	$result['type'] = 'success';
+	$result['message'] = sprintf( __('Switched currency to %s ', 'cell-store'), $current_currency );
+	ajax_response($result,$return_url);
 }
 ?>
