@@ -195,10 +195,11 @@ function filter_where( $where = '' ) {
 
 function cell_restore_stock($post_id){
 
-		$transaction_meta = get_post_meta($post_id);
-		$items = unserialize($transaction_meta['_items'][0]);
+	$transaction_meta = get_post_meta($post_id);
+	$items = unserialize($transaction_meta['_items'][0]);
 
-		// restore the stock if stock managed
+	// restore the stock if stock managed
+	if (is_array($items)) {
 		foreach ($items as $item) {
 			if ($item['stock-manage']) {
 				$product_meta =get_post_meta($item['ID']);
@@ -217,6 +218,8 @@ function cell_restore_stock($post_id){
 				}
 			}
 		}
+	}
+
 }
 /* write transaction log on status change 
 ---------------------------------------------------------------
