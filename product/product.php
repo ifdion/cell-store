@@ -327,7 +327,7 @@ function cs_get_discount_price($post_id = 0){
 			if ($todays_date >= $discount_start && $todays_date <= $discount_end) {
 				$valid_discount = true;
 			}
-			if($use_discount && $valid_discount){
+			if(isset($valid_discount)){
 				if (stripos($discount_value, '%')) {
 					$discount_percentage = str_replace('%', '', $discount_value);
 					$price_after_discount = $price * (100 - $discount_percentage) / 100;
