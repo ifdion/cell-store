@@ -15,6 +15,7 @@ $('select[name="product-option"]').live('change',function(){
 function change_option_stock(){
 	selected_var = $('select[name="product-option"]').val();
 	selected_stock = $('select[name="product-option"] option[value="'+selected_var+'"]').attr('data-stock');
+	$('input[name="quantity"]').attr('data-max-value', selected_stock).val(1);
 	$('select[name="quantity"]').empty();
 	for (var i = 0; i < selected_stock; i++) {
 		$('select[name="quantity"]').append('<option>'+ (i+1) +'</option>')
