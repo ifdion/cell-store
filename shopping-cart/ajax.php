@@ -600,7 +600,7 @@ function process_purchase_confirmation() {
 			unset($_SESSION['shopping-cart']['payment']['shipping-option']);
 			unset($_SESSION['shopping-cart']['payment']['shipping-rate']);
 	
-			$return = get_permalink($payment_result_page);
+			$return = get_permalink(get_page_by_path($payment_result_page ));
 			$result['type'] = 'success';
 			$result['message'] = __('Purchase has been made', 'cell-store');
 			ajax_response($result,$return);
