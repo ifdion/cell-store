@@ -27,7 +27,7 @@ function cell_store_taxonomies() {
 		'menu_name' => __( 'Collection','cell-store' ),
 	);
 	
-	register_taxonomy('collection',array('product'), array(
+	register_taxonomy('collection',array('product', 'banner'), array(
 		'hierarchical' => true,
 		'labels' => $collection_labels,
 		'show_ui' => true,
@@ -49,7 +49,7 @@ function cell_store_taxonomies() {
 		'menu_name' => __( 'Product Category','cell-store' ),
 	);
 	
-	register_taxonomy('product-category',array('product'), array(
+	register_taxonomy('product-category',array('product', 'banner'), array(
 		'hierarchical' => true,
 		'labels' => $product_category_labels,
 		'show_ui' => true,
@@ -71,7 +71,7 @@ function cell_store_taxonomies() {
 		'menu_name' => __( 'Product Tag','cell-store' ),
 	);
 	
-	register_taxonomy('product-tag',array('product'), array(
+	register_taxonomy('product-tag',array('product', 'banner'), array(
 		'hierarchical' => false,
 		'labels' => $product_tag_labels,
 		'show_ui' => true,
@@ -99,6 +99,9 @@ function cell_store_taxonomies() {
 		'query_var' => true,
 		'rewrite' => array( 'slug' => 'position' ),
 	));
+
+	register_taxonomy_for_object_type('category', 'banner');
+	register_taxonomy_for_object_type('post_tag', 'banner');
 
 }
 
