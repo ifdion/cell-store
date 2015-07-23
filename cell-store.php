@@ -74,6 +74,13 @@ add_action('plugins_loaded', 'cell_store_init');
 	include_once ('taxonomies.php');
 
 
+/* rewrites
+---------------------------------------------------------------
+*/
+
+	include_once ('rewrites.php');
+
+
 /* shopping cart
 ---------------------------------------------------------------
 */
