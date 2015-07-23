@@ -74,6 +74,7 @@ function product_columns($columns){
 		'title' => __('Title','cell-store'),
 		'product_price' => __('Price','cell-store'),
 		'product_stock' => __('Stock','cell-store'),
+		'collection' => __('Collection','cell-store'),
 		'product_category' => __('Product Category','cell-store'),
 		'product_tag' => __('Product Tag','cell-store'),
 		'date' => __('Date','cell-store'),
@@ -131,6 +132,9 @@ function product_custom_column($column){
 			break;
 		case 'product_category':
 			echo get_the_term_list($post->ID, 'product-category', '', ', ','');
+			break;
+		case 'collection':
+			echo get_the_term_list($post->ID, 'collection', '', ', ','');
 			break;
 		case 'product_tag':
 			echo get_the_term_list($post->ID, 'product-tag', '', ', ','');
