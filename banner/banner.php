@@ -24,9 +24,11 @@ function hijabchic_custom_post_type() {
 	$banner_args = array(
 		'labels' => $banner_labels,
 		'public' => true,
-		'publicly_queryable' => true,
+		'exclude_from_search' => true,
+		'publicly_queryable' => false,
 		'show_ui' => true, 
 		'show_in_menu' => true, 
+		'show_in_nav_menu' => false, 
 		'query_var' => true,
 		'rewrite' => true,
 		'capability_type' => 'post',
@@ -82,7 +84,25 @@ function banner_custom_column($column){
 			echo get_post_meta($post->ID, '_url', true);
 			break;
 		case 'position':
-			echo get_the_term_list($post->ID, 'position', '', ', ','');
+			$position_term = get_the_term_list($post->ID, 'position', '', ', ','');
+			if ($position_term != '') {
+				echo $position_term;
+			}
+			$tax_query = array();
+			$banner_shared_tax = array('collection', 'product-category', 'product-tag');
+			foreach ($banner_shared_tax as $value) {
+				$terms = get_the_term_list($post->ID, $value, '', ', ','');
+				if ($terms) {
+					$tax_query[] = $terms;
+				}
+			}
+			if (count($tax_query) > 0) {
+				if ($position_term != '') {
+					echo ' | ';
+				}
+				$tax_post = implode(' + ', $tax_query);
+				echo $tax_post;
+			}
 			break;
 	}
 }
@@ -110,12 +130,67 @@ function banner_restrict_manage_posts() {
 	}
 }
 
+/* remove other taxonomies for banner 
+---------------------------------------------------------------
+*/
+
+add_action( 'admin_menu', 'position_only_for_banner', 999 );
+function position_only_for_banner() {
+  remove_submenu_page( 'edit.php?post_type=banner', 'edit-tags.php?taxonomy=collection&amp;post_type=banner' );
+  remove_submenu_page( 'edit.php?post_type=banner', 'edit-tags.php?taxonomy=product-category&amp;post_type=banner' );
+  remove_submenu_page( 'edit.php?post_type=banner', 'edit-tags.php?taxonomy=product-tag&amp;post_type=banner' );
+  // $page[0] is the menu title
+  // $page[1] is the minimum level or capability required
+  // $page[2] is the URL to the item's file
+}
+
 /* output the banners 
 ---------------------------------------------------------------
 */
 
-function the_banner(){
-	
+function cs_banner_image_src($size = 'full', $position = false){
+
+	$banner_image = get_stylesheet_directory_uri() .'/images/sample-1.jpg';
+	$banner_tax = get_object_taxonomies('banner');
+
+	$args = array(
+		'post_type'   => 'banner',
+		'post_status' => 'publish',
+		'posts_per_page'         => 1,
+		'tax_query' => array(
+			'relation'  => 'AND',
+		),
+	);
+
+	if ($position) {
+		$args['tax_query'][] = array(
+			'taxonomy' => 'position',
+			'field' => 'slug',
+			'operator' => 'IN',
+			'terms' => array($position)
+		);
+	} else {
+		global $wp_query;
+		foreach ($banner_tax as $value) {
+			if (isset($wp_query->query[$value])) {
+				$args['tax_query'][] = array(
+					'taxonomy' => $value,
+					'field' => 'slug',
+					'operator' => 'IN',
+					'terms' => array($wp_query->query[$value])
+				);
+			}
+		}
+	}
+
+	$banner_query = new WP_Query( $args );
+	$banner_post = $banner_query->post;
+	$banner_image_id = get_post_thumbnail_id($banner_post->ID );
+	$banner_image = wp_get_attachment_image_src( $banner_image_id, 'full', false);
+	$banner_image = $banner_image[0];
+
+	return $banner_image;
+
 }
 
 ?>
