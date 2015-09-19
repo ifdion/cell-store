@@ -380,7 +380,7 @@ function process_payment_option() {
 	$currency_symbol = $store_options['currency'];
 	$weight_unit = $store_options['weight-unit'];
 	$exchange_rate = 1;
-	if (isset($_SESSION['shopping-cart']['payment']['use-seconary-currency'])) {
+	if (isset($_SESSION['shopping-cart']['payment']['use-secondary-currency'])) {
 		$currency_symbol = $store_options['secondary-currency'];
 		$exchange_rate = $_SESSION['shopping-cart']['payment']['exchange-rate'];
 	}
@@ -588,7 +588,7 @@ function process_purchase_confirmation() {
 
 		if ($_SESSION['shopping-cart']['payment']['method'] == 'paypal') {
 
-			cs_process_paypal_paypment();
+			cs_process_paypal_payment();
 
 		} else {
 			unset($_SESSION['shopping-cart']['items']);
@@ -736,11 +736,25 @@ add_action('wp_ajax_nopriv_switch_currency', 'process_switch_currency');
 add_action('wp_ajax_switch_currency', 'process_switch_currency');
 
 function process_switch_currency() {
-	$current_currency = cs_switch_currency();
+
 	$return_url =  wp_get_referer();
 
-	$result['type'] = 'success';
-	$result['message'] = sprintf( __('Switched currency to %s ', 'cell-store'), $current_currency );
+	if (isset($_SESSION['shopping-cart']['payment']['method']) && $_SESSION['shopping-cart']['payment']['method'] == 'paypal') {
+
+
+	$cell_store_pages = get_option( 'cell_store_pages' );
+
+	$payment_option_page_url = get_permalink(get_page_by_path($cell_store_pages['payment-option'] ));
+
+		$result['type'] = 'danger';
+		$result['message'] = __('Please use other payment method to switch currency. ', 'cell-store');
+		$result['message'] = sprintf( __(' Please use other payment method to switch currency. Go to  <a href="%s"><strong>Payment Option</strong></a>', 'cell-store'), $payment_option_page_url );
+	} else {
+		$current_currency = cs_switch_currency();
+		$result['type'] = 'success';
+		$result['message'] = sprintf( __('Switched currency to %s ', 'cell-store'), $current_currency );
+	}
+
 	ajax_response($result,$return_url);
 }
 ?>

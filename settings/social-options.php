@@ -12,7 +12,7 @@ function cell_store_default_social_options() {
 	$defaults = array(
 		'twitter'		=>	'',
 		'facebook'		=>	'',
-		'googleplus'	=>	'',
+		'instagram'	=>	'',
 	);
 	
 	return apply_filters( 'cell_store_default_social_options', $defaults );
@@ -55,9 +55,9 @@ function cell_store_initialize_social_options() {
 	);
 	
 	add_settings_field(	
-		'googleplus',						
-		'Google+',							
-		'cell_store_googleplus_callback',	
+		'instagram',						
+		'Instagram',							
+		'cell_store_instagram_callback',	
 		'cell_store_social_options',	
 		'store_pages_section'			
 	);
@@ -126,19 +126,19 @@ function cell_store_facebook_callback() {
 	
 } // end cell_store_facebook_callback
 
-function cell_store_googleplus_callback() {
+function cell_store_instagram_callback() {
 	
 	$options = get_option( 'cell_store_social_options' );
 	
 	$url = '';
-	if( isset( $options['googleplus'] ) ) {
-		$url = esc_url( $options['googleplus'] );
+	if( isset( $options['instagram'] ) ) {
+		$url = esc_url( $options['instagram'] );
 	} // end if
 	
 	// Render the output
-	echo '<input type="text" id="googleplus" name="cell_store_social_options[googleplus]" value="' . $url . '" />';
+	echo '<input type="text" id="instagram" name="cell_store_social_options[instagram]" value="' . $url . '" />';
 	
-} // end cell_store_googleplus_callback
+} // end cell_store_instagram_callback
 
 /* ------------------------------------------------------------------------ *
  * Setting Callbacks

@@ -170,13 +170,13 @@ function ucc_right_now_content_table_end() {
 /* wp-admin : add small image  size for admin table
 ---------------------------------------------------------------
 */
-// if (function_exists( 'add_theme_support' ) ) {
-// 	add_theme_support( 'post-thumbnails' );
-// }
+if (function_exists( 'add_theme_support' ) ) {
+	add_theme_support( 'post-thumbnails' );
+}
 
-// if (function_exists( 'add_image_size' ) ) { 
-// 	add_image_size( '50', 50, 50, true );
-// }
+if (function_exists( 'add_image_size' ) ) { 
+	add_image_size( '50', 50, 50, true );
+}
 
 /* check if is descendant 
 ---------------------------------------------------------------

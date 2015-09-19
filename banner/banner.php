@@ -78,7 +78,7 @@ function banner_custom_column($column){
 	global $post;
 	switch ($column) {
 		case 'banner-thumbnail':
-			the_post_thumbnail('50');
+			the_post_thumbnail('thumbnail');
 			break;
 		case 'url':
 			echo get_post_meta($post->ID, '_url', true);

@@ -174,12 +174,12 @@ function cs_switch_currency(){
 		set_transient( 'cs-exchange-rate', $exchange_rate, 60*60*1 );
 	}
 
-	if (isset($_SESSION['shopping-cart']['payment']['use-seconary-currency'])) {
-		unset($_SESSION['shopping-cart']['payment']['use-seconary-currency']);
+	if (isset($_SESSION['shopping-cart']['payment']['use-secondary-currency'])) {
+		unset($_SESSION['shopping-cart']['payment']['use-secondary-currency']);
 		unset($_SESSION['shopping-cart']['payment']['exchange-rate']);
 		$current_currency = $option['currency'];
 	} else {
-		$_SESSION['shopping-cart']['payment']['use-seconary-currency'] = 1;
+		$_SESSION['shopping-cart']['payment']['use-secondary-currency'] = 1;
 		$_SESSION['shopping-cart']['payment']['exchange-rate'] = $exchange_rate;
 		$current_currency = $option['secondary-currency'];
 	}

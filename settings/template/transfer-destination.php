@@ -10,10 +10,6 @@ if (isset($options['transfer-destination'])) {
 	$transfer_destination = $options['transfer-destination'];
 }
 
-echo '<pre>';
-print_r($transfer_destination);
-echo '</pre>';
-
 ?>
 
 <div id="" class="custom-option">

@@ -8,14 +8,14 @@ include_once('paypal-express-checkout/paypal.class.php');
  * @return void
  * @author 
  **/
-function cs_process_paypal_paypment(){
+function cs_process_paypal_payment(){
 
 	// get store features
 	$store_options = get_option('cell_store_features' );
 	$currency_symbol = $store_options['currency'];
 	$weight_unit = $store_options['weight-unit'];
 	$exchange_rate = 1;
-	if (isset($_SESSION['shopping-cart']['payment']['use-seconary-currency'])) {
+	if (isset($_SESSION['shopping-cart']['payment']['use-secondary-currency'])) {
 		$currency_symbol = $store_options['secondary-currency'];
 		$exchange_rate = $_SESSION['shopping-cart']['payment']['exchange-rate'];
 	}

@@ -2,6 +2,12 @@
 	global $cell_store_option;
 	$currency = $cell_store_option['currency']['symbol'];
 	$weight_unit = $cell_store_option['product']['weight-unit'];
+
+	$store_option = get_option('cell_store_features' );
+
+	// echo '<pre>';
+	// print_r($store_option);
+	// echo '</pre>';
 ?>
 <div class="my_meta_control">
 	<?php
@@ -36,10 +42,17 @@
 	<?php
 		echo '<ul>';
 			echo '<li><strong>'. __('Total Item Cost', 'cell-store').'</strong> : '.currency_format($payment['total-item-cost']).'</li>';
+			if (isset($payment['use-seconary-currency'])) {
+				echo '<li><strong>'. __('Currency Exchange', 'cell-store').'</strong> : '. currency_format(1 / $payment['exchange-rate']).'</li>';	
+				echo '<li><strong>'. __('Total Item Cost in Paid Currency', 'cell-store').'</strong> : '.$store_option['secondary-currency'] . ' ' . ceil($payment['exchange-rate'] * $payment['total-item-cost'] * 100) / 100 .'</li>';	
+			}
 			echo '<li><strong>'. __('Payment Method', 'cell-store').'</strong> : '.$payment['method'].'</li>';
 			echo '<li><strong>'. __('Total Weight', 'cell-store').'</strong> : ' . number_format($payment['total-weight'],0,',','.').' '.$weight_unit.'</li>';
 			echo '<li><strong>'. __('Shipping Option', 'cell-store').'</strong> : '.$payment['shipping-option'].'</li>';
 			echo '<li><strong>'. __('Shipping Rate', 'cell-store').'</strong> : '. currency_format($payment['shipping-rate']) .'</li>';
+			if (isset($payment['use-seconary-currency'])) {
+				echo '<li><strong>'. __('Shipping Rate', 'cell-store').'</strong> : '.$store_option['secondary-currency'] . ' ' . ceil($payment['exchange-rate'] * $payment['shipping-rate'] * 100) / 100 .'</li>';	
+			}
 		echo '</ul>';
 	?>
 	<hr>

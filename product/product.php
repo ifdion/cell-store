@@ -88,7 +88,8 @@ function product_custom_column($column){
 	$product_meta = get_post_meta($post->ID);
 	switch ($column) {
 		case 'product-thumbnail':
-			the_post_thumbnail('50');
+
+			the_post_thumbnail(50);
 			break;
 		case 'product_price':
 			if (isset($product_meta['_price'][0])) {
