@@ -61,6 +61,14 @@ function cell_store_initialize_social_options() {
 		'cell_store_social_options',	
 		'store_pages_section'			
 	);
+
+	add_settings_field(	
+		'pinterest',						
+		'Pinterest',							
+		'cell_store_pinterest_callback',	
+		'cell_store_social_options',	
+		'store_pages_section'			
+	);
 	
 	register_setting(
 		'cell_store_social_options',
@@ -139,6 +147,20 @@ function cell_store_instagram_callback() {
 	echo '<input type="text" id="instagram" name="cell_store_social_options[instagram]" value="' . $url . '" />';
 	
 } // end cell_store_instagram_callback
+
+function cell_store_pinterest_callback() {
+	
+	$options = get_option( 'cell_store_social_options' );
+	
+	$url = '';
+	if( isset( $options['pinterest'] ) ) {
+		$url = esc_url( $options['pinterest'] );
+	} // end if
+	
+	// Render the output
+	echo '<input type="text" id="pinterest" name="cell_store_social_options[pinterest]" value="' . $url . '" />';
+	
+} // end cell_store_pinterest_callback
 
 /* ------------------------------------------------------------------------ *
  * Setting Callbacks
