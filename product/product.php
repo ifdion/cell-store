@@ -40,7 +40,7 @@ function product_post_type() {
 		'has_archive' => true, 
 		'hierarchical' => false,
 		'menu_position' => 6,
-		'show_in_nav_menus' => false,
+		'show_in_nav_menus' => true,
 		'supports' => array('title','editor','thumbnail','comments')
 	); 
 
