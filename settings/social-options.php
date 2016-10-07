@@ -69,6 +69,14 @@ function cell_store_initialize_social_options() {
 		'cell_store_social_options',	
 		'store_pages_section'			
 	);
+
+	add_settings_field(	
+		'whatsapp',						
+		'Whatsapp',							
+		'cell_store_whatsapp_callback',	
+		'cell_store_social_options',	
+		'store_pages_section'			
+	);
 	
 	register_setting(
 		'cell_store_social_options',
@@ -162,6 +170,21 @@ function cell_store_pinterest_callback() {
 	
 } // end cell_store_pinterest_callback
 
+function cell_store_whatsapp_callback() {
+	
+	$options = get_option( 'cell_store_social_options' );
+	
+	$url = '';
+	if( isset( $options['whatsapp'] ) ) {
+		$url = $options['whatsapp'];
+	} // end if
+	
+	// Render the output
+	echo '<input type="text" id="whatsapp" name="cell_store_social_options[whatsapp]" value="' . $url . '" />';
+	
+} // end cell_store_whatsapp_callback
+
+
 /* ------------------------------------------------------------------------ *
  * Setting Callbacks
  * ------------------------------------------------------------------------ */ 
@@ -185,7 +208,8 @@ function cell_store_sanitize_social_options( $input ) {
 	foreach( $input as $key => $val ) {
 	
 		if( isset ( $input[$key] ) ) {
-			$output[$key] = esc_url(strip_tags( stripslashes( $input[$key] ) ) );
+			// $output[$key] = esc_url(strip_tags( stripslashes( $input[$key] ) ) );
+			$output[$key] = $input[$key];
 		} // end if	
 	
 	} // end foreach
