@@ -6,15 +6,15 @@
 	 * @return void
 	 * @author 
 	 **/
-	function cs_create_rewrite_rules($rules) {
-		global $wp_rewrite;
-		$newRule = array('collection/(.+)/(.+)/(.+)/page/([0-9]{1,})/?$' => 'index.php?collection=' . $wp_rewrite->preg_index( 1 ).'&'.$wp_rewrite->preg_index( 2 ).'='. $wp_rewrite->preg_index( 3 ).'&paged='. $wp_rewrite->preg_index( 4 ));
-		$newRule += array('collection/(.+)/(.+)/(.+)/?$' => 'index.php?collection=' . $wp_rewrite->preg_index( 1 ).'&'.$wp_rewrite->preg_index( 2 ).'='. $wp_rewrite->preg_index( 3 ));
+	// function cs_create_rewrite_rules($rules) {
+	// 	global $wp_rewrite;
+	// 	$newRule = array('collection/(.+)/(.+)/(.+)/page/([0-9]{1,})/?$' => 'index.php?collection=' . $wp_rewrite->preg_index( 1 ).'&'.$wp_rewrite->preg_index( 2 ).'='. $wp_rewrite->preg_index( 3 ).'&paged='. $wp_rewrite->preg_index( 4 ));
+	// 	$newRule += array('collection/(.+)/(.+)/(.+)/?$' => 'index.php?collection=' . $wp_rewrite->preg_index( 1 ).'&'.$wp_rewrite->preg_index( 2 ).'='. $wp_rewrite->preg_index( 3 ));
 		
-		$newRules = $newRule + $rules;
-		return $newRules;
-	}
-	add_filter( 'rewrite_rules_array' , 'cs_create_rewrite_rules' );
+	// 	$newRules = $newRule + $rules;
+	// 	return $newRules;
+	// }
+	// add_filter( 'rewrite_rules_array' , 'cs_create_rewrite_rules' );
 
 	/**
 	 * use taxonomy template for custom rewrite
