@@ -4,8 +4,8 @@
 --------------------------------------------------------------
 */
 
-add_action('init', 'hijabchic_custom_post_type');
-function hijabchic_custom_post_type() {
+add_action('init', 'banner_custom_post_type');
+function banner_custom_post_type() {
 
 	$banner_labels = array(
 		'name' => _x('Banners', 'post type general name'),
@@ -186,7 +186,7 @@ function cs_banner_image_src($size = 'full', $position = false){
 	$banner_query = new WP_Query( $args );
 	$banner_post = $banner_query->post;
 	$banner_image_id = get_post_thumbnail_id($banner_post->ID );
-	$banner_image = wp_get_attachment_image_src( $banner_image_id, 'full', false);
+	$banner_image = wp_get_attachment_image_src( $banner_image_id, $size, false);
 	$banner_image = $banner_image[0];
 
 	return $banner_image;
