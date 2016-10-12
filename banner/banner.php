@@ -190,7 +190,50 @@ function cs_banner_image_src($size = 'full', $position = false){
 	$banner_image = $banner_image[0];
 
 	return $banner_image;
+}
 
+function cs_banner_text($position = false){
+
+	$banner_image = get_stylesheet_directory_uri() .'/images/sample-1.jpg';
+	$banner_tax = get_object_taxonomies('banner');
+
+	$args = array(
+		'post_type'   => 'banner',
+		'post_status' => 'publish',
+		'posts_per_page'         => 1,
+		'tax_query' => array(
+			'relation'  => 'AND',
+		),
+	);
+
+	if ($position) {
+		$args['tax_query'][] = array(
+			'taxonomy' => 'position',
+			'field' => 'slug',
+			'operator' => 'IN',
+			'terms' => array($position)
+		);
+	} else {
+		global $wp_query;
+		foreach ($banner_tax as $value) {
+			if (isset($wp_query->query[$value])) {
+				$args['tax_query'][] = array(
+					'taxonomy' => $value,
+					'field' => 'slug',
+					'operator' => 'IN',
+					'terms' => array($wp_query->query[$value])
+				);
+			}
+		}
+	}
+
+	$banner_query = new WP_Query( $args );
+	// $banner_post = $banner_query->post;
+	// $banner_image_id = get_post_thumbnail_id($banner_post->ID );
+	// $banner_image = wp_get_attachment_image_src( $banner_image_id, $size, false);
+	// $banner_image = $banner_image[0];
+
+	return $banner_query->post->post_title;
 }
 
 ?>
