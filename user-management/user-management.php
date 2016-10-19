@@ -93,21 +93,22 @@ function iniate_cell_login(){
 		'country' => array(
 			'title' => __('Country', 'cell-user'),
 			'type' => 'select',
-			'option' => 'get_country',
-			'attr' => array(
-				'class' => 'select-address',
-				'data-target' => 'province'
-			)
+			'option' => array('Indonesia'),
+			// 'option' => 'get_country',
+			// 'attr' => array(
+			// 	'class' => 'select-address',
+			// 	'data-target' => 'province'
+			// )
 		),
-		'province' => array(
-			'title' => __('Province', 'cell-user'),
-			'type' => 'select',
-			'option' => 'get_province',
-			'attr' => array(
-				'class' => 'select-address',
-				'data-target' => 'city'
-			)
-		),
+		// 'province' => array(
+		// 	'title' => __('Province', 'cell-user'),
+		// 	'type' => 'select',
+		// 	'option' => 'get_province',
+		// 	'attr' => array(
+		// 		'class' => 'select-address',
+		// 		'data-target' => 'city'
+		// 	)
+		// ),
 		'city' => array(
 			'title' => __('City', 'cell-user'),
 			'type' => 'select',
@@ -117,14 +118,14 @@ function iniate_cell_login(){
 				'data-target' => 'district'
 			)
 		),
-		'district' => array(
-			'title' => __('District', 'cell-user'),
-			'type' => 'select',
-			'option' => 'get_district',
-			'attr' => array(
-				'class' => 'select-address',
-			)
-		),
+		// 'district' => array(
+		// 	'title' => __('District', 'cell-user'),
+		// 	'type' => 'select',
+		// 	'option' => 'get_district',
+		// 	'attr' => array(
+		// 		'class' => 'select-address',
+		// 	)
+		// ),
 		'postcode' => array(
 			'title' => __('Post Code', 'cell-user'),
 			'type' => 'text',
@@ -163,21 +164,22 @@ function iniate_cell_login(){
 		'shipping-country' => array(
 			'title' => __('Shipping Country', 'cell-user'),
 			'type' => 'select',
-			'option' => 'get_country',
-			'attr' => array(
-				'class' => 'select-address',
-				'data-target' => 'shipping-province'
-			)
+			'option' => array('Indonesia'),
+			// 'option' => 'get_country',
+			// 'attr' => array(
+			// 	'class' => 'select-address',
+			// 	'data-target' => 'shipping-province'
+			// )
 		),
-		'shipping-province' => array(
-			'title' => __('Shipping Province', 'cell-user'),
-			'type' => 'select',
-			'option' => 'get_shipping_province',
-			'attr' => array(
-				'class' => 'select-address',
-				'data-target' => 'shipping-city'
-			)
-		),
+		// 'shipping-province' => array(
+		// 	'title' => __('Shipping Province', 'cell-user'),
+		// 	'type' => 'select',
+		// 	'option' => 'get_shipping_province',
+		// 	'attr' => array(
+		// 		'class' => 'select-address',
+		// 		'data-target' => 'shipping-city'
+		// 	)
+		// ),
 		'shipping-city' => array(
 			'title' => __('Shipping City', 'cell-user'),
 			'type' => 'select',
@@ -187,14 +189,14 @@ function iniate_cell_login(){
 				'data-target' => 'shipping-district'
 			)
 		),
-		'shipping-district' => array(
-			'title' => __('Shipping District', 'cell-user'),
-			'type' => 'select',
-			'option' => 'get_shipping_district',
-			'attr' => array(
-				'class' => 'select-address',
-			)
-		),
+		// 'shipping-district' => array(
+		// 	'title' => __('Shipping District', 'cell-user'),
+		// 	'type' => 'select',
+		// 	'option' => 'get_shipping_district',
+		// 	'attr' => array(
+		// 		'class' => 'select-address',
+		// 	)
+		// ),
 		'shipping-postcode' => array(
 			'title' => __('Shipping Post Code', 'cell-user'),
 			'type' => 'text',
@@ -278,30 +280,59 @@ function get_province($user_id){
 }
 
 function get_city($user_id){
-	if (!$user_id) {
-		$result = array(__( 'Please select.', 'cell-store' ));
-		return $result;
-	} else {
-		global $wpdb;
-		$user_meta = get_user_meta( $user_id );
-		$result = array();
-		$result[0] = __( 'Please select.', 'cell-store' );
-		
-		if (isset($user_meta['province'][0]) && $user_meta['province'][0] != 0) {
-			$user_province = $user_meta['province'][0];
-			$query = $wpdb->get_results(
-				"SELECT ID, post_title
-				FROM $wpdb->posts
-				WHERE post_status = 'publish'
-				AND     post_type = 'shipping-destination'
-				AND   post_parent = $user_province
-				ORDER BY post_title
-				DESC");
-			foreach ($query as $key => $value) {
-				$result[$value->ID] = $value->post_title;
-			}
+
+
+	$options = get_option( 'cell_store_features' );
+
+	$result = array();
+
+	if (isset($options['shipping_destination']) && $options['shipping_destination'] == 'rajaongkir') {
+		if ( false === ( $cities = get_transient( 'rajaongkir_cities' ) ) ) {
+
+		  // It wasn't there, so regenerate the data and save the transient
+			$options = get_option( 'cell_store_features' );
+			$key = $options['rajaongkir_api'];
+			$result = wp_remote_get( 'http://pro.rajaongkir.com/api/city?key='.$key );
+			$cities = wp_remote_retrieve_body( $result );
+
+		  set_transient( 'rajaongkir_cities', $cities, DAY_IN_SECONDS );
 		}
+
+		$cities = json_decode($cities);
+		$cities = $cities->rajaongkir->results;
+
+		foreach ($cities as $city => $value) {
+			$result[$value->city_id] = $value->type.' ' .$value->city_name;
+		}
+
 		return $result;
+
+	} else {
+		if (!$user_id) {
+			$result = array(__( 'Please select.', 'cell-store' ));
+			return $result;
+		} else {
+			global $wpdb;
+			$user_meta = get_user_meta( $user_id );
+
+			$result[0] = __( 'Please select.', 'cell-store' );
+			
+			if (isset($user_meta['province'][0]) && $user_meta['province'][0] != 0) {
+				$user_province = $user_meta['province'][0];
+				$query = $wpdb->get_results(
+					"SELECT ID, post_title
+					FROM $wpdb->posts
+					WHERE post_status = 'publish'
+					AND     post_type = 'shipping-destination'
+					AND   post_parent = $user_province
+					ORDER BY post_title
+					DESC");
+				foreach ($query as $key => $value) {
+					$result[$value->ID] = $value->post_title;
+				}
+			}
+			return $result;
+		}
 	}
 }
 
@@ -362,30 +393,59 @@ function get_shipping_province($user_id){
 }
 
 function get_shipping_city($user_id){
-	if (!$user_id) {
-		$result = array(__( 'Please select.', 'cell-store' ));
-		return $result;
-	} else {
-		global $wpdb;
-		$user_meta = get_user_meta( $user_id );
-		$result = array();
-		$result[0] = __( 'Please select.', 'cell-store' );
-		
-		if (isset($user_meta['shipping-province'][0]) && $user_meta['shipping-province'][0] != 0) {
-			$user_shipping_province = $user_meta['shipping-province'][0];
-			$query = $wpdb->get_results(
-				"SELECT ID, post_title
-				FROM $wpdb->posts
-				WHERE post_status = 'publish'
-				AND     post_type = 'shipping-destination'
-				AND   post_parent = $user_shipping_province
-				ORDER BY post_title
-				DESC");
-			foreach ($query as $key => $value) {
-				$result[$value->ID] = $value->post_title;
-			}
+
+	$options = get_option( 'cell_store_features' );
+
+	$result = array();
+
+	if (isset($options['shipping_destination']) && $options['shipping_destination'] == 'rajaongkir') {
+		if ( false === ( $cities = get_transient( 'rajaongkir_cities' ) ) ) {
+
+		  // It wasn't there, so regenerate the data and save the transient
+			$options = get_option( 'cell_store_features' );
+			$key = $options['rajaongkir_api'];
+			$result = wp_remote_get( 'http://pro.rajaongkir.com/api/city?key='.$key );
+			$cities = wp_remote_retrieve_body( $result );
+
+		  set_transient( 'rajaongkir_cities', $cities, DAY_IN_SECONDS );
 		}
+
+		$cities = json_decode($cities);
+		$cities = $cities->rajaongkir->results;
+
+		foreach ($cities as $city => $value) {
+			$result[$value->city_id] = $value->city_name.', ' .$value->type;
+		}
+
 		return $result;
+
+	} else {
+
+		if (!$user_id) {
+			$result = array(__( 'Please select.', 'cell-store' ));
+			return $result;
+		} else {
+			global $wpdb;
+			$user_meta = get_user_meta( $user_id );
+			$result = array();
+			$result[0] = __( 'Please select.', 'cell-store' );
+			
+			if (isset($user_meta['shipping-province'][0]) && $user_meta['shipping-province'][0] != 0) {
+				$user_shipping_province = $user_meta['shipping-province'][0];
+				$query = $wpdb->get_results(
+					"SELECT ID, post_title
+					FROM $wpdb->posts
+					WHERE post_status = 'publish'
+					AND     post_type = 'shipping-destination'
+					AND   post_parent = $user_shipping_province
+					ORDER BY post_title
+					DESC");
+				foreach ($query as $key => $value) {
+					$result[$value->ID] = $value->post_title;
+				}
+			}
+			return $result;
+		}
 	}
 }
 

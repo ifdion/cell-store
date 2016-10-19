@@ -514,7 +514,7 @@ function process_purchase_confirmation() {
 			$message .= sprintf( __('<p> Thank you for shopping at %s </p>', 'cell-store'), get_bloginfo('name') );
 			$message .= sprintf( __('<p> Your order : %s  has been received </p>', 'cell-store'), $slug );
 			$message .= sprintf( __('<p> To check the status of your order at any time, you can log into your account at %s </p>', 'cell-store'), get_bloginfo('url') );
-			$message .= sprintf( __('<p> If you have any questions, please contact us at %1$s or SMS us at +62222013796 (Monday to Friday, 10 AM - 5PM) or +6281382690013 (WhatsApp only). Please make sure to reference your order number : %2$s </p>', 'cell-store'), get_bloginfo('admin_email'), $slug );
+			$message .= sprintf( __('<p> If you have any questions, please contact us at %1$s or +62222013796 (Monday to Friday, 10 AM - 5PM) or +6281382690013 (WhatsApp only). Please make sure to reference your order number : %2$s </p>', 'cell-store'), get_bloginfo('admin_email'), $slug );
 			$message .= sprintf( __('<p> Once again, thanks for shopping with %s </p>', 'cell-store'), get_bloginfo('name') );
 			$message .= sprintf( __('<p> Sincerely, <br/> %s  Team </p>', 'cell-store'), get_bloginfo('name') );
 

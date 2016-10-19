@@ -6,7 +6,30 @@ include_once ('ajax.php');
 --------------------------------------------------------------
 */
 
-add_action('init', 'shipping_post_type', 1 );
+$options = get_option( 'cell_store_features' );
+
+if (isset($options['shipping_destination']) && $options['shipping_destination'] == 'rajaongkir') {
+	# code...
+} else {
+	add_action('init', 'shipping_post_type', 1 );
+
+	/* metabox 
+	---------------------------------------------------------------
+	*/
+
+	$shipping_metabox = new WPAlchemy_MetaBox(array(
+		'id' => '_shipping_meta',
+		'title' => __('Shipping Detail', 'cell-store'),
+		'types' => array('shipping-destination'), // added only for pages and to custom post type "events"
+		'context' => 'normal', // same as above, defaults to "normal"
+		'priority' => 'high', // same as above, defaults to "high"
+		'template' => CELL_STORE_PATH . '/shipping-destination/metabox.php',
+		'mode' => WPALCHEMY_MODE_EXTRACT
+	));
+
+}
+
+
 
 function shipping_post_type() {
 	
@@ -43,19 +66,7 @@ function shipping_post_type() {
   
 }
 
-/* metabox 
----------------------------------------------------------------
-*/
 
-$shipping_metabox = new WPAlchemy_MetaBox(array(
-	'id' => '_shipping_meta',
-	'title' => __('Shipping Detail', 'cell-store'),
-	'types' => array('shipping-destination'), // added only for pages and to custom post type "events"
-	'context' => 'normal', // same as above, defaults to "normal"
-	'priority' => 'high', // same as above, defaults to "high"
-	'template' => CELL_STORE_PATH . '/shipping-destination/metabox.php',
-	'mode' => WPALCHEMY_MODE_EXTRACT
-));
 
 /* quick edit form 
 ---------------------------------------------------------------
