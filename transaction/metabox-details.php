@@ -23,6 +23,10 @@
 	<h2><?php _e('Items', 'cell-store') ?></h2>
 	<?php
 		foreach ($items as $key => $value) {
+
+			// echo "<pre>";
+			// print_r($value);
+			// echo "</pre>";
 			echo '<dl class="product-order">';
 			$option = ' '.$value['option'];
 			echo '<dt><strong>'. $value['name'].$option.'</strong></dt>';
@@ -31,6 +35,9 @@
 				printf(__('<dd>Weight : %s</dd>', 'cell-store'),number_format($value['weight'],0,',','.'));
 			}
 			printf(__('<dd>Price : %s</dd>', 'cell-store'),currency_format($value['price']));
+			if ($value['original-price']) {
+				printf(__('<dd>Original Price : %s</dd>', 'cell-store'),currency_format($value['original-price']));
+			}
 			if ($value['stock-manage']) {
 				echo __('<dd>Stock Managed</dd>', 'cell-store');
 			}

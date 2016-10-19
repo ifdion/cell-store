@@ -179,15 +179,18 @@ function process_checkout() {
 		$total_price = 0;
 		foreach ($_SESSION['shopping-cart']['items'] as $items) {
 			// get product data from database
-			$product_meta = get_post_meta( $value['ID'] );
+			$product_meta = get_post_meta( $items['ID'] );
 			// add details from database to product object
 			$items['price'] = $product_meta['_price'][0];
 
+			// echo $items['price'];
+
 			$total_price += ($items['quantity'] * $items['price']);
-			if (isset($_SESSION['shopping-cart']['coupon']['discount-value'])) {
-				$discount_value = str_replace('%', '', $_SESSION['shopping-cart']['coupon']['discount-value']);
-				$total_price = $total_price - ($total_price * $discount_value / 100 );
-			}
+		}
+
+		if (isset($_SESSION['shopping-cart']['coupon']['discount'])) {
+			$discount_value = intval($_SESSION['shopping-cart']['coupon']['discount-value']);
+			$total_price = $total_price - ($total_price * $discount_value / 100);
 		}
 
 		// add totals to payment session
@@ -407,6 +410,10 @@ function process_payment_option() {
 			$_SESSION['shopping-cart']['payment']['shipping-option'] = $shipping_service;
 			$_SESSION['shopping-cart']['payment']['shipping-rate'] = $shipping_rate;
 
+			if (isset($_SESSION['shopping-cart']['coupon']['free-shipping']) && $_SESSION['shopping-cart']['coupon']['free-shipping-area'] == 'all') {
+				$_SESSION['shopping-cart']['payment']['shipping-rate'] = 0;
+			}
+
 			if ($payment_method == 'paypal') {
 				// check if current currency is not eligible currency in paypal
 				if (! in_array($currency_symbol, array('AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'JPY', 'MYR', 'MXN', 'NOK', 'NZD', 'PHP', 'PLN', 'GBP', 'RUB', 'SGD', 'SEK', 'CHF', 'TWD', 'THB', 'TRY', 'USD')) ) {
@@ -471,7 +478,21 @@ function process_purchase_confirmation() {
 			}
 			$items[$key]['name'] = $product_data->post_title;
 			$items[$key]['price'] = $product_price;
+
+			//get discount from coupon
+			if (isset($_SESSION['shopping-cart']['coupon']['discount'])) {
+				$discount_value = intval($_SESSION['shopping-cart']['coupon']['discount-value']);
+				$items[$key]['price'] = $product_price * (100 - $discount_value) / 100;
+				$items[$key]['original-price'] = $product_price;
+			}
+
 		}
+
+		// echo "<pre>";
+		// print_r($_SESSION);
+		// print_r($items);
+		// echo "</pre>";
+		// wp_die('die' );
 
 		if (isset($_SESSION['shopping-cart']['coupon'])) {
 			$coupon = $_SESSION['shopping-cart']['coupon'];
