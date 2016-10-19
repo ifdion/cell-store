@@ -282,7 +282,7 @@ function cell_store_shipping_origin_callback() {
 	$html .= '<option value="custom">' . __( 'Select Shipping Origin', 'cell_store' ) . '</option>';
 
 	foreach ($cities as $city => $value) {
-		$html .= '<option value="'.$value->city_id.'"' . selected( $options['shipping_origin'], $value->city_id, false) . '>' . $value->city_name . '</option>';
+		$html .= '<option value="'.$value->city_id.'"' . selected( $options['shipping_origin'], $value->city_id, false) . '>' . $value->city_name .' '.$value->type '</option>';
 	}
 	
 	
