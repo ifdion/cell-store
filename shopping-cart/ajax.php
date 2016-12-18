@@ -187,7 +187,9 @@ function process_checkout() {
 			// add details from database to product object
 			$items['price'] = $product_meta['_price'][0];
 
-			// echo $items['price'];
+			if (cs_get_discount_price($items['ID'])) {
+				$items['price'] = cs_get_discount_price($items['ID']);
+			}
 
 			$total_price += ($items['quantity'] * $items['price']);
 		}
