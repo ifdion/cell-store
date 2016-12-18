@@ -136,21 +136,25 @@ function process_checkout() {
 		// shipping to district ?
 		if ( isset($shipping['district']) && is_numeric($shipping['district']) && $shipping['district'] != 0) {
 			$shipping_to = $shipping['district'];
+			$shipping_type = 'district';
 		}
 
 		// shipping to city
 		if (!isset($shipping_to) && isset($shipping['city']) && is_numeric($shipping['city']) && $shipping['city'] != 0) {
 			$shipping_to = $shipping['city'];
+			$shipping_type = 'city';
 		}
 
 		// shipping to province
 		if (!isset($shipping_to) && isset($shipping['province']) && is_numeric($shipping['province']) && $shipping['province'] != 0) {
 			$shipping_to = $shipping['province'];
+			$shipping_type = 'province';
 		}
 
 		// shipping to country
 		if (!isset($shipping_to) && isset($shipping['country']) && is_numeric($shipping['country']) && $shipping['country'] != 0) {
 			$shipping_to = $shipping['country'];
+			$shipping_type = 'country';
 		}
 
 		// error shipping
@@ -197,6 +201,7 @@ function process_checkout() {
 		$payment['total-weight'] = ceil($total_weight);
 		$payment['total-item-cost'] = $total_price;
 		$payment['shipping-destination-id'] = $shipping_to;
+		$payment['shipping-destination-type'] = $shipping_type;
 		$_SESSION['shopping-cart']['payment'] = $payment;
 
 		// add shipping address
@@ -529,13 +534,20 @@ function process_purchase_confirmation() {
 			add_post_meta($new_transaction, '_payment_weight', $_SESSION['shopping-cart']['payment']['total-weight'], true);
 			add_post_meta($new_transaction, '_payment_item_cost', $_SESSION['shopping-cart']['payment']['total-item-cost'], true);
 
+			$social_options = get_option( 'cell_store_social_options' );
+
 			// send email to billing address
 			$mail_title = __('Transaction Confirmation', 'cell-store'); // TODO : add a proper title
 			$message = sprintf( __('<p> Dear %s </p>', 'cell-store'), $_SESSION['shopping-cart']['customer']['billing']['first-name'] );
 			$message .= sprintf( __('<p> Thank you for shopping at %s </p>', 'cell-store'), get_bloginfo('name') );
 			$message .= sprintf( __('<p> Your order : %s  has been received </p>', 'cell-store'), $slug );
 			$message .= sprintf( __('<p> To check the status of your order at any time, you can log into your account at %s </p>', 'cell-store'), get_bloginfo('url') );
-			$message .= sprintf( __('<p> If you have any questions, please contact us at %1$s or +62222013796 (Monday to Friday, 10 AM - 5PM) or +6281382690013 (WhatsApp only). Please make sure to reference your order number : %2$s </p>', 'cell-store'), get_bloginfo('admin_email'), $slug );
+			// $message .= sprintf( __('<p> If you have any questions, please contact us at %1$s or +62222013796 (Monday to Friday, 10 AM - 5PM) or +6281382690013 (WhatsApp only). Please make sure to reference your order number : %2$s </p>', 'cell-store'), get_bloginfo('admin_email'), $slug );
+			if (isset($social_options['whatsapp'])){
+				$message .= sprintf( __('<p> If you have any questions, please contact us at %1$s or %3$s (WhatsApp only). Please make sure to reference your order number : %2$s </p>', 'cell-store'), get_bloginfo('admin_email'), $slug, $social_options['whatsapp'] );
+			} else {
+				$message .= sprintf( __('<p> If you have any questions, please contact us at %1$s. Please make sure to reference your order number : %2$s </p>', 'cell-store'), get_bloginfo('admin_email'), $slug );
+			}
 			$message .= sprintf( __('<p> Once again, thanks for shopping with %s </p>', 'cell-store'), get_bloginfo('name') );
 			$message .= sprintf( __('<p> Sincerely, <br/> %s  Team </p>', 'cell-store'), get_bloginfo('name') );
 
