@@ -36,7 +36,7 @@ function cs_process_paypal_payment(){
 	}
 
 	$items = $_SESSION['shopping-cart']['items'];
-	$shipping_rate = ceil($exchange_rate * $_SESSION['shopping-cart']['payment']['shipping-rate'] * 100) / 100;
+	$shipping_rate = floor($exchange_rate * $_SESSION['shopping-cart']['payment']['shipping-rate'] * 100) / 100;
 
 	$items_array = [];
 	$item_total_price = 0;
@@ -49,9 +49,9 @@ function cs_process_paypal_payment(){
 		$product_meta = get_post_meta($product_cart['ID'] );
 
 		// get product discount price
-		$product_price = ceil($exchange_rate * $product_meta['_price'][0] * 100) / 100;
+		$product_price = floor($exchange_rate * $product_meta['_price'][0] * 100) / 100;
 		if (cs_get_discount_price($product_cart['ID'])) {
-			$product_price = ceil($exchange_rate * cs_get_discount_price($product_cart['ID']) * 100) / 100;
+			$product_price = floor($exchange_rate * cs_get_discount_price($product_cart['ID']) * 100) / 100;
 		}
 		$product_weight = 0;
 		if (isset($product_meta['_weight'][0])) {
@@ -72,8 +72,11 @@ function cs_process_paypal_payment(){
 	}
 
 	// get the totals
-	$total_shipping_cost = $item_total_weight * $shipping_rate;
+	$total_shipping_cost = ceil($item_total_weight) * $shipping_rate;
 	$grand_total = $total_shipping_cost + $item_total_price;
+
+	// echo ($item_total_weight .' - '. $shipping_rate . ' :  ' . $total_shipping_cost .' total price :  '. $item_total_price);
+	// die();
 		
 	//Parameters for SetExpressCheckout, which will be sent to PayPal
 	$padata = 	'&METHOD=SetExpressCheckout'.
