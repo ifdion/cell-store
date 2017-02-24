@@ -774,21 +774,19 @@ function process_switch_currency() {
 
 	$return_url =  wp_get_referer();
 
-	if (isset($_SESSION['shopping-cart']['payment']['method']) && $_SESSION['shopping-cart']['payment']['method'] == 'paypal') {
+	// if (isset($_SESSION['shopping-cart']['payment']['method']) && $_SESSION['shopping-cart']['payment']['method'] == 'paypal') {
 
+	// 	$cell_store_pages = get_option( 'cell_store_pages' );
+	// 	$payment_option_page_url = get_permalink(get_page_by_path($cell_store_pages['payment-option'] ));
 
-	$cell_store_pages = get_option( 'cell_store_pages' );
-
-	$payment_option_page_url = get_permalink(get_page_by_path($cell_store_pages['payment-option'] ));
-
-		$result['type'] = 'danger';
-		$result['message'] = __('Please use other payment method to switch currency. ', 'cell-store');
-		$result['message'] = sprintf( __(' Please use other payment method to switch currency. Go to  <a href="%s"><strong>Payment Option</strong></a>', 'cell-store'), $payment_option_page_url );
-	} else {
+	// 	$result['type'] = 'danger';
+	// 	$result['message'] = __('Please use other payment method to switch currency. ', 'cell-store');
+	// 	$result['message'] = sprintf( __(' Please use other payment method to switch currency. Go to  <a href="%s"><strong>Payment Option</strong></a>', 'cell-store'), $payment_option_page_url );
+	// } else {
 		$current_currency = cs_switch_currency();
 		$result['type'] = 'success';
 		$result['message'] = sprintf( __('Switched currency to %s ', 'cell-store'), $current_currency );
-	}
+	// }
 
 	ajax_response($result,$return_url);
 }
