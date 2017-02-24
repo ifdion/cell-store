@@ -105,7 +105,13 @@ function cs_process_paypal_payment(){
 	//Respond according to message we receive from Paypal
 	if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])){
 			//Redirect user to PayPal store with Token received.
-		 	$paypalurl ='https://www.'.$PayPalMode.'.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token='.$httpParsedResponseAr["TOKEN"].'';
+			if ($PayPalMode == 'sandbox') {
+				 $paypalurl ='https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token='.$httpParsedResponseAr["TOKEN"].'';
+			} else {
+				$paypalurl ='https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token='.$httpParsedResponseAr["TOKEN"].'';
+			}
+			
+		 	
 			header('Location: '.$paypalurl);
 	} else {
 		//Show error message
