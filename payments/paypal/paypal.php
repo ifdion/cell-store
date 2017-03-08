@@ -63,7 +63,7 @@ function cs_process_paypal_payment(){
 		$product_parameter .=
 			'&L_PAYMENTREQUEST_0_NAME'.$i.'='.urlencode($product_data->post_title.' '.$product_cart['option']).
 			'&L_PAYMENTREQUEST_0_NUMBER'.$i.'='.urlencode($product_id).
-			'&L_PAYMENTREQUEST_0_DESC'.$i.'='.urlencode(wp_trim_words( strip_tags($product_data->post_content), 100, null )).
+			'&L_PAYMENTREQUEST_0_DESC'.$i.'='.urlencode($product_data->post_title.' '.$product_cart['option']).
 			'&L_PAYMENTREQUEST_0_AMT'.$i.'='.urlencode($product_price).
 			'&L_PAYMENTREQUEST_0_QTY'.$i.'='. urlencode($product_cart['quantity'])
 		;
@@ -140,6 +140,12 @@ function process_paypal_return() {
 	$payment_result_page = $cell_store_pages['payment-result'];
 	$return_success = get_permalink(get_page_by_path($payment_result_page ));
 
+	$exchange_rate = 1;
+	if (isset($_SESSION['shopping-cart']['payment']['use-secondary-currency'])) {
+		$currency_symbol = $store_options['secondary-currency'];
+		$exchange_rate = $_SESSION['shopping-cart']['payment']['exchange-rate'];
+	}
+
 	$PayPalMode 			= 'sandbox'; // sandbox or live
 	$PayPalApiUsername 		= $options['paypal-username']; //PayPal API Username
 	$PayPalApiPassword 		= $options['paypal-password']; //Paypal API password
@@ -161,7 +167,8 @@ function process_paypal_return() {
 		$payer_id = $_GET["PayerID"];
 
 		$items = $_SESSION['shopping-cart']['items'];
-		$shipping_rate = $_SESSION['shopping-cart']['payment']['shipping-rate'];
+		// $shipping_rate = $_SESSION['shopping-cart']['payment']['shipping-rate'];
+		$shipping_rate = floor($exchange_rate * $_SESSION['shopping-cart']['payment']['shipping-rate'] * 100) / 100;
 
 		$items_array = [];
 		$item_total_price = 0;
@@ -178,6 +185,13 @@ function process_paypal_return() {
 			if (cs_get_discount_price($product_cart['ID'])) {
 				$product_price = cs_get_discount_price($product_cart['ID']);
 			}
+
+			// get product discount price
+			$product_price = floor($exchange_rate * $product_meta['_price'][0] * 100) / 100;
+			if (cs_get_discount_price($product_cart['ID'])) {
+				$product_price = floor($exchange_rate * cs_get_discount_price($product_cart['ID']) * 100) / 100;
+			}
+
 			$product_weight = 0;
 			if (isset($product_meta['weight'][0])) {
 				$product_weight = $product_meta['weight'][0];
@@ -188,7 +202,7 @@ function process_paypal_return() {
 			$product_parameter .=
 				'&L_PAYMENTREQUEST_0_NAME'.$i.'='.urlencode($product_data->post_title.' '.$product_cart['option']).
 				'&L_PAYMENTREQUEST_0_NUMBER'.$i.'='.urlencode($product_id).
-				'&L_PAYMENTREQUEST_0_DESC'.$i.'='.urlencode(wp_trim_words( strip_tags($product_data->post_content), 100, null )).
+				'&L_PAYMENTREQUEST_0_DESC'.$i.'='.urlencode($product_data->post_title.' '.$product_cart['option']).
 				'&L_PAYMENTREQUEST_0_AMT'.$i.'='.urlencode($product_price).
 				'&L_PAYMENTREQUEST_0_QTY'.$i.'='. urlencode($product_cart['quantity'])
 			;
