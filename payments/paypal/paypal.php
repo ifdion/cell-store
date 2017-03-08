@@ -188,7 +188,7 @@ function process_paypal_return() {
 			$product_parameter .=
 				'&L_PAYMENTREQUEST_0_NAME'.$i.'='.urlencode($product_data->post_title.' '.$product_cart['option']).
 				'&L_PAYMENTREQUEST_0_NUMBER'.$i.'='.urlencode($product_id).
-				'&L_PAYMENTREQUEST_0_DESC'.$i.'='.urlencode(strip_tags($product_data->post_content)).
+				'&L_PAYMENTREQUEST_0_DESC'.$i.'='.urlencode(wp_trim_words( strip_tags($product_data->post_content), 100, null )).
 				'&L_PAYMENTREQUEST_0_AMT'.$i.'='.urlencode($product_price).
 				'&L_PAYMENTREQUEST_0_QTY'.$i.'='. urlencode($product_cart['quantity'])
 			;
